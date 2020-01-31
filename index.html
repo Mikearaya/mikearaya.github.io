@@ -11,7 +11,7 @@
     <title>Mike</title>
     <meta name="description" content="" />
     <meta name="author" content="" />
-
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- mobile specific metas
    ================================================== -->
     <meta
@@ -36,43 +36,38 @@
   </head>
 
   <body id="top">
+<nav class="navbar navbar-dark fixed-top  bg-dark navbar-expand-lg nav-fill ">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+    <a class="navbar-brand" href="#">Hello World</a>
+    <ul class="navbar-nav  mr-auto mt-2 mt-lg-0">
+      <li class="nav-item active">
+        <a class="nav-link smoothscroll" href="#intro" title="">Home  <span class="sr-only">(current)</span></a>        
+      </li>
+      <li class="nav-item">
+        <li><a class="nav-link smoothscroll" href="#about" title="">About</a></li>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link smoothscroll" href="#resume" title="">Resume</a>        
+      </li>
+  <!--     <li class="nav-item">
+        <a class="nav-link smoothscroll" href="#portfolio" title="">Portfolio</a>      
+      </li> -->
+      <li class="nav-item">
+        <a class="nav-link smoothscroll" href="#services" title="">Services</a>  
+      </li>
+       <li class="nav-item">
+        <a class="nav-link smoothscroll" href="#contact" title="">Contact</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+ 
     <!-- header 
    ================================================== -->
-    <header>
-      <div class="row">
-        <div class="top-bar">
-          <a class="menu-toggle" href="#"><span>Menu</span></a>
 
-          <div class="logo">
-            <a href="index.html">Mikael Araya</a>
-          </div>
-
-          <nav id="main-nav-wrap">
-            <ul class="main-navigation">
-              <li class="current">
-                <a class="smoothscroll" href="#intro" title="">Home</a>
-              </li>
-              <li><a class="smoothscroll" href="#about" title="">About</a></li>
-              <li>
-                <a class="smoothscroll" href="#resume" title="">Resume</a>
-              </li>
-              <li>
-                <a class="smoothscroll" href="#portfolio" title="">Portfolio</a>
-              </li>
-              <li>
-                <a class="smoothscroll" href="#services" title="">Services</a>
-              </li>
-              <li>
-                <a class="smoothscroll" href="#contact" title="">Contact</a>
-              </li>
-              
-            </ul>
-          </nav>
-        </div>
-        <!-- /top-bar -->
-      </div>
-      <!-- /row -->
-    </header>
     <!-- /header -->
 
     <!-- intro section
@@ -104,7 +99,7 @@
           <a href="https://www.facebook.com/mike.araya"><i class="fa fa-facebook"></i></a>
         </li>
         <li>
-          <a href="https://medium.com/mikael-araya-blog" target="_blank"><i class="fa fa-medium"></i></a>
+          <a href="https://medium.com/mikael-araya-blog" target="_blank"><i class="fa fa-medium-m"></i></a>
         </li>
         <li>
           <a href="https://www.twitter.com/mikearaya12" target="_blank"><i class="fa fa-twitter"></i></a>
@@ -132,9 +127,12 @@
             <img src="images/my_image.jpg" alt="Profile Picture" />
 
             <p class="lead">
-              I'm a software developer with a CS background that lives in Addis Ababa, Ethiopia.
-              I like taking a country side drive to some place i have never been or just someplace quite away from the screen once in a while when i can 
-
+             Software developer with a CS background that lives in Addis Ababa, Ethiopia. 
+             Obsessed with software development practice. Mostly I live inside my laptop but 
+             when I go out, I like driving to the country side and staying their for a couple of 
+             days off grid. And that was more of wishful thinking, seriously I love what I do and
+            I’m always striving to deliver high quality software solutions to my clients. You don’t believe me? 
+            Try me. 
             </p>
           </div>
         </div>
@@ -145,7 +143,7 @@
         <div class="col-six tab-full">
           <h3>Profile</h3>
           <p>
-           Software Developer with CS background. certified Ethereum blockchain developer
+           
           </p>
 
           <ul class="info-list">
@@ -438,6 +436,8 @@
                 <p>  
                   Learned the fundamentals of the ethereum network, smart contract & smart contract secrity along with development and testing tools
                 </p>
+                  <a href="https://drive.google.com/open?id=1_aBTjLnDKAKlzVD8mj8ms_rmEV7xgsFH" target="_blank" title="View Certificate" class="button button-primary orange"
+            >View Certificate</a>
               </div>
             </div>
           
@@ -467,9 +467,7 @@
           <h1>What Can I Do For You?</h1>
 
           <p class="lead">
-            Lorem ipsum Do commodo in proident enim in dolor cupidatat
-            adipisicing dolore officia nisi aliqua incididunt Ut veniam lorem
-            ipsum Consectetur ut in in eu do.
+            If you have anything that involve software development, i can provide you with the solution. this are the main services i can provide you with high quality.
           </p>
         </div>
       </div>
@@ -494,24 +492,21 @@
             <span class="icon"><i class="icon-window"></i></span>
 
             <div class="service-content">
-              <h3>Web Development</h3>
+              <h3>Software Development</h3>
 
               <p class="desc">
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
-                quae ab illo inventore veritatis et quasi architecto beatae
-                vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia
-                voluptas sit aspernatur aut odit aut fugit.
+                If you want to digitalize your company workflow and documents, whichever industry you might be in, I can develop a 
+                software that is tailored to your company or provide you with existing generic software solution that fit your needs.
               </p>
             </div>
           </div>
           <!-- /service -->
 
           <div class="service">
-            <span class="icon"><i class="icon-paint-brush"></i></span>
+            <span class="icon"><i class="fa fa-database"></i></span>
 
             <div class="service-content">
-              <h3>Data Design</h3>
+              <h3>Database Design & Modeling</h3>
 
               <p class="desc">
                 You are thinking of creating a new application and you have all the analisis done but you want someone that have understanding of the design aspect of a system. look no further.
@@ -522,17 +517,14 @@
           <!-- /service -->
 
           <div class="service">
-            <span class="icon"><i class="icon-toggles"></i></span>
+            <span class="icon"><i class="fa fa-btc"></i></span>
 
             <div class="service-content">
-              <h3>UI/UX Design</h3>
+              <h3>Dapp development </h3>
 
               <p class="desc">
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
-                quae ab illo inventore veritatis et quasi architecto beatae
-                vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia
-                voluptas sit aspernatur aut odit aut fugit.
+                I'm a certified Ethereum blockchain developer, so If you have an idea for a decentralzed application that uses the current trending technology blockchain
+                i can turn your vision to reality.
               </p>
             </div>
           </div>
@@ -545,11 +537,7 @@
               <h3>Graphics Design</h3>
 
               <p class="desc">
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
-                quae ab illo inventore veritatis et quasi architecto beatae
-                vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia
-                voluptas sit aspernatur aut odit aut fugit.
+            
               </p>
             </div>
           </div>
@@ -779,7 +767,7 @@
           <h5>Where to find me</h5>
 
           <p>
-            Bole, Gras plaze Building 4th floor<br />
+            Bole, Grace plaze Building 4th floor<br />
             Addis Ababa, Ethiopia<br />
           </p>
         </div>
