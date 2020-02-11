@@ -2712,3 +2712,12 @@ footer .copyright span:last-child::after {
 }
 
 /*# sourceMappingURL=main.css.map */
+
+img.icons-svgs {
+  font-size: 2em !important;
+  height: 1em !important;
+}
+
+.text-redd {
+  color: #990047;
+}
