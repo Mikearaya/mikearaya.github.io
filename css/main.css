@@ -2721,3 +2721,11 @@ img.icons-svgs {
 .text-burgundy {
   color: #990047;
 }
+
+.nav-link {
+  color: #bebebe;
+}
+
+.nav-link: {
+  color: #d7ecfb;
+}
