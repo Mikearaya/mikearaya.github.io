@@ -13,12 +13,12 @@
     <meta name="author" content="Mikael Araya" />
 
 <link rel="stylesheet"  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<!-- <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"> -->
+ <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"> 
     <!-- mobile specific metas
    ================================================== -->
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1"
+      content="width=device-width, initial-scale=1"
     />
 
     <!-- CSS
@@ -45,22 +45,22 @@
   <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
     <ul class="nav nav-pills  mr-auto mt-2 mt-lg-0 text-center">
       <li class="nav-item active">
-        <a class="nav-link smoothscroll" href="#intro" title="">Home  <span class="sr-only">(current)</span></a>        
+        <a class="nav-link smoothscroll" href="#intro" title="home">Home  <span class="sr-only">(current)</span></a>        
       </li>
       <li class="nav-item">
-        <a class="nav-link smoothscroll" href="#about" title="">About</a>        
+        <a class="nav-link smoothscroll" href="#about" title="about">About</a>        
       </li>
       <li class="nav-item">
-        <a class="nav-link smoothscroll" href="#resume" title="">Resume</a>        
+        <a class="nav-link smoothscroll" href="#resume" title="resume">Resume</a>        
       </li>
   <!--     <li class="nav-item">
         <a class="nav-link smoothscroll" href="#portfolio" title="">Portfolio</a>      
       </li> -->
       <li class="nav-item">
-        <a class="nav-link smoothscroll" href="#services" title="">Services</a>  
+        <a class="nav-link smoothscroll" href="#services" title="services">Services</a>  
       </li>
        <li class="nav-item">
-        <a class="nav-link smoothscroll" href="#contact" title="">Contact</a>
+        <a class="nav-link smoothscroll" href="#contact" title="contact">Contact</a>
       </li>
     </ul>
   </div>
@@ -97,19 +97,19 @@
 
       <ul class="intro-social">
         <li>
-          <a rel="noopener" href="https://linkedin.com/in/mikael-araya" target="_blank"><i class="fa fa-linkedin"></i></a>
+          <a rel="noopener" href="https://linkedin.com/in/mikael-araya" target="_blank" title="linkedin"><i class="fa fa-linkedin"></i></a>
         </li>
         <li>
-          <a rel="noopener" href="https://medium.com/mikael-araya-blog" target="_blank"><i class="fa fa-medium"></i></a>
+          <a rel="noopener" href="https://medium.com/mikael-araya-blog" target="_blank" title="medium"><i class="fa fa-medium"></i></a>
         </li>
         <li>
-          <a rel="noopener" href="https://www.twitter.com/mikearaya12" target="_blank"><i class="fa fa-twitter"></i></a>
+          <a rel="noopener" href="https://www.twitter.com/mikearaya12" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a>
         </li>
         <li>
-          <a rel="noopener" href="https://github.com/mikearaya" target="_blank"><i class="fa fa-github"></i></a>
+          <a rel="noopener" href="https://github.com/mikearaya" target="_blank" title="github"><i class="fa fa-github"></i></a>
         </li>
         <li>
-          <a rel="noopener" href="https://stackoverflow.com/users/5757968/mike-araya" target="_blank"><i class="fa fa-stack-overflow"></i></a>
+          <a rel="noopener" href="https://stackoverflow.com/users/5757968/mike-araya" target="_blank" title="stack-overflow"><i class="fa fa-stack-overflow"></i></a>
         </li>
       </ul>
       <!-- /intro-social -->
@@ -819,6 +819,7 @@
           <form name="contactForm" id="contactForm" method="post" action="">
             <fieldset>
               <div class="form-field">
+                <label for="contactName"  class="sr-only" >Name</label>
                 <input
                   name="contactName"
                   type="text"
@@ -830,6 +831,7 @@
                 />
               </div>
               <div class="form-field">
+                <label for="contactEmail"  class="sr-only">Email</label>
                 <input
                   name="contactEmail"
                   type="email"
@@ -840,6 +842,7 @@
                 />
               </div>
               <div class="form-field">
+                <label for="contactSubject"  class="sr-only">Subject</label>
                 <input
                   name="contactSubject"
                   type="text"
@@ -849,6 +852,7 @@
                 />
               </div>
               <div class="form-field">
+                <label for="contactMessage"  class="sr-only">Message</label>
                 <textarea
                   name="contactMessage"
                   id="contactMessage"
@@ -933,19 +937,19 @@
         <div class="col-six tab-full pull-right social">
           <ul class="footer-social">
             <li>
-               <a rel="noopener" href="https://linkedin.com/in/mikael-araya" target="_blank"><i class="fa fa-linkedin"></i></a>
+               <a rel="noopener" href="https://linkedin.com/in/mikael-araya" target="_blank" title="linked in"><i class="fa fa-linkedin"></i></a>
             </li>
             <li>
-              <a rel="noopener" href="https://medium.com/mikael-araya-blog" target="_blank"><i class="fa fa-medium"></i></a>
+              <a rel="noopener" href="https://medium.com/mikael-araya-blog" target="_blank" title="medium"><i class="fa fa-medium"></i></a>
             </li>
             <li>
-              <a rel="noopener" href="https://www.twitter.com/mikearaya12" target="_blank"><i class="fa fa-twitter"></i></a>
+              <a rel="noopener" href="https://www.twitter.com/mikearaya12" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a>
             </li>
             <li>
-              <a rel="noopener" href="https://github.com/mikearaya" target="_blank"><i class="fa fa-github"></i></a>
+              <a rel="noopener" href="https://github.com/mikearaya" target="_blank" title="github"><i class="fa fa-github"></i></a>
             </li>
             <li>
-              <a rel="noopener" href="https://stackoverflow.com/users/5757968/mike-araya" target="_blank"><i class="fa fa-stack-overflow"></i></a>
+              <a rel="noopener" href="https://stackoverflow.com/users/5757968/mike-araya" target="_blank" title="stackoverflow"><i class="fa fa-stack-overflow"></i></a>
             </li>
           </ul>
         </div>
