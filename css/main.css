@@ -687,7 +687,7 @@ header .row {
   color: #f07;
 }
 #intro {
-  background: #151515 url(../images/binary_img.jpeg) no-repeat center bottom;
+  background: #151515 url('../images/bg.jpeg') no-repeat center bottom;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;
@@ -1159,7 +1159,7 @@ header .row {
   transition: all 0.5s ease-in-out;
 }
 #services {
-  background: #313131 url(../images/bg.jpg) no-repeat center;
+  background: #313131 url('../images/bg.jpeg') no-repeat center;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;
