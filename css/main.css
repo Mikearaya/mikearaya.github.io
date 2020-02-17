@@ -1,8 +1,5 @@
 html {
   font-size: 10px;
-  margin-left: auto;
-  margin-right: auto;
-  overflow-y: scroll;
 }
 @media only screen and (max-width: 1024px) {
   html {
@@ -14,10 +11,15 @@ html {
     font-size: 10px;
   }
 }
-@media only screen and (max-width: 400px) {
+@media only screen and (min-width: 400px) {
   html {
     font-size: 9.411764705882353px;
   }
+}
+
+ul#nav-justified-column {
+  display: flex !important;
+  flex-direction: column !important;
 }
 
 body,
@@ -30,12 +32,6 @@ body {
   font-size: 1.7rem;
   line-height: 3rem;
   color: #6e6e6e;
-}
-
-html,
-body {
-  width: auto !important;
-  overflow-x: hidden !important;
 }
 a,
 a:visited {
