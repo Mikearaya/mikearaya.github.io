@@ -20,14 +20,7 @@ html {
     flex-direction: column;
   }
 }
-body,
-html {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-}
+
 body {
   background: #151515;
   font-family: lora-regular, serif;
