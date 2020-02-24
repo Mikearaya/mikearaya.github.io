@@ -26,7 +26,7 @@ body {
   font-family: lora-regular, serif;
   font-size: 1.7rem;
   line-height: 3rem;
-  color: #6e6e6e;
+  color: black;
 }
 a,
 a:visited {
@@ -123,7 +123,7 @@ p.lead {
   font-family: lora-regular, serif;
   font-size: 2rem;
   line-height: 1.8;
-  color: #888;
+  color: #3a3a3a;
 }
 @media only screen and (max-width: 768px) {
   p.lead {
@@ -952,7 +952,7 @@ input::-moz-focus-inner {
   margin-bottom: 1.2rem;
 }
 .section-intro h5 {
-  color: #f07;
+  color: #920000;
   font-size: 1.6rem;
   line-height: 1.875;
   margin-bottom: 0.3rem;
@@ -1406,7 +1406,7 @@ header .logo a {
 .about-content .info-list li span {
   display: block;
   font-family: poppins-regular, sans-serif;
-  color: #888;
+  color: rgb(11, 15, 49);
   font-size: 1.5rem;
   line-height: 1;
 }
@@ -1871,7 +1871,7 @@ header .logo a {
   }
 }
 #services {
-  background: #313131 url(../images/bg.jpg) no-repeat center;
+  background: #313131 url(../images/bg.jpeg) no-repeat center;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;
@@ -1975,7 +1975,7 @@ header .logo a {
   color: #fff;
 }
 #stats .stat-title {
-  color: rgba(255, 255, 255, 0.5);
+  color: #fffefe;
 }
 @media only screen and (max-width: 1024px) {
   #stats .stat:nth-child(n) {
@@ -2009,6 +2009,7 @@ header .logo a {
 }
 #contact .section-intro h5 {
   color: #f07;
+  font-weight: bolder;
 }
 #contact .section-intro p {
   color: rgba(255, 255, 255, 0.7);
@@ -2110,7 +2111,7 @@ header .logo a {
   margin-top: 4.8rem;
   width: 100%;
   background: #f07;
-  color: #fff;
+  color: #060813;
 }
 #contact button.submitform:focus,
 #contact button.submitform:hover {
@@ -2161,6 +2162,7 @@ header .logo a {
   font-family: poppins-regular, sans-serif;
   font-size: 1.5rem;
   text-align: center;
+  color: white;
 }
 .contact-info .collapse {
   padding: 0;
@@ -2328,4 +2330,16 @@ footer .copyright span:last-child::after {
 img.icons-svgs {
   max-width: 100% !important;
   height: 2em !important;
+}
+
+.section-headers {
+  color: #a9004f !important;
+}
+
+#copyright-span {
+  color: #ac0c57 !important;
+}
+
+.resume-date {
+  color: #7d2900 !important;
 }
