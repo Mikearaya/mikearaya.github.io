@@ -1168,7 +1168,7 @@ header .logo a {
   }
 }
 #intro {
-  background: #151515 url(../images/intro-bg.jpg) no-repeat center bottom;
+  background: #151515 url(../images/bg.webp) no-repeat center bottom;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;
@@ -2337,7 +2337,7 @@ img.icons-svgs {
 }
 
 #copyright-span {
-  color: #8c2957 !important;
+  color: white !important;
 }
 
 .resume-date {
