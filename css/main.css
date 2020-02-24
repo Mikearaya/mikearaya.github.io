@@ -1,5 +1,4 @@
 @import url(font-awesome/css/font-awesome.min.css);
-
 html {
   font-size: 10px;
 }
@@ -44,7 +43,6 @@ a:hover {
   color: #f07;
   outline: 0;
 }
-
 .h01,
 .h02,
 .h03,
@@ -2327,7 +2325,6 @@ footer .copyright span:last-child::after {
 #go-top a:hover {
   background: #000;
 }
-
 img.icons-svgs {
   max-width: 100% !important;
   height: 2em !important;
