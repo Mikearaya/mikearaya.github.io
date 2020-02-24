@@ -1475,7 +1475,7 @@ header .logo a {
   text-align: center;
 }
 #resume .resume-header h2 {
-  color: #f07;
+  color: #980d4e;
 }
 #resume .resume-timeline {
   max-width: 980px;
@@ -2333,11 +2333,11 @@ img.icons-svgs {
 }
 
 .section-headers {
-  color: #a9004f !important;
+  color: #980d4e !important;
 }
 
 #copyright-span {
-  color: #ac0c57 !important;
+  color: #8c2957 !important;
 }
 
 .resume-date {
