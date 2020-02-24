@@ -906,7 +906,8 @@ button.stroke {
   color: #fff;
 }
 #stats .stat-title {
-  color: rgb(255, 229, 229);
+  color: rgba(255, 229, 229, 1);
+  u
 }
 @media only screen and (max-width: 1024px) {
   #stats .stat:nth-child(n) {
