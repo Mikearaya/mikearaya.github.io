@@ -906,7 +906,7 @@ button.stroke {
   color: #fff;
 }
 #stats .stat-title {
-  color: rgb(247, 247, 247, 1);
+  color: rgb(247, 247, 247, 1) !important;
 }
 @media only screen and (max-width: 1024px) {
   #stats .stat:nth-child(n) {
@@ -1152,9 +1152,6 @@ img.icons-svgs {
   margin-bottom: 0;
   font-family: 'poppins-medium', sans-serif;
   color: white;
-}
-#stats .stat-title {
-  color: rgba(255, 255, 255, 0.5);
 }
 
 /**
