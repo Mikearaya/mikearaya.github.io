@@ -7,7 +7,6 @@
         .fadeOut('slow');
     });
   }),
-    e('.fluid-video-wrapper').fitVids(),
     e('#owl-slider').owlCarousel({
       navigation: !1,
       pagination: !0,
