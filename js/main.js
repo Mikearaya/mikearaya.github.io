@@ -7,9 +7,6 @@
         .fadeOut('slow');
     });
   }),
-    setTimeout(function() {
-      e('#intro h1').fitText(1, { minFontSize: '42px', maxFontSize: '84px' });
-    }, 100),
     e('.fluid-video-wrapper').fitVids(),
     e('#owl-slider').owlCarousel({
       navigation: !1,
