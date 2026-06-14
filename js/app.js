@@ -1,6 +1,12 @@
 (function () {
   'use strict';
 
+  // ─── Preloader ────────────────────────────────
+  window.addEventListener('load', function () {
+    var preloader = document.getElementById('preloader');
+    if (preloader) preloader.classList.add('loaded');
+  });
+
   // ─── Navigation ───────────────────────────────
   var nav = document.getElementById('nav');
   var navToggle = document.getElementById('navToggle');
@@ -33,6 +39,49 @@
     });
   });
 
+  // ─── Typing animation ────────────────────────
+  var typedEl = document.getElementById('typedRole');
+  if (typedEl) {
+    var roles = [
+      'Freelance Full-Stack Software Engineer',
+      'E-Commerce Specialist',
+      'Open Source Contributor',
+      'Product Owner — Admin UI',
+      'Springboard Mentor'
+    ];
+    var roleIndex = 0;
+    var charIndex = 0;
+    var isDeleting = false;
+    var typeSpeed = 80;
+
+    function typeRole() {
+      var current = roles[roleIndex];
+      if (isDeleting) {
+        typedEl.textContent = current.substring(0, charIndex - 1);
+        charIndex--;
+      } else {
+        typedEl.textContent = current.substring(0, charIndex + 1);
+        charIndex++;
+      }
+
+      var delay = typeSpeed;
+
+      if (!isDeleting && charIndex === current.length) {
+        delay = 2000;
+        isDeleting = true;
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        roleIndex = (roleIndex + 1) % roles.length;
+        delay = 400;
+      } else if (isDeleting) {
+        delay = 40;
+      }
+
+      setTimeout(typeRole, delay);
+    }
+    typeRole();
+  }
+
   // ─── Reveal on scroll ─────────────────────────
   var reveals = document.querySelectorAll('.reveal');
   var revealObserver = new IntersectionObserver(
@@ -61,7 +110,6 @@
           counters.forEach(function (counter) {
             var target = +counter.dataset.target;
             var duration = 2000;
-            var start = 0;
             var startTime = null;
 
             function step(timestamp) {
@@ -114,6 +162,55 @@
   );
   sections.forEach(function (sec) {
     navObserver.observe(sec);
+  });
+
+  // ─── Theme toggle ─────────────────────────────
+  var themeToggle = document.getElementById('themeToggle');
+  var savedTheme = localStorage.getItem('theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+
+  themeToggle.addEventListener('click', function () {
+    var current = document.documentElement.getAttribute('data-theme');
+    var next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  });
+
+  // ─── Project filters ─────────────────────────
+  var filterBtns = document.querySelectorAll('.projects__filter');
+  var projectCards = document.querySelectorAll('.project-card');
+
+  filterBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      filterBtns.forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+
+      var filter = btn.dataset.filter;
+      projectCards.forEach(function (card) {
+        if (filter === 'all' || card.dataset.category === filter) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    });
+  });
+
+  // ─── Tilt effect on project cards ─────────────
+  projectCards.forEach(function (card) {
+    card.addEventListener('mousemove', function (e) {
+      var rect = card.getBoundingClientRect();
+      var x = e.clientX - rect.left;
+      var y = e.clientY - rect.top;
+      var centerX = rect.width / 2;
+      var centerY = rect.height / 2;
+      var rotateX = (y - centerY) / 20;
+      var rotateY = (centerX - x) / 20;
+      card.style.transform = 'perspective(1000px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) translateY(-4px)';
+    });
+    card.addEventListener('mouseleave', function () {
+      card.style.transform = '';
+    });
   });
 
   // ─── Contact form (Formspree) ─────────────────

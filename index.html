@@ -2,32 +2,78 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Mikael Araya — Full-Stack Software Engineer</title>
-  <meta name="keywords" content="software developer, full stack developer, e-commerce engineer, TypeScript, Node.js, React, GraphQL,
+  <title>Mikael Araya — Freelance Full-Stack Software Engineer | E-Commerce | Open Source</title>
+  <meta name="keywords" content="Mikael Araya, software developer, full stack developer, e-commerce engineer, TypeScript, Node.js, React, Next.js, GraphQL,
   open source contributor, unchained engine, headless e-commerce, MongoDB, ethereum developer, solidity developer,
-  remote developer, Ethiopia, freelancer, contractor" />
-  <meta name="description" content="Mikael Araya — Full-Stack Software Engineer & Core Contributor to Unchained Engine. 7+ years building e-commerce platforms, ERP systems, and open source tools." />
+  remote developer, Ethiopia, Addis Ababa, freelancer, contractor, Springboard mentor, admin UI, ASP.NET Core, Angular" />
+  <meta name="description" content="Mikael Araya — Freelance Full-Stack Software Engineer & Core Contributor to Unchained Engine. 7+ years building e-commerce platforms, ERP systems, and open source tools. Product Owner of Unchained Admin UI. Mentored 160+ students." />
+  <meta name="author" content="Mikael Araya" />
+  <meta name="robots" content="index, follow" />
   <meta name="apple-mobile-web-app-title" content="Mikael Araya">
-  <meta property="og:description" content="Full-Stack Software Engineer & Core Contributor to Unchained Engine. Building high-performance e-commerce and enterprise solutions." />
+  <link rel="canonical" href="https://mikearaya.github.io/" />
+
+  <!-- Open Graph -->
+  <meta property="og:description" content="Freelance Full-Stack Software Engineer & Core Contributor to Unchained Engine. Building high-performance e-commerce and enterprise solutions. Product Owner of Admin UI. Mentored 160+ students at Springboard." />
   <meta property="og:author" content="Mikael Araya" />
-  <meta property="og:title" content="Mikael Araya — Software Engineer" />
+  <meta property="og:title" content="Mikael Araya — Freelance Full-Stack Software Engineer" />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://mikearaya.github.io/" />
   <meta property="og:image" content="https://mikearaya.github.io/images/my_image.jpg" />
-  <meta property="og:site_name" content="Mikael Araya — Full-Stack Software Engineer">
-  <meta name="twitter:description" content="Full-Stack Software Engineer & Core Contributor to Unchained Engine." />
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Mikael Araya — Software Engineer" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Mikael Araya — Freelance Full-Stack Software Engineer" />
+  <meta property="og:site_name" content="Mikael Araya — Freelance Full-Stack Software Engineer" />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Mikael Araya — Freelance Full-Stack Software Engineer" />
+  <meta name="twitter:description" content="Freelance Full-Stack Software Engineer & Core Contributor to Unchained Engine. 7+ years building e-commerce platforms, ERP systems, and open source tools." />
   <meta name="twitter:url" content="https://mikearaya.github.io" />
   <meta name="twitter:image" content="https://mikearaya.github.io/images/my_image.jpg" />
-  <meta itemprop="name" content="Mikael Araya" id="sitename" />
-  <meta itemprop="url" href="https://mikearaya.github.io" id="sitelink" />
-  <meta itemprop="description" content="Full-Stack Software Engineer specializing in headless e-commerce, enterprise systems, and open source development." />
+
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Mikael Araya",
+    "alternateName": "Mikael Araya Mengistu",
+    "url": "https://mikearaya.github.io",
+    "image": "https://mikearaya.github.io/images/my_image.jpg",
+    "jobTitle": "Freelance Full-Stack Software Engineer",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Self-Employed (Freelance)",
+      "url": "https://mikearaya.github.io"
+    },
+    "description": "Freelance Full-Stack Software Engineer & Core Contributor to Unchained Engine. Product Owner of Unchained Admin UI. 7+ years building e-commerce platforms, ERP systems, and open source tools.",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Addis Ababa",
+      "addressCountry": "ET"
+    },
+    "email": "mikaelaraya12@gmail.com",
+    "sameAs": [
+      "https://github.com/Mikearaya",
+      "https://linkedin.com/in/mikael-araya",
+      "https://medium.com/@mikaelaraya",
+      "https://stackoverflow.com/users/5757968/mike-araya"
+    ],
+    "knowsAbout": ["TypeScript", "Node.js", "React", "Next.js", "GraphQL", "MongoDB", "Angular", "ASP.NET Core", "Ethereum", "Solidity", "E-Commerce", "ERP Systems"],
+    "alumniOf": {
+      "@type": "CollegeOrUniversity",
+      "name": "Unity University"
+    }
+  }
+  </script>
 
   <link itemprop="sameAs" href="https://linkedin.com/in/mikael-araya" id="sitelink-profile-linkedin">
   <link itemprop="sameAs" href="https://github.com/mikearaya" id="sitelink-profile-github">
   <link itemprop="sameAs" href="https://medium.com/@mikaelaraya" id="sitelink-profile-medium">
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0a0a0b" />
   <link rel="icon" href="favicon.ico" type="image/x-icon">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,6 +84,11 @@
 </head>
 
 <body>
+  <!-- Preloader -->
+  <div id="preloader" class="preloader">
+    <div class="preloader__spinner"></div>
+  </div>
+
   <!-- Navigation -->
   <nav class="nav" id="nav">
     <div class="nav__container">
@@ -53,6 +104,12 @@
         <li><a href="#articles" class="nav__link">Articles</a></li>
         <li><a href="#services" class="nav__link">Services</a></li>
         <li><a href="#contact" class="nav__link nav__link--cta">Contact</a></li>
+        <li>
+          <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+            <svg class="theme-toggle__sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+            <svg class="theme-toggle__moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          </button>
+        </li>
       </ul>
     </div>
   </nav>
@@ -66,11 +123,7 @@
         I'm <span class="accent">Mikael</span> Araya.
       </h1>
       <div class="hero__roles reveal">
-        <span class="hero__role">Full-Stack Software Engineer</span>
-        <span class="hero__divider">/</span>
-        <span class="hero__role">E-Commerce Specialist</span>
-        <span class="hero__divider">/</span>
-        <span class="hero__role">Open Source Contributor</span>
+        <span class="hero__role" id="typedRole"></span><span class="hero__cursor">|</span>
       </div>
       <div class="hero__actions reveal">
         <a href="#about" class="btn btn--primary">Explore My Work</a>
@@ -108,9 +161,10 @@
         </div>
         <div class="about__content reveal">
           <p class="about__text">
-            Full-stack software engineer based in Addis Ababa, Ethiopia with <strong>7+ years</strong> of professional experience.
+            Freelance full-stack software engineer based in Addis Ababa, Ethiopia with <strong>7+ years</strong> of professional experience.
             I'm a core contributor to <a href="https://github.com/unchainedshop/unchained" target="_blank" rel="noopener">Unchained Engine</a> — a high-performance
-            headless Node.js e-commerce framework with <strong>199+ stars</strong> on GitHub.
+            headless Node.js e-commerce framework with <strong>199+ stars</strong> on GitHub — and the
+            <strong>product owner of the Unchained Admin UI</strong>, the Next.js-based control panel used to manage the entire platform.
           </p>
           <p class="about__text">
             My journey in software engineering began with a fascination for how lines of code can come together to create powerful applications.
@@ -129,7 +183,7 @@
             </div>
             <div class="about__detail">
               <span class="about__label">Role</span>
-              <span class="about__value">Full-Stack Engineer at Unchained Commerce</span>
+              <span class="about__value">Freelance Full-Stack Software Engineer</span>
             </div>
             <div class="about__detail">
               <span class="about__label">Location</span>
@@ -169,6 +223,74 @@
           <span class="stats__number" data-target="6400">0</span><span class="stats__plus">+</span>
           <span class="stats__label">Commits on Unchained</span>
         </div>
+        <div class="stats__item reveal">
+          <span class="stats__number" data-target="160">0</span><span class="stats__plus">+</span>
+          <span class="stats__label">Students Mentored</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Open Source Highlight -->
+  <section class="section" id="opensource">
+    <div class="container">
+      <h2 class="section__title reveal">Open <span class="accent">Source</span></h2>
+      <p class="section__subtitle reveal">Core contributor and Admin UI Product Owner</p>
+
+      <div class="oss-highlight reveal">
+        <div class="oss-highlight__main">
+          <div class="oss-highlight__icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          </div>
+          <div class="oss-highlight__info">
+            <h3 class="oss-highlight__title">Unchained Engine</h3>
+            <p class="oss-highlight__tagline">High-Performance Headless Node.js E-Commerce Framework</p>
+            <p class="oss-highlight__desc">
+              I'm a core contributor to Unchained Engine and the <strong>owner of the Admin UI</strong> — a Next.js-based
+              control panel featuring real-time analytics, inventory management with stock alerts, order processing with
+              automated workflows, bulk product editing with multi-language support, rich media management, and dark mode.
+            </p>
+            <div class="oss-highlight__stats">
+              <div class="oss-highlight__stat">
+                <strong>199+</strong><span>Stars</span>
+              </div>
+              <div class="oss-highlight__stat">
+                <strong>6,400+</strong><span>Commits</span>
+              </div>
+              <div class="oss-highlight__stat">
+                <strong>30+</strong><span>Packages</span>
+              </div>
+              <div class="oss-highlight__stat">
+                <strong>24</strong><span>Forks</span>
+              </div>
+            </div>
+            <div class="oss-highlight__actions">
+              <a href="https://github.com/unchainedshop/unchained" target="_blank" rel="noopener" class="btn btn--primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right:6px"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                View on GitHub
+              </a>
+              <a href="https://unchained.shop" target="_blank" rel="noopener" class="btn btn--outline">Visit unchained.shop</a>
+            </div>
+          </div>
+        </div>
+        <div class="oss-highlight__features">
+          <div class="oss-feature">
+            <h4>Admin UI (Product Owner)</h4>
+            <p>Next.js control panel with real-time analytics, inventory alerts, automated order workflows, and dark mode.</p>
+          </div>
+          <div class="oss-feature">
+            <h4>Core Engine</h4>
+            <p>Business logic, GraphQL API layer, modular architecture with 30+ packages in the monorepo.</p>
+          </div>
+          <div class="oss-feature">
+            <h4>Payment Plugins</h4>
+            <p>Integrations for Stripe, PayPal, Datatrans, Cryptopay, Apple IAP, Braintree, and invoice-based payments.</p>
+          </div>
+          <div class="oss-feature">
+            <h4>Ticketing System</h4>
+            <p>Event ticketing with PDF/wallet pass generation, Apple & Google Wallet, and QR-code validation.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -205,7 +327,7 @@
             </div>
             <div class="skill-card">
               <img src="icons/cypress.png" alt="Testing" class="skill-card__icon" loading="lazy" />
-              <span class="skill-card__name">Cypress / Jest</span>
+              <span class="skill-card__name">Cypress / Playwright</span>
             </div>
           </div>
         </div>
@@ -270,16 +392,18 @@
               <h3 class="timeline__company">Unchained Commerce</h3>
               <span class="timeline__date">June 2019 — Present</span>
             </div>
-            <h4 class="timeline__role">Core Contributor & Full-Stack Engineer</h4>
+            <h4 class="timeline__role">Core Contributor & Product Owner (Admin UI)</h4>
             <p>
               Core contributor to <a href="https://github.com/unchainedshop/unchained" target="_blank" rel="noopener">Unchained Engine</a>,
               a high-performance headless Node.js e-commerce framework (199+ stars, 6,400+ commits, 30+ packages).
-              Building and maintaining core modules, plugins, and client-facing storefronts using TypeScript, Node.js, GraphQL, MongoDB, React, and Next.js.
+              Product owner of the Admin UI control panel. Building and maintaining core modules, plugins, ETL data connectors,
+              and client-facing storefronts for enterprise Swiss e-commerce clients.
             </p>
             <p>
-              Active contributor to the monorepo — working on core business logic, GraphQL API layer,
-              payment integrations (Stripe, PayPal, Datatrans, Cryptopay), delivery modules, pricing engines,
-              and the plugin ecosystem.
+              Key contributions include: GraphQL API layer, payment integrations (Stripe, PayPal, Datatrans, Cryptopay),
+              ERP data connectors (Microsoft Navision, Selectline, Crossbase PIM), AI-powered product classification pipelines,
+              Keycloak SSO/OAuth2 authentication, OpenTelemetry observability, Cypress & Playwright E2E test suites,
+              and Jenkins CI/CD pipelines with Docker-based deployments.
             </p>
             <div class="timeline__tags">
               <span class="tag">TypeScript</span>
@@ -288,6 +412,10 @@
               <span class="tag">Next.js</span>
               <span class="tag">GraphQL</span>
               <span class="tag">MongoDB</span>
+              <span class="tag">Playwright</span>
+              <span class="tag">Cypress</span>
+              <span class="tag">Docker</span>
+              <span class="tag">Jenkins</span>
             </div>
           </div>
         </div>
@@ -297,18 +425,18 @@
           <div class="timeline__content">
             <div class="timeline__header">
               <h3 class="timeline__company">Springboard</h3>
-              <span class="timeline__date">Mentor</span>
+              <span class="timeline__date">2020 — Present</span>
             </div>
             <h4 class="timeline__role">Software Engineering Mentor</h4>
             <p>
-              Mentoring aspiring software engineers through Springboard's bootcamp programs.
-              Providing guidance on full-stack development, code reviews, project architecture,
+              Mentored <strong>160+ students</strong> through Springboard's Software Engineering bootcamp.
+              Providing 1-on-1 guidance on full-stack development, code reviews, project architecture,
               and career development to help students transition into professional engineering roles.
             </p>
             <div class="timeline__tags">
               <span class="tag">Mentorship</span>
               <span class="tag">Code Review</span>
-              <span class="tag">Full-Stack</span>
+              <span class="tag">Software Engineering</span>
             </div>
           </div>
         </div>
@@ -320,7 +448,7 @@
               <h3 class="timeline__company">Bionic System Solutions</h3>
               <span class="timeline__date">June 2019 — Present</span>
             </div>
-            <h4 class="timeline__role">Freelance Software Developer — ERP Solutions</h4>
+            <h4 class="timeline__role">Freelance Full-Stack Software Engineer — ERP Solutions</h4>
             <p>
               Designed and built modular ERP solutions for small to mid-size organizations. Modules include
               Inventory Management, CRM, Production Management (MRP), Procurement, and Accounting — all integrated
@@ -410,53 +538,80 @@
       <h2 class="section__title reveal">Featured <span class="accent">Projects</span></h2>
       <p class="section__subtitle reveal">Key projects delivered with Unchained Engine and independently</p>
 
+      <div class="projects__filters reveal">
+        <button class="projects__filter active" data-filter="all">All</button>
+        <button class="projects__filter" data-filter="e-commerce">E-Commerce</button>
+        <button class="projects__filter" data-filter="blockchain">Blockchain</button>
+        <button class="projects__filter" data-filter="enterprise">Enterprise</button>
+        <button class="projects__filter" data-filter="open-source">Open Source</button>
+      </div>
+
       <div class="projects__grid">
-        <div class="project-card reveal">
+        <div class="project-card reveal" data-category="e-commerce">
           <div class="project-card__header">
             <h3 class="project-card__title">Publicare</h3>
             <span class="project-card__type">B2B Medical Commerce</span>
           </div>
           <p class="project-card__desc">
-            Switzerland's largest medical aids supplier. Website, shop, and B2B portal with recipe-based ordering,
-            customer-specific pricing, and Microsoft Navision ERP integration. <strong>1,000+ req/min.</strong>
+            Switzerland's largest medical aids supplier. Multi-service platform with recipe-based ordering,
+            customer-specific pricing, Microsoft Navision & Crossbase PIM integration, AI product classification,
+            Keycloak SSO, and Playwright E2E testing. <strong>1,000+ req/min.</strong>
           </p>
           <div class="project-card__tags">
-            <span class="tag">React</span><span class="tag">Next.js</span><span class="tag">GraphQL</span><span class="tag">Node.js</span>
+            <span class="tag">Next.js</span><span class="tag">GraphQL</span><span class="tag">Keycloak</span><span class="tag">Playwright</span><span class="tag">AI Pipeline</span>
           </div>
           <a href="https://publicare.ch" target="_blank" rel="noopener" class="project-card__link">Visit Site &rarr;</a>
         </div>
 
-        <div class="project-card reveal">
+        <div class="project-card reveal" data-category="e-commerce">
           <div class="project-card__header">
             <h3 class="project-card__title">Lorem GmbH</h3>
             <span class="project-card__type">B2B Commerce</span>
           </div>
           <p class="project-card__desc">
-            Swiss technical paper sales specialist. B2B portal with price tiering, consumables reordering,
-            digitized quotation process, and Selectline ERP integration. <strong>20,000+ articles.</strong>
+            Swiss technical paper sales specialist. B2B portal with price tiering, bundle pricing with surcharges
+            and mandatory accessories, consumables reordering, Selectline ERP connector, and Solr-powered search.
+            <strong>20,000+ articles.</strong>
           </p>
           <div class="project-card__tags">
-            <span class="tag">React</span><span class="tag">Next.js</span><span class="tag">GraphQL</span>
+            <span class="tag">Next.js</span><span class="tag">GraphQL</span><span class="tag">Apollo</span><span class="tag">Solr</span>
           </div>
           <a href="https://www.lorem.ch" target="_blank" rel="noopener" class="project-card__link">Visit Site &rarr;</a>
         </div>
 
-        <div class="project-card reveal">
+        <div class="project-card reveal" data-category="e-commerce">
           <div class="project-card__header">
             <h3 class="project-card__title">Gastro Zurich</h3>
             <span class="project-card__type">B2B Portal</span>
           </div>
           <p class="project-card__desc">
             Zurich's largest gastronomy association (<strong>2,500+ members</strong>). Member self-service portal with
-            course registration, event ticketing, CRM integration, and multi-tenant support.
+            course registration, event ticketing with QR codes, Google Maps integration, CRM sync,
+            and Playwright E2E testing.
           </p>
           <div class="project-card__tags">
-            <span class="tag">React</span><span class="tag">Next.js</span><span class="tag">GraphQL</span>
+            <span class="tag">Next.js</span><span class="tag">GraphQL</span><span class="tag">Apollo</span><span class="tag">Playwright</span>
           </div>
           <a href="https://www.gastrozuerich.ch" target="_blank" rel="noopener" class="project-card__link">Visit Site &rarr;</a>
         </div>
 
-        <div class="project-card reveal">
+        <div class="project-card reveal" data-category="open-source">
+          <div class="project-card__header">
+            <h3 class="project-card__title">Unchained Admin UI</h3>
+            <span class="project-card__type">Product Owner</span>
+          </div>
+          <p class="project-card__desc">
+            Next.js control panel for Unchained Engine. Real-time analytics, inventory management,
+            automated order workflows, bulk product editing, multi-language support, Cypress E2E test suite
+            with 20+ spec files, and dark mode. <strong>Used by all Unchained clients.</strong>
+          </p>
+          <div class="project-card__tags">
+            <span class="tag">Next.js</span><span class="tag">Apollo</span><span class="tag">Cypress</span><span class="tag">Radix UI</span>
+          </div>
+          <a href="https://github.com/unchainedshop/unchained" target="_blank" rel="noopener" class="project-card__link">View on GitHub &rarr;</a>
+        </div>
+
+        <div class="project-card reveal" data-category="blockchain">
           <div class="project-card__header">
             <h3 class="project-card__title">NFT Marketplace</h3>
             <span class="project-card__type">Web3 E-Commerce</span>
@@ -471,7 +626,7 @@
           <a href="https://github.com/unchainedshop/nft-marketplace" target="_blank" rel="noopener" class="project-card__link">View on GitHub &rarr;</a>
         </div>
 
-        <div class="project-card reveal">
+        <div class="project-card reveal" data-category="e-commerce">
           <div class="project-card__header">
             <h3 class="project-card__title">Theater im Hof</h3>
             <span class="project-card__type">Event Ticketing</span>
@@ -486,7 +641,7 @@
           <a href="https://www.theaterimhof.ch" target="_blank" rel="noopener" class="project-card__link">Visit Site &rarr;</a>
         </div>
 
-        <div class="project-card reveal">
+        <div class="project-card reveal" data-category="e-commerce">
           <div class="project-card__header">
             <h3 class="project-card__title">Weng Contemporary</h3>
             <span class="project-card__type">Art E-Commerce</span>
@@ -501,7 +656,7 @@
           <a href="https://wengcontemporary.com" target="_blank" rel="noopener" class="project-card__link">Visit Site &rarr;</a>
         </div>
 
-        <div class="project-card reveal">
+        <div class="project-card reveal" data-category="e-commerce">
           <div class="project-card__header">
             <h3 class="project-card__title">1-2-eat</h3>
             <span class="project-card__type">Mobile Commerce</span>
@@ -516,7 +671,7 @@
           <a href="https://12eat.ch" target="_blank" rel="noopener" class="project-card__link">Visit Site &rarr;</a>
         </div>
 
-        <div class="project-card reveal">
+        <div class="project-card reveal" data-category="blockchain">
           <div class="project-card__header">
             <h3 class="project-card__title">Event Ticketing DApp</h3>
             <span class="project-card__type">Blockchain</span>
@@ -531,7 +686,7 @@
           <a href="https://github.com/Mikearaya/bionic_event_dapp" target="_blank" rel="noopener" class="project-card__link">View on GitHub &rarr;</a>
         </div>
 
-        <div class="project-card reveal">
+        <div class="project-card reveal" data-category="enterprise">
           <div class="project-card__header">
             <h3 class="project-card__title">Accounting ERP Module</h3>
             <span class="project-card__type">Enterprise</span>
@@ -555,8 +710,63 @@
     </div>
   </section>
 
+  <!-- Testimonials Section -->
+  <section class="section" id="testimonials">
+    <div class="container">
+      <h2 class="section__title reveal">Client <span class="accent">Testimonials</span></h2>
+      <p class="section__subtitle reveal">What clients say about projects built with Unchained Engine</p>
+
+      <div class="testimonials__grid">
+        <div class="testimonial-card reveal">
+          <div class="testimonial-card__quote">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" opacity="0.15"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10H14.017zM0 21v-7.391C0 7.905 3.748 4.039 9 3l.996 2.151C7.563 6.068 6 8.789 6 11h4v10H0z"/></svg>
+          </div>
+          <p class="testimonial-card__text">
+            "The API-first microservices architecture enabled us to significantly increase the webshop speed."
+          </p>
+          <div class="testimonial-card__author">
+            <div>
+              <strong>Niki Repasi</strong>
+              <span>Publicare</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card reveal">
+          <div class="testimonial-card__quote">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" opacity="0.15"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10H14.017zM0 21v-7.391C0 7.905 3.748 4.039 9 3l.996 2.151C7.563 6.068 6 8.789 6 11h4v10H0z"/></svg>
+          </div>
+          <p class="testimonial-card__text">
+            "The technical expertise created a platform with exceptionally fast load times and efficient backend optimization."
+          </p>
+          <div class="testimonial-card__author">
+            <div>
+              <strong>Walter Schweizer</strong>
+              <span>Head of Marketing, Gastro Zurich</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card reveal">
+          <div class="testimonial-card__quote">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" opacity="0.15"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10H14.017zM0 21v-7.391C0 7.905 3.748 4.039 9 3l.996 2.151C7.563 6.068 6 8.789 6 11h4v10H0z"/></svg>
+          </div>
+          <p class="testimonial-card__text">
+            "A competent and straightforward partner who implemented requirements into a top-tier e-commerce platform."
+          </p>
+          <div class="testimonial-card__author">
+            <div>
+              <strong>Benjamin Tanner</strong>
+              <span>CTO, Lorem GmbH</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Articles Section -->
-  <section class="section" id="articles">
+  <section class="section section--dark" id="articles">
     <div class="container">
       <h2 class="section__title reveal">Latest <span class="accent">Articles</span></h2>
       <p class="section__subtitle reveal">Technical writing on Medium about web development, Angular, and blockchain</p>
@@ -681,8 +891,8 @@
           </div>
           <h3 class="service-card__title">Mentorship</h3>
           <p class="service-card__desc">
-            Guiding aspiring developers through Springboard's bootcamp programs with code reviews,
-            project architecture guidance, and career development support.
+            Mentored 160+ students through Springboard's Software Engineering course since 2020.
+            1-on-1 guidance on full-stack development, code reviews, project architecture, and career support.
           </p>
         </div>
       </div>
@@ -720,7 +930,7 @@
           </div>
         </div>
 
-        <form class="contact__form reveal" id="contactForm" action="https://formspree.io/f/xpwdknbj" method="POST">
+        <form class="contact__form reveal" id="contactForm" action="https://formspree.io/f/maqzaewa" method="POST">
           <div class="form-group">
             <input type="text" name="name" id="contactName" required placeholder=" " autocomplete="name" />
             <label for="contactName">Your Name</label>
