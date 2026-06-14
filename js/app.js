@@ -16,17 +16,24 @@
     nav.classList.toggle('nav--scrolled', window.scrollY > 50);
   });
 
+  function closeMenu() {
+    navToggle.classList.remove('active');
+    navMenu.classList.remove('active');
+    nav.classList.remove('menu-active');
+    navToggle.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('menu-open');
+  }
+
   navToggle.addEventListener('click', function () {
     var isOpen = navToggle.classList.toggle('active');
     navMenu.classList.toggle('active');
+    nav.classList.toggle('menu-active', isOpen);
     navToggle.setAttribute('aria-expanded', isOpen);
+    document.body.classList.toggle('menu-open', isOpen);
   });
 
   navMenu.querySelectorAll('.nav__link').forEach(function (link) {
-    link.addEventListener('click', function () {
-      navToggle.classList.remove('active');
-      navMenu.classList.remove('active');
-    });
+    link.addEventListener('click', closeMenu);
   });
 
   // ─── Smooth scroll ────────────────────────────
@@ -83,6 +90,13 @@
     typeRole();
   }
 
+  // ─── Stagger index assignment ─────────────────
+  document.querySelectorAll('.projects__grid .project-card, .articles__grid .article-card, .tools__grid .tool-card').forEach(function (el, i) {
+    var parent = el.closest('.projects__grid, .articles__grid, .tools__grid');
+    var siblings = parent ? Array.from(parent.children) : [];
+    el.style.setProperty('--i', siblings.indexOf(el));
+  });
+
   // ─── Reveal on scroll ─────────────────────────
   var reveals = document.querySelectorAll('.reveal');
   var revealObserver = new IntersectionObserver(
@@ -99,6 +113,24 @@
   reveals.forEach(function (el) {
     revealObserver.observe(el);
   });
+
+  // ─── Hero parallax ──────────────────────────────
+  var heroBg = document.querySelector('.hero__bg');
+  if (heroBg) {
+    var ticking = false;
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        requestAnimationFrame(function () {
+          var scrolled = window.pageYOffset;
+          if (scrolled < window.innerHeight * 1.5) {
+            heroBg.style.transform = 'translateY(' + scrolled * 0.3 + 'px)';
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+  }
 
   // ─── Lazy-load images ────────────────────────
   var lazyImgs = document.querySelectorAll('.lazy-img');

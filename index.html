@@ -178,6 +178,7 @@
     .hero__bg{position:absolute;inset:0;background:url('images/bg.webp') no-repeat center/cover;filter:brightness(.15)}
     .hero__content{position:relative;z-index:1;text-align:center;padding:0 24px}
     .hero__title{font-size:clamp(2.5rem,6vw,4rem);font-weight:800;line-height:1.1;margin-bottom:16px;letter-spacing:-1px}
+    .hero__tagline{font-size:clamp(1rem,2vw,1.2rem);color:var(--text-muted);max-width:600px;margin:0 auto 24px;font-weight:400;line-height:1.6}
     .hero__roles{font-size:clamp(1rem,2.5vw,1.3rem);color:var(--text-muted);margin-bottom:32px;min-height:2em}
     .hero__roles .accent{color:var(--accent-light);border-right:2px solid var(--accent-light)}
   </style>
@@ -208,8 +209,6 @@
         <li><a href="#tools" class="nav__link">AI Tools</a></li>
         <li><a href="#experience" class="nav__link">Experience</a></li>
         <li><a href="#projects" class="nav__link">Projects</a></li>
-        <li><a href="#articles" class="nav__link">Articles</a></li>
-        <li><a href="#services" class="nav__link">Services</a></li>
         <li><a href="#contact" class="nav__link nav__link--cta">Contact</a></li>
         <li>
           <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
@@ -228,6 +227,7 @@
       <h1 class="hero__title reveal">
         I'm <span class="accent">Mikael</span> Araya.
       </h1>
+      <p class="hero__tagline reveal">I build e-commerce platforms, ERP integrations, and open-source tools for the Swiss market and beyond.</p>
       <div class="hero__roles reveal">
         <span class="hero__role" id="typedRole"></span><span class="hero__cursor">|</span>
       </div>
@@ -261,10 +261,10 @@
     <div class="container">
       <h2 class="section__title reveal">About <span class="accent">Me</span></h2>
       <div class="about">
-        <div class="about__image reveal">
+        <div class="about__image reveal reveal--left">
           <img src="images/my_image.webp" alt="Mikael Araya" loading="lazy" width="300" height="300" />
         </div>
-        <div class="about__content reveal">
+        <div class="about__content reveal reveal--right">
           <p class="about__text">
             Freelance full-stack software engineer based in Addis Ababa, Ethiopia with <strong>8+ years</strong> of professional experience.
             I'm a core contributor to <a href="https://github.com/unchainedshop/unchained" target="_blank" rel="noopener">Unchained Engine</a> — a high-performance
@@ -293,7 +293,7 @@
             </div>
             <div class="about__detail">
               <span class="about__label">Location</span>
-              <span class="about__value">Addis Ababa, Ethiopia</span>
+              <span class="about__value">Addis Ababa, Ethiopia (GMT+3)</span>
             </div>
             <div class="about__detail">
               <span class="about__label">Email</span>
@@ -317,6 +317,35 @@
               Pull Shark x3
             </span>
           </div>
+          <div class="about__services">
+            <h3 class="about__services-title">What I Do</h3>
+            <div class="about__services-grid">
+              <div class="about__service">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                <span>E-Commerce Development</span>
+              </div>
+              <div class="about__service">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                <span>Full-Stack Development</span>
+              </div>
+              <div class="about__service">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                <span>Enterprise & ERP Solutions</span>
+              </div>
+              <div class="about__service">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+                <span>Blockchain & DApps</span>
+              </div>
+              <div class="about__service">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+                <span>Technical Consulting</span>
+              </div>
+              <div class="about__service">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+                <span>Mentorship (160+ students)</span>
+              </div>
+            </div>
+          </div>
           <div class="about__actions">
             <a href="#contact" class="btn btn--primary">Hire Me</a>
             <a href="https://drive.google.com/file/d/1BA150GRBQ6J1t0cdNQL2BFrJ5kVz_42D/view?usp=sharing" target="_blank" rel="noopener" class="btn btn--outline">Download CV</a>
@@ -329,23 +358,23 @@
   <section class="stats" id="stats" aria-label="Statistics">
     <div class="container">
       <div class="stats__grid">
-        <div class="stats__item reveal">
+        <div class="stats__item reveal reveal--scale">
           <span class="stats__number" data-target="8">0</span><span class="stats__plus">+</span>
           <span class="stats__label">Years Experience</span>
         </div>
-        <div class="stats__item reveal">
+        <div class="stats__item reveal reveal--scale">
           <span class="stats__number" data-target="15">0</span><span class="stats__plus">+</span>
           <span class="stats__label">Projects Delivered</span>
         </div>
-        <div class="stats__item reveal">
+        <div class="stats__item reveal reveal--scale">
           <span class="stats__number" data-target="93">0</span>
           <span class="stats__label">GitHub Repositories</span>
         </div>
-        <div class="stats__item reveal">
+        <div class="stats__item reveal reveal--scale">
           <span class="stats__number" data-target="6400">0</span><span class="stats__plus">+</span>
           <span class="stats__label">Commits on Unchained</span>
         </div>
-        <div class="stats__item reveal">
+        <div class="stats__item reveal reveal--scale">
           <span class="stats__number" data-target="160">0</span><span class="stats__plus">+</span>
           <span class="stats__label">Students Mentored</span>
         </div>
@@ -429,7 +458,7 @@
   <section class="section section--dark" id="skills" aria-label="Technical Skills">
     <div class="container">
       <h2 class="section__title reveal">Tech <span class="accent">Stack</span></h2>
-      <p class="section__subtitle reveal">Technologies I use daily to build production systems</p>
+      <p class="section__subtitle reveal">Core technologies I use to build production systems</p>
 
       <div class="skills">
         <div class="skills__category reveal">
@@ -448,42 +477,18 @@
               <span class="skill-card__name">TypeScript</span>
             </div>
             <div class="skill-card">
-              <img src="icons/angular.svg" alt="Angular" class="skill-card__icon" loading="lazy" />
-              <span class="skill-card__name">Angular</span>
-            </div>
-            <div class="skill-card">
               <svg class="skill-card__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12.001 4.8c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624C13.666 10.618 15.027 12 18.001 12c3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C16.337 6.182 14.976 4.8 12.001 4.8zm-6 7.2c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624 1.177 1.194 2.538 2.576 5.512 2.576 3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C10.337 13.382 8.976 12 6.001 12z"/></svg>
               <span class="skill-card__name">Tailwind CSS</span>
             </div>
             <div class="skill-card">
-              <img src="icons/html5.svg" alt="HTML5" class="skill-card__icon" loading="lazy" />
-              <span class="skill-card__name">HTML5 / CSS3</span>
-            </div>
-            <div class="skill-card">
-              <svg class="skill-card__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
-              <span class="skill-card__name">Zustand</span>
-            </div>
-            <div class="skill-card">
-              <svg class="skill-card__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-              <span class="skill-card__name">Radix UI</span>
-            </div>
-            <div class="skill-card">
-              <svg class="skill-card__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-              <span class="skill-card__name">Headless UI</span>
-            </div>
-            <div class="skill-card">
-              <svg class="skill-card__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.56 18H3.44C2.65 18 2 17.37 2 16.59V7.41C2 6.63 2.65 6 3.44 6h17.12c.79 0 1.44.63 1.44 1.41v9.18c0 .78-.65 1.41-1.44 1.41zM12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
-              <span class="skill-card__name">Tiptap Editor</span>
-            </div>
-            <div class="skill-card">
-              <svg class="skill-card__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0014.07 6H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg>
-              <span class="skill-card__name">i18n (next-intl)</span>
+              <img src="icons/angular.svg" alt="Angular" class="skill-card__icon" loading="lazy" />
+              <span class="skill-card__name">Angular</span>
             </div>
           </div>
         </div>
 
         <div class="skills__category reveal">
-          <h3 class="skills__heading">Back-End</h3>
+          <h3 class="skills__heading">Back-End & Infrastructure</h3>
           <div class="skills__grid">
             <div class="skill-card">
               <img src="icons/nodejs.svg" alt="Node.js" class="skill-card__icon" loading="lazy" />
@@ -491,11 +496,7 @@
             </div>
             <div class="skill-card">
               <img src="icons/graphql.svg" alt="GraphQL" class="skill-card__icon" loading="lazy" />
-              <span class="skill-card__name">GraphQL Yoga</span>
-            </div>
-            <div class="skill-card">
-              <svg class="skill-card__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.87L17.45 9.32l-1.4 1.4L19.18 13.9 12 21.09l-7.18-7.19 3.13-3.18-1.4-1.4L3 12.87 12 21.87 21 12.87zM12 2.13L5.55 8.58l1.4 1.4L12 4.93l5.05 5.05 1.4-1.4L12 2.13z"/></svg>
-              <span class="skill-card__name">Fastify</span>
+              <span class="skill-card__name">GraphQL</span>
             </div>
             <div class="skill-card">
               <img src="icons/mongodb.svg" alt="MongoDB" class="skill-card__icon" loading="lazy" />
@@ -503,64 +504,30 @@
             </div>
             <div class="skill-card">
               <img src="icons/mysql.svg" alt="PostgreSQL" class="skill-card__icon" loading="lazy" />
-              <span class="skill-card__name">PostgreSQL / MySQL</span>
+              <span class="skill-card__name">PostgreSQL</span>
             </div>
             <div class="skill-card">
               <svg class="skill-card__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M10.5 2.661l.54.997-1.797.644 2.409.218.748 1.246.467-1.122 2.077-.208-1.61-.613.426-1.162-1.397.81zm6.229-.164L16.47 3.6l1.2.855-.7.104-.06.834.55-.605.5.15-.342-.58.358-.638-.78.216zm-9.6.31l-.075.39.463.207-.398.156.123.465.243-.393.49.13-.353-.298.195-.438-.458.127zm9.99 2.754l-.575 1.22.8-.14-.272 1.162.946-.748-.12-.483.58-.147zm-8.753.033l-.49.404.63.26-.018.553.37-.426.64.126-.4-.362.26-.584-.532.2zm5.014.074l-.237.658.708.126-.583.39.134.62.41-.465.7.24-.484-.396.2-.657-.574.238zm-7.335 2.437l-.672.353.327-.717-.55-.37.584-.074.223-.63.31.523.6.006-.44.327.216.588z"/><path d="M10.5 2.661l.54.997-1.797.644 2.409.218.748 1.246.467-1.122 2.077-.208-1.61-.613.426-1.162-1.397.81zm-1.377 9.324v10.041H7.05V11.985h2.073zm5.25.072v10.04h-2.073V12.057h2.073zM20.35 12v10.04h-2.074V12h2.074z"/></svg>
               <span class="skill-card__name">Redis</span>
             </div>
             <div class="skill-card">
+              <svg class="skill-card__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-1.886a.186.186 0 01-.185-.186V6.747a.186.186 0 01.185-.186h1.886a.186.186 0 00.186-.186V4.488a.186.186 0 00-.186-.186h-2.119a2.044 2.044 0 00-2.044 2.044v4.688a2.044 2.044 0 002.044 2.044zm-6.283 0h2.119a.186.186 0 00.186-.185V4.488a.186.186 0 00-.186-.186H7.7a2.044 2.044 0 00-2.044 2.044v4.688A2.044 2.044 0 007.7 13.078zm10.602-9.012h2.119a.186.186 0 01.186.186v6.404a.186.186 0 01-.186.186h-2.119a.186.186 0 01-.186-.186V4.252a.186.186 0 01.186-.186zM3.2 14.835h17.6a.186.186 0 01.186.186v4.733a.186.186 0 01-.186.186H3.2a.186.186 0 01-.186-.186v-4.733a.186.186 0 01.186-.186z"/></svg>
+              <span class="skill-card__name">Docker</span>
+            </div>
+            <div class="skill-card">
               <img src="icons/c.svg" alt="C#" class="skill-card__icon" loading="lazy" />
-              <span class="skill-card__name">C# / ASP.NET Core</span>
-            </div>
-            <div class="skill-card">
-              <svg class="skill-card__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
-              <span class="skill-card__name">Keycloak / OAuth2</span>
-            </div>
-            <div class="skill-card">
-              <svg class="skill-card__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4V6h16v12zM4 0h16v2H4zm0 22h16v2H4zm8-10a2 2 0 100-4 2 2 0 000 4zm-4 4c0-1.33 2.67-2 4-2s4 .67 4 2v1H8v-1z"/></svg>
-              <span class="skill-card__name">Nodemailer</span>
-            </div>
-            <div class="skill-card">
-              <svg class="skill-card__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM19 18H6c-2.21 0-4-1.79-4-4s1.79-4 4-4h.71C7.37 7.69 9.48 6 12 6c3.04 0 5.5 2.46 5.5 5.5v.5H19c1.66 0 3 1.34 3 3s-1.34 3-3 3z"/></svg>
-              <span class="skill-card__name">OData / SOAP</span>
+              <span class="skill-card__name">C# / ASP.NET</span>
             </div>
           </div>
         </div>
 
         <div class="skills__category reveal">
-          <h3 class="skills__heading">Payments & E-Commerce</h3>
+          <h3 class="skills__heading">Payments, Testing & Blockchain</h3>
           <div class="skills__grid">
             <div class="skill-card">
               <svg class="skill-card__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C5.175 22.99 8.385 24 11.714 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-6.591-7.305z"/></svg>
               <span class="skill-card__name">Stripe</span>
             </div>
-            <div class="skill-card">
-              <svg class="skill-card__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M7.076 21.337H2.47a.641.641 0 01-.633-.74L4.944 3.72a.77.77 0 01.757-.65h6.803c2.258 0 3.816.473 4.622 1.404.368.422.612.86.742 1.335.137.5.14 1.099.008 1.834l-.013.069v.608l.474.244c.4.19.72.404.962.644.396.394.65.878.757 1.435.11.575.075 1.26-.1 2.035-.205.906-.535 1.694-.983 2.34-.409.589-.924 1.075-1.526 1.44-.582.352-1.265.613-2.03.773-.74.155-1.582.233-2.5.233h-.594a1.782 1.782 0 00-1.77 1.514l-.045.235-.757 4.8-.034.17a.127.127 0 01-.037.085.12.12 0 01-.083.033H7.076z"/></svg>
-              <span class="skill-card__name">PayPal</span>
-            </div>
-            <div class="skill-card">
-              <svg class="skill-card__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12zM4 10h16v2H4z"/></svg>
-              <span class="skill-card__name">Datatrans</span>
-            </div>
-            <div class="skill-card">
-              <svg class="skill-card__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM7.16 14.26l.04-.12L8.1 12h7.46c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0020.01 3H5.21l-.94-2H1v2h2l3.6 7.59-1.35 2.44C4.52 14.37 5.48 16 7 16h12v-2H7.42c-.14 0-.25-.11-.25-.25z"/></svg>
-              <span class="skill-card__name">E-Commerce</span>
-            </div>
-            <div class="skill-card">
-              <svg class="skill-card__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3v18h18V3H3zm8 16H5v-6h6v6zm0-8H5V5h6v6zm8 8h-6v-6h6v6zm0-8h-6V5h6v6z"/></svg>
-              <span class="skill-card__name">QR / Wallet Pass</span>
-            </div>
-            <div class="skill-card">
-              <svg class="skill-card__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
-              <span class="skill-card__name">Sharp (Images)</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="skills__category reveal">
-          <h3 class="skills__heading">Testing & QA</h3>
-          <div class="skills__grid">
             <div class="skill-card">
               <img src="icons/cypress.png" alt="Cypress" class="skill-card__icon" loading="lazy" />
               <span class="skill-card__name">Cypress</span>
@@ -570,106 +537,8 @@
               <span class="skill-card__name">Playwright</span>
             </div>
             <div class="skill-card">
-              <svg class="skill-card__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M22.251 11.82a3.117 3.117 0 00-2.328-3.01L22.911 0H8.104L11.1 8.838a3.116 3.116 0 00-2.244 2.988 3.12 3.12 0 001.313 2.536L8.093 24h15.005l-2.093-9.656a3.12 3.12 0 001.246-2.524z"/></svg>
-              <span class="skill-card__name">Vitest</span>
-            </div>
-            <div class="skill-card">
-              <img src="icons/jest.svg" alt="Jest" class="skill-card__icon" loading="lazy" />
-              <span class="skill-card__name">Jest</span>
-            </div>
-            <div class="skill-card">
-              <svg class="skill-card__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-              <span class="skill-card__name">Testing Library</span>
-            </div>
-            <div class="skill-card">
-              <svg class="skill-card__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M4.5 11H2V4h2.5v7zm6-7H8v7h2.5V4zm6 0H14v7h2.5V4zM22 4h-2.5v7H22V4zM2 20h20v-6H2v6zm2-4h16v2H4v-2z"/></svg>
-              <span class="skill-card__name">Zod (Validation)</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="skills__category reveal">
-          <h3 class="skills__heading">DevOps & Observability</h3>
-          <div class="skills__grid">
-            <div class="skill-card">
-              <svg class="skill-card__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-1.886a.186.186 0 01-.185-.186V6.747a.186.186 0 01.185-.186h1.886a.186.186 0 00.186-.186V4.488a.186.186 0 00-.186-.186h-2.119a2.044 2.044 0 00-2.044 2.044v4.688a2.044 2.044 0 002.044 2.044zm-6.283 0h2.119a.186.186 0 00.186-.185V4.488a.186.186 0 00-.186-.186H7.7a2.044 2.044 0 00-2.044 2.044v4.688A2.044 2.044 0 007.7 13.078zm10.602-9.012h2.119a.186.186 0 01.186.186v6.404a.186.186 0 01-.186.186h-2.119a.186.186 0 01-.186-.186V4.252a.186.186 0 01.186-.186zM3.2 14.835h17.6a.186.186 0 01.186.186v4.733a.186.186 0 01-.186.186H3.2a.186.186 0 01-.186-.186v-4.733a.186.186 0 01.186-.186z"/></svg>
-              <span class="skill-card__name">Docker</span>
-            </div>
-            <div class="skill-card">
-              <svg class="skill-card__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-              <span class="skill-card__name">Jenkins CI/CD</span>
-            </div>
-            <div class="skill-card">
-              <svg class="skill-card__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>
-              <span class="skill-card__name">OpenTelemetry</span>
-            </div>
-            <div class="skill-card">
-              <svg class="skill-card__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-              <span class="skill-card__name">Sentry</span>
-            </div>
-            <div class="skill-card">
-              <svg class="skill-card__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14c-3.31 0-6-2.69-6-6h2c0 2.21 1.79 4 4 4s4-1.79 4-4h2c0 3.31-2.69 6-6 6zm0-4c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
-              <span class="skill-card__name">Pyroscope</span>
-            </div>
-            <div class="skill-card">
-              <svg class="skill-card__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
-              <span class="skill-card__name">Git / GitHub</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="skills__category reveal">
-          <h3 class="skills__heading">Blockchain & Mobile</h3>
-          <div class="skills__grid">
-            <div class="skill-card">
               <img src="icons/ethereum.svg" alt="Ethereum" class="skill-card__icon" loading="lazy" />
               <span class="skill-card__name">Ethereum / Solidity</span>
-            </div>
-            <div class="skill-card">
-              <img src="icons/hyperledger.svg" alt="Hyperledger" class="skill-card__icon" loading="lazy" />
-              <span class="skill-card__name">Hyperledger Fabric</span>
-            </div>
-            <div class="skill-card">
-              <img src="icons/react.js.svg" alt="React Native" class="skill-card__icon" loading="lazy" />
-              <span class="skill-card__name">React Native</span>
-            </div>
-            <div class="skill-card">
-              <svg class="skill-card__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg>
-              <span class="skill-card__name">Android (Kiosk)</span>
-            </div>
-            <div class="skill-card">
-              <svg class="skill-card__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg>
-              <span class="skill-card__name">LiveKit (WebRTC)</span>
-            </div>
-            <div class="skill-card">
-              <svg class="skill-card__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11zM9 13h6v2H9v-2zm0 4h6v2H9v-2zm0-8h4v2H9V9z"/></svg>
-              <span class="skill-card__name">React PDF</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="skills__category reveal">
-          <h3 class="skills__heading">ERP Integrations</h3>
-          <div class="skills__grid">
-            <div class="skill-card">
-              <svg class="skill-card__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
-              <span class="skill-card__name">MS Navision</span>
-            </div>
-            <div class="skill-card">
-              <svg class="skill-card__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
-              <span class="skill-card__name">Selectline ERP</span>
-            </div>
-            <div class="skill-card">
-              <svg class="skill-card__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/></svg>
-              <span class="skill-card__name">Crossbase PIM</span>
-            </div>
-            <div class="skill-card">
-              <svg class="skill-card__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-              <span class="skill-card__name">Apache Solr</span>
-            </div>
-            <div class="skill-card">
-              <svg class="skill-card__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6 0h-4V4h4v2z"/></svg>
-              <span class="skill-card__name">Drizzle ORM</span>
             </div>
           </div>
         </div>
@@ -1156,131 +1025,30 @@
   <section class="section section--dark" id="articles" aria-label="Articles">
     <div class="container">
       <h2 class="section__title reveal">Latest <span class="accent">Articles</span></h2>
-      <p class="section__subtitle reveal">Technical writing on Medium about web development, Angular, and blockchain</p>
+      <p class="section__subtitle reveal">Technical writing on Medium</p>
 
-      <div class="articles__grid">
-        <a href="https://medium.com/mikael-araya-blog/javascript-objects-f8e8f07c1235" target="_blank" rel="noopener" class="article-card reveal">
-          <span class="article-card__date">Mar 11, 2020</span>
-          <h3 class="article-card__title">Javascript Objects</h3>
-          <p class="article-card__desc">Deep dive on Objects in Javascript — prototypes, methods, and patterns.</p>
-          <span class="article-card__read">Read on Medium &rarr;</span>
-        </a>
-
-        <a href="https://medium.com/mikael-araya-blog/snapshot-testing-6e78454aeeba" target="_blank" rel="noopener" class="article-card reveal">
-          <span class="article-card__date">Mar 4, 2020</span>
-          <h3 class="article-card__title">Snapshot Testing</h3>
-          <p class="article-card__desc">The easiest way to test your code hasn't changed since last time.</p>
-          <span class="article-card__read">Read on Medium &rarr;</span>
-        </a>
-
+      <div class="articles__grid articles__grid--compact">
         <a href="https://medium.com/mikael-araya-blog/run-time-optimization-of-angular-application-using-caching-9f1fab73c541" target="_blank" rel="noopener" class="article-card reveal">
-          <span class="article-card__date">Feb 15, 2020</span>
+          <span class="article-card__date">Feb 2020</span>
           <h3 class="article-card__title">Angular Runtime Optimization Using Caching</h3>
-          <p class="article-card__desc">Decrease server requests using HTTP Interceptors for better performance.</p>
-          <span class="article-card__read">Read on Medium &rarr;</span>
+          <span class="article-card__read">Read &rarr;</span>
         </a>
-
         <a href="https://medium.com/mikael-araya-blog/controlling-visibility-of-component-based-on-user-claims-using-angular-directives-deb350b7493" target="_blank" rel="noopener" class="article-card reveal">
-          <span class="article-card__date">Feb 5, 2020</span>
+          <span class="article-card__date">Feb 2020</span>
           <h3 class="article-card__title">Component Visibility with Angular Structural Directives</h3>
-          <p class="article-card__desc">Controlling DOM elements based on user claims for secure UI rendering.</p>
-          <span class="article-card__read">Read on Medium &rarr;</span>
+          <span class="article-card__read">Read &rarr;</span>
         </a>
-
-        <a href="https://medium.com/mikael-araya-blog/angular-restricting-user-access-using-claim-based-authorization-with-router-guard-844184f3a029" target="_blank" rel="noopener" class="article-card reveal">
-          <span class="article-card__date">Feb 2, 2020</span>
-          <h3 class="article-card__title">Claim-Based Authorization with Angular Router Guard</h3>
-          <p class="article-card__desc">Restricting user access using claim-based authorization patterns.</p>
-          <span class="article-card__read">Read on Medium &rarr;</span>
-        </a>
-
         <a href="https://medium.com/mikael-araya-blog/build-a-single-organization-distributed-network-using-hyperledger-fabric-1-4-x-cb1122728854" target="_blank" rel="noopener" class="article-card reveal">
-          <span class="article-card__date">Jan 17, 2020</span>
+          <span class="article-card__date">Jan 2020</span>
           <h3 class="article-card__title">Distributed Network with Hyperledger Fabric</h3>
-          <p class="article-card__desc">Building a single-organization permissioned blockchain network from scratch.</p>
-          <span class="article-card__read">Read on Medium &rarr;</span>
+          <span class="article-card__read">Read &rarr;</span>
         </a>
       </div>
 
-      <div class="section__subtitle reveal" style="margin-top:3rem;text-align:center">
+      <div style="margin-top:2rem;text-align:center" class="reveal">
         <a href="https://medium.com/@mikaelaraya" target="_blank" rel="noopener" class="btn btn--outline">
           View All Articles on Medium
         </a>
-      </div>
-    </div>
-  </section>
-  
-  <section class="section" id="services" aria-label="Services">
-    <div class="container">
-      <h2 class="section__title reveal">What I <span class="accent">Do</span></h2>
-      <p class="section__subtitle reveal">Services I offer with high quality and reliability</p>
-
-      <div class="services__grid">
-        <div class="service-card reveal">
-          <div class="service-card__icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-          </div>
-          <h3 class="service-card__title">E-Commerce Development</h3>
-          <p class="service-card__desc">
-            Headless e-commerce solutions built with Unchained Engine, custom storefronts, B2B portals,
-            payment integrations, and ERP connectivity for enterprise-grade online commerce.
-          </p>
-        </div>
-
-        <div class="service-card reveal">
-          <div class="service-card__icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-          </div>
-          <h3 class="service-card__title">Full-Stack Development</h3>
-          <p class="service-card__desc">
-            End-to-end web application development with React, Next.js, Node.js, and GraphQL.
-            From architecture design to deployment, I build scalable and maintainable solutions.
-          </p>
-        </div>
-
-        <div class="service-card reveal">
-          <div class="service-card__icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-          </div>
-          <h3 class="service-card__title">Enterprise Solutions</h3>
-          <p class="service-card__desc">
-            Custom ERP modules including Inventory, CRM, Procurement, Production Management,
-            and Accounting — integrated into comprehensive enterprise systems.
-          </p>
-        </div>
-
-        <div class="service-card reveal">
-          <div class="service-card__icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
-          </div>
-          <h3 class="service-card__title">Blockchain / DApp</h3>
-          <p class="service-card__desc">
-            Certified Ethereum blockchain developer. Smart contract development, DApp architecture,
-            and decentralized application solutions using Solidity and Web3 technologies.
-          </p>
-        </div>
-
-        <div class="service-card reveal">
-          <div class="service-card__icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
-          </div>
-          <h3 class="service-card__title">Technical Consulting</h3>
-          <p class="service-card__desc">
-            Architecture reviews, technology selection, system design, and strategic advice
-            for your next project based on years of hands-on engineering experience.
-          </p>
-        </div>
-
-        <div class="service-card reveal">
-          <div class="service-card__icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
-          </div>
-          <h3 class="service-card__title">Mentorship</h3>
-          <p class="service-card__desc">
-            Mentored 160+ students through Springboard's Software Engineering course since 2020.
-            1-on-1 guidance on full-stack development, code reviews, project architecture, and career support.
-          </p>
-        </div>
       </div>
     </div>
   </section>
@@ -1296,7 +1064,7 @@
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
             <div>
               <h3 class="contact__label">Location</h3>
-              <p>Addis Ababa, Ethiopia</p>
+              <p>Addis Ababa, Ethiopia (GMT+3)</p>
             </div>
           </div>
           <div class="contact__item">
