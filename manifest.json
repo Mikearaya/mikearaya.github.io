@@ -1,0 +1,21 @@
+{
+  "name": "Mikael Araya — Freelance Full-Stack Software Engineer",
+  "short_name": "Mikael Araya",
+  "description": "Freelance Full-Stack Software Engineer & Core Contributor to Unchained Engine",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0b",
+  "theme_color": "#6366f1",
+  "icons": [
+    {
+      "src": "images/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "images/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
