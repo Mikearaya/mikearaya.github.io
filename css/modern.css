@@ -1002,7 +1002,8 @@ svg.skill-card__icon {
   flex-shrink: 0;
   margin-top: 4px;
 }
-.contact__item h4 {
+.contact__item h4,
+.contact__label {
   font-size: 0.85rem;
   font-weight: 700;
   color: var(--text);
@@ -1111,7 +1112,7 @@ svg.skill-card__icon {
   margin-bottom: 32px;
 }
 .footer__brand p {
-  color: var(--text-dim);
+  color: var(--text-muted);
   font-size: 0.9rem;
   margin-top: 4px;
 }
@@ -1135,7 +1136,7 @@ svg.skill-card__icon {
   border-top: 1px solid var(--border);
 }
 .footer__bottom p {
-  color: var(--text-dim);
+  color: var(--text-muted);
   font-size: 0.85rem;
 }
 

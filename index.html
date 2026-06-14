@@ -152,7 +152,9 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
 
   <link rel="stylesheet" href="css/modern.css" />
   <link rel="stylesheet" href="css/chat.css" />
@@ -167,7 +169,7 @@
   
   <nav class="nav" id="nav" aria-label="Main navigation">
     <div class="nav__container">
-      <a href="#hero" class="nav__logo" aria-label="Mikael Araya — Home">MA<span class="accent">.</span></a>
+      <a href="#hero" class="nav__logo" aria-label="MA.">MA<span class="accent">.</span></a>
       <button class="nav__toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
@@ -231,7 +233,7 @@
       <h2 class="section__title reveal">About <span class="accent">Me</span></h2>
       <div class="about">
         <div class="about__image reveal">
-          <img src="images/my_image.webp" alt="Mikael Araya" loading="lazy" />
+          <img src="images/my_image.webp" alt="Mikael Araya" loading="lazy" width="480" height="480" />
         </div>
         <div class="about__content reveal">
           <p class="about__text">
@@ -271,7 +273,7 @@
           </div>
           <div class="about__badges">
             <a href="https://user-badge.committers.top/ethiopia/Mikearaya" target="_blank" rel="noopener" class="badge badge--img">
-              <img src="https://user-badge.committers.top/ethiopia/Mikearaya.svg" alt="Top committer in Ethiopia" height="20" loading="lazy" />
+              <img src="https://user-badge.committers.top/ethiopia/Mikearaya.svg" alt="Top committer in Ethiopia" width="250" height="20" loading="lazy" />
             </a>
             <span class="badge">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
@@ -385,11 +387,11 @@
       <div class="github-activity reveal" style="margin-top:48px">
         <h3 class="section__title" style="font-size:1.3rem;margin-bottom:24px">GitHub <span class="accent">Activity</span></h3>
         <div class="github-activity__grid">
-          <img data-src="https://github-readme-stats.vercel.app/api?username=Mikearaya&show_icons=true&theme=transparent&hide_border=true&title_color=818cf8&icon_color=818cf8&text_color=a1a1aa&bg_color=18181b" alt="GitHub Stats" class="github-activity__card lazy-img" />
-          <img data-src="https://github-readme-streak-stats.herokuapp.com/?user=Mikearaya&theme=transparent&hide_border=true&ring=818cf8&fire=6366f1&currStreakLabel=818cf8&sideLabels=a1a1aa&dates=71717a&background=18181b" alt="GitHub Streak" class="github-activity__card lazy-img" />
+          <img data-src="https://github-readme-stats.vercel.app/api?username=Mikearaya&show_icons=true&theme=transparent&hide_border=true&title_color=818cf8&icon_color=818cf8&text_color=a1a1aa&bg_color=18181b" alt="GitHub Stats" class="github-activity__card lazy-img" width="495" height="195" />
+          <img data-src="https://github-readme-streak-stats.herokuapp.com/?user=Mikearaya&theme=transparent&hide_border=true&ring=818cf8&fire=6366f1&currStreakLabel=818cf8&sideLabels=a1a1aa&dates=71717a&background=18181b" alt="GitHub Streak" class="github-activity__card lazy-img" width="495" height="195" />
         </div>
         <div class="github-activity__graph reveal" style="margin-top:24px">
-          <img data-src="https://ghchart.rshah.org/6366f1/Mikearaya" alt="Mikael Araya's GitHub Contribution Graph" class="github-activity__contributions lazy-img" />
+          <img data-src="https://ghchart.rshah.org/6366f1/Mikearaya" alt="Mikael Araya's GitHub Contribution Graph" class="github-activity__contributions lazy-img" width="722" height="112" />
         </div>
       </div>
     </div>
@@ -1220,21 +1222,21 @@
           <div class="contact__item">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
             <div>
-              <h4>Location</h4>
+              <h3 class="contact__label">Location</h3>
               <p>Addis Ababa, Ethiopia</p>
             </div>
           </div>
           <div class="contact__item">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             <div>
-              <h4>Email</h4>
+              <h3 class="contact__label">Email</h3>
               <p>mikaelaraya12@gmail.com</p>
             </div>
           </div>
           <div class="contact__item">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.66 0 3-4.03 3-9s-1.34-9-3-9m0 18c-1.66 0-3-4.03-3-9s1.34-9 3-9m-9 9a9 9 0 019-9"/></svg>
             <div>
-              <h4>Telegram</h4>
+              <h3 class="contact__label">Telegram</h3>
               <p><a href="https://t.me/starboy_12" target="_blank" rel="noopener">@starboy_12</a></p>
             </div>
           </div>
@@ -1290,7 +1292,7 @@
         </div>
       </div>
       <div class="footer__bottom">
-        <p>&copy; <script>document.write(new Date().getFullYear())</script> Mikael Araya. All rights reserved.</p>
+        <p>&copy; 2026 Mikael Araya. All rights reserved.</p>
       </div>
     </div>
   </footer>
