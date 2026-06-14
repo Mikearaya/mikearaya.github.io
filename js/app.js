@@ -17,8 +17,9 @@
   });
 
   navToggle.addEventListener('click', function () {
-    navToggle.classList.toggle('active');
+    var isOpen = navToggle.classList.toggle('active');
     navMenu.classList.toggle('active');
+    navToggle.setAttribute('aria-expanded', isOpen);
   });
 
   navMenu.querySelectorAll('.nav__link').forEach(function (link) {
@@ -97,6 +98,25 @@
   );
   reveals.forEach(function (el) {
     revealObserver.observe(el);
+  });
+
+  // ─── Lazy-load images ────────────────────────
+  var lazyImgs = document.querySelectorAll('.lazy-img');
+  var lazyObserver = new IntersectionObserver(
+    function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          var img = entry.target;
+          img.onload = function () { img.classList.add('loaded'); };
+          img.src = img.dataset.src;
+          lazyObserver.unobserve(img);
+        }
+      });
+    },
+    { rootMargin: '200px 0px' }
+  );
+  lazyImgs.forEach(function (img) {
+    lazyObserver.observe(img);
   });
 
   // ─── Counter animation ────────────────────────

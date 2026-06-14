@@ -51,6 +51,24 @@ a:hover { color: #a5b4fc; }
 /* ═══════════════════════════════════
    PRELOADER
    ═══════════════════════════════════ */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 16px;
+  z-index: 10000;
+  padding: 12px 24px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: top 0.2s;
+}
+.skip-link:focus {
+  top: 16px;
+  color: #fff;
+}
+
 .preloader {
   position: fixed;
   inset: 0;
@@ -406,6 +424,9 @@ img { max-width: 100%; height: auto; }
   z-index: -1;
   opacity: 0.3;
 }
+.about__content {
+  min-width: 0;
+}
 .about__text {
   color: var(--text-muted);
   margin-bottom: 16px;
@@ -439,6 +460,50 @@ img { max-width: 100%; height: auto; }
   font-size: 0.95rem;
   color: var(--text);
   font-weight: 500;
+}
+.about__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  background: var(--accent-glow);
+  color: var(--accent-light);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  text-decoration: none;
+  transition: all var(--transition);
+}
+.badge:hover {
+  background: rgba(99, 102, 241, 0.25);
+  color: var(--accent-light);
+}
+.badge--img {
+  padding: 4px 8px;
+  background: transparent;
+  border-color: transparent;
+}
+.badge--img:hover {
+  background: var(--accent-glow);
+}
+.badge--img img {
+  display: block;
+}
+.badge--gold {
+  background: rgba(234, 179, 8, 0.1);
+  color: #eab308;
+  border-color: rgba(234, 179, 8, 0.25);
+}
+.badge--gold:hover {
+  background: rgba(234, 179, 8, 0.2);
+  color: #eab308;
 }
 .about__actions {
   display: flex;
@@ -558,6 +623,9 @@ img { max-width: 100%; height: auto; }
   height: 28px;
   flex-shrink: 0;
   object-fit: contain;
+}
+svg.skill-card__icon {
+  fill: var(--accent-light);
 }
 .skill-card__name {
   font-size: 0.85rem;
@@ -946,6 +1014,14 @@ img { max-width: 100%; height: auto; }
   color: var(--text-muted);
   font-size: 0.95rem;
 }
+.contact__item a {
+  color: var(--accent-light);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+.contact__item a:hover {
+  color: var(--accent);
+}
 .form-group {
   position: relative;
   margin-bottom: 24px;
@@ -1077,7 +1153,7 @@ img { max-width: 100%; height: auto; }
 .back-to-top {
   position: fixed;
   bottom: 32px;
-  right: 32px;
+  right: 92px;
   width: 44px;
   height: 44px;
   background: var(--accent);
@@ -1167,6 +1243,10 @@ img { max-width: 100%; height: auto; }
   align-items: center;
   justify-content: center;
   color: var(--accent-light);
+}
+.oss-highlight__info {
+  flex: 1;
+  min-width: 0;
 }
 .oss-highlight__title {
   font-size: 1.5rem;
@@ -1341,6 +1421,98 @@ img { max-width: 100%; height: auto; }
 [data-theme="light"] .theme-toggle__moon { display: block; }
 
 /* ═══════════════════════════════════
+   GITHUB ACTIVITY
+   ═══════════════════════════════════ */
+.github-activity__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+.lazy-img {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  min-height: 120px;
+  background: var(--bg-alt);
+}
+.lazy-img.loaded {
+  opacity: 1;
+}
+.github-activity__card {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+}
+.github-activity__contributions {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  padding: 16px;
+}
+@media (max-width: 768px) {
+  .github-activity__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ═══════════════════════════════════
+   AI & DEVELOPER TOOLS
+   ═══════════════════════════════════ */
+.tools__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.tool-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+  transition: all var(--transition);
+}
+.tool-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+.tool-card__icon {
+  width: 52px;
+  height: 52px;
+  background: var(--accent-glow);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-light);
+  margin-bottom: 20px;
+}
+.tool-card__title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+.tool-card__desc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+.tool-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+@media (max-width: 768px) {
+  .tools__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ═══════════════════════════════════
    LIGHT THEME
    ═══════════════════════════════════ */
 [data-theme="light"] {
@@ -1395,7 +1567,10 @@ img { max-width: 100%; height: auto; }
 [data-theme="light"] .testimonial-card,
 [data-theme="light"] .article-card,
 [data-theme="light"] .timeline__content,
-[data-theme="light"] .oss-highlight {
+[data-theme="light"] .oss-highlight,
+[data-theme="light"] .tool-card,
+[data-theme="light"] .github-activity__card,
+[data-theme="light"] .github-activity__contributions {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 [data-theme="light"] .form-group input,
