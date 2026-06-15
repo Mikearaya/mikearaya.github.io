@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Building an MCP Server for a Multi-Service Monorepo — Mikael Araya</title>
+  <meta name="description" content="How we built a Model Context Protocol server that gives AI agents deep awareness of a multi-service e-commerce monorepo — service detection, automated linting, testing, and i18n management." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0a0a0b" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/modern.css" />
+  <link rel="stylesheet" href="../css/case-study.css" />
+  <link rel="stylesheet" href="../css/blog.css" />
+</head>
+<body>
+
+  <nav class="nav nav--scrolled" id="nav" aria-label="Main navigation">
+    <div class="nav__container">
+      <a href="../index.html#hero" class="nav__logo" aria-label="MA.">MA<span class="accent">.</span></a>
+      <ul class="nav__menu" role="list">
+        <li><a href="../index.html#articles" class="nav__link">&larr; Articles</a></li>
+        <li>
+          <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+            <svg aria-hidden="true" class="theme-toggle__sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+            <svg aria-hidden="true" class="theme-toggle__moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="blog-post">
+    <header class="blog-post__hero">
+      <div class="container">
+        <div class="blog-post__meta-top">
+          <span class="blog-post__date">June 2025</span>
+          <span class="blog-post__reading-time">8 min read</span>
+        </div>
+        <h1 class="blog-post__title">Building an MCP Server for a Multi-Service Monorepo</h1>
+        <p class="blog-post__subtitle">How we gave AI agents deep awareness of a multi-service e-commerce codebase using the Model Context Protocol</p>
+        <div class="blog-post__tags">
+          <span class="tag">MCP</span>
+          <span class="tag">Claude Agent SDK</span>
+          <span class="tag">TypeScript</span>
+          <span class="tag">AI Agents</span>
+        </div>
+      </div>
+    </header>
+
+    <article class="blog-post__body">
+      <div class="container blog-post__container">
+
+        <p>When working with AI coding assistants on a large monorepo, one of the biggest challenges is context. The AI doesn't know which service a file belongs to, which test runner to use, or where the translation files live. It has to rediscover all of this on every interaction.</p>
+
+        <p>We solved this by building a custom <strong>Model Context Protocol (MCP) server</strong> that gives Claude deep, structured awareness of our multi-service e-commerce monorepo. In this article, we'll walk through the architecture, the tools we defined, and how we integrated it with the Claude Agent SDK to create autonomous bug-fixing workflows.</p>
+
+        <h2>Prerequisites</h2>
+
+        <ul>
+          <li>Node.js >= 18.x</li>
+          <li>TypeScript with ESM support</li>
+          <li>Familiarity with the <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener noreferrer">Model Context Protocol</a></li>
+          <li><code>@modelcontextprotocol/sdk</code> v1.27+</li>
+        </ul>
+
+        <h2>The Problem</h2>
+
+        <p>Our e-commerce platform is a monorepo with four services: <code>engine</code> (GraphQL backend), <code>redesign</code> (Next.js frontend), <code>connector</code> (data connector layer), and <code>ai-filter-pipeline</code> (AI product classification). Each service has its own lint rules, test runner, and deployment pipeline.</p>
+
+        <p>When an AI agent tries to fix a bug, it needs to know:</p>
+
+        <ul>
+          <li>Which service does this file belong to?</li>
+          <li>How do I run tests for just this service?</li>
+          <li>Where are the translation files, and what format do they use?</li>
+          <li>Which services are affected by my current changes?</li>
+        </ul>
+
+        <p>Without this knowledge, the agent wastes turns asking questions or running the wrong commands. MCP solves this by exposing repository-specific tools that the agent can call directly.</p>
+
+        <h2>Setting Up the MCP Server</h2>
+
+        <p>We start with a basic MCP server using stdio transport. This is the standard pattern for tools that communicate with Claude through the Agent SDK:</p>
+
+<pre><code>import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
+import { z } from 'zod';
+import { execSync } from 'node:child_process';
+import { resolve } from 'node:path';
+
+const REPO_ROOT = process.env.REPO_DIR || resolve(__dirname, '..', '..', '..');
+const SERVICES = ['engine', 'redesign', 'connector', 'ai-filter-pipeline'];
+
+const server = new McpServer({
+  name: 'publicare-tools',
+  version: '1.0.0',
+});</code></pre>
+
+        <p>The <code>McpServer</code> class handles all the protocol plumbing. We define our tools on it, and then connect via stdio so the Claude Agent SDK can discover and call them.</p>
+
+        <h2>Defining Tools</h2>
+
+        <p>Each tool follows a consistent pattern: a name, description, a Zod schema for input validation, and an async handler that returns structured content. Let's look at the most important ones.</p>
+
+        <h3>Service Detection</h3>
+
+        <p>The simplest but most useful tool. Given a file path, it tells the agent which service it belongs to:</p>
+
+<pre><code>server.tool(
+  'publicare_detect_service',
+  'Given a file path, returns which service it belongs to',
+  {
+    filePath: z.string().describe('File path (relative or absolute)'),
+  },
+  async ({ filePath }) => {
+    const relative = filePath.replace(REPO_ROOT + '/', '');
+    const service = SERVICES.find((s) => relative.startsWith(s + '/'));
+
+    return {
+      content: [{
+        type: 'text',
+        text: service
+          ? `Service: ${service}`
+          : `File does not belong to a known service`,
+      }],
+    };
+  },
+);</code></pre>
+
+        <p>This eliminates an entire class of mistakes where the agent tries to run frontend tests on a backend file, or vice versa.</p>
+
+        <h3>Running Lint and Tests</h3>
+
+        <p>Each service has different lint configs and test runners. We expose these as tools so the agent can validate its own changes:</p>
+
+<pre><code>server.tool(
+  'publicare_run_tests',
+  'Run tests for the specified service',
+  {
+    service: z.enum(['engine', 'connector', 'ai-filter-pipeline'])
+      .describe('Service to test'),
+    pattern: z.string().optional()
+      .describe('Test name pattern to filter'),
+  },
+  async ({ service, pattern }) => {
+    try {
+      const cmd = pattern
+        ? `npm run test -- --test-name-pattern='${pattern}'`
+        : 'npm run test';
+
+      const output = execSync(cmd, {
+        encoding: 'utf-8',
+        cwd: resolve(REPO_ROOT, service),
+        timeout: 300_000,
+      });
+      return {
+        content: [{ type: 'text', text: `Tests passed for ${service}\n${output}` }],
+      };
+    } catch (e: any) {
+      return {
+        content: [{
+          type: 'text',
+          text: `Tests failed for ${service}\n${e.stdout || e.stderr || e.message}`,
+        }],
+        isError: true,
+      };
+    }
+  },
+);</code></pre>
+
+        <p>Notice the <code>isError: true</code> flag. When a tool returns an error, the agent knows the operation failed and can try a different approach rather than assuming success.</p>
+
+        <h3>Translation Management</h3>
+
+        <p>Our frontend supports three languages (German, French, Italian). Managing translations is tedious, and it's exactly the kind of task that benefits from tool support:</p>
+
+<pre><code>server.tool(
+  'publicare_add_translation',
+  'Add a new translation key to all three language files',
+  {
+    key: z.string().describe('Translation key'),
+    de: z.string().describe('German translation'),
+    fr: z.string().describe('French translation'),
+    it: z.string().describe('Italian translation'),
+  },
+  async ({ key, de, fr, it }) => {
+    const i18nDir = resolve(REPO_ROOT, 'redesign', 'public', 'i18n');
+    const translations = { de, fr, it };
+    const results: string[] = [];
+
+    for (const [lang, value] of Object.entries(translations)) {
+      const filePath = resolve(i18nDir, `${lang}.json`);
+      const data = JSON.parse(readFileSync(filePath, 'utf-8'));
+
+      if (data[key]) {
+        results.push(`${lang}: key already exists (skipped)`);
+        continue;
+      }
+
+      data[key] = value;
+      const sorted = Object.fromEntries(
+        Object.entries(data).sort(([a], [b]) => a.localeCompare(b)),
+      );
+      writeFileSync(filePath, JSON.stringify(sorted, null, 2) + '\n');
+      results.push(`${lang}: added "${key}" = "${value}"`);
+    }
+
+    return { content: [{ type: 'text', text: results.join('\n') }] };
+  },
+);</code></pre>
+
+        <p>The tool sorts keys alphabetically (our project convention) and skips existing keys. This means the agent can safely call it without risking duplicates or breaking the key ordering that our team expects.</p>
+
+        <h3>Affected Services Detection</h3>
+
+        <p>The final tool inspects git diff to determine which services are affected by current changes. This is critical for the agent's verification step — it only needs to lint and test the services it actually touched:</p>
+
+<pre><code>server.tool(
+  'publicare_affected_services',
+  'Detect which services are affected by current git changes',
+  {},
+  async () => {
+    const diff = execSync('git diff --name-only HEAD', {
+      encoding: 'utf-8', cwd: REPO_ROOT,
+    }).trim();
+
+    const staged = execSync('git diff --name-only --cached', {
+      encoding: 'utf-8', cwd: REPO_ROOT,
+    }).trim();
+
+    const allFiles = [diff, staged].filter(Boolean).join('\n').split('\n');
+    const services = detectServicesFromFiles(allFiles);
+
+    return {
+      content: [{
+        type: 'text',
+        text: services.length > 0
+          ? `Affected services: ${services.join(', ')}`
+          : 'No service-specific files changed',
+      }],
+    };
+  },
+);</code></pre>
+
+        <h2>Starting the Server</h2>
+
+        <p>The server connects via stdio, which is the standard transport for MCP servers that run as child processes of the Claude Agent SDK:</p>
+
+<pre><code>async function main() {
+  const transport = new StdioServerTransport();
+  await server.connect(transport);
+}
+
+main().catch(console.error);</code></pre>
+
+        <h2>Configuration</h2>
+
+        <p>The MCP server is registered in a <code>.mcp.json</code> file at the repository root. We also include a Playwright MCP server for frontend verification:</p>
+
+<pre><code>{
+  "mcpServers": {
+    "publicare-tools": {
+      "command": "npx",
+      "args": ["tsx", "agent/src/tools/server.ts"]
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest", "--headless", "--no-sandbox"]
+    }
+  }
+}</code></pre>
+
+        <h2>Integration with Claude Agent SDK</h2>
+
+        <p>On the agent side, we pass the MCP tools via the <code>allowedTools</code> parameter. This scopes each step of the workflow to only the tools it needs:</p>
+
+<pre><code>const result = await runAgenticStep(prompt, {
+  allowedTools: [
+    'Read', 'Edit', 'Write', 'Bash',
+    'mcp__publicare-tools__publicare_run_lint',
+    'mcp__publicare-tools__publicare_run_tests',
+    'mcp__publicare-tools__publicare_detect_service',
+    'mcp__playwright__browser_navigate',
+    'mcp__playwright__browser_snapshot',
+  ],
+  maxTurns: 25,
+  cwd: repoRoot,
+});</code></pre>
+
+        <p>The naming convention is <code>mcp__{server-name}__{tool-name}</code>. By controlling which tools are available at each step, we prevent the agent from running tests during the analysis phase or navigating the browser during the code implementation phase.</p>
+
+        <h2>The Bug-Fix Pipeline</h2>
+
+        <p>With these tools in place, we built a fully autonomous bug-fix pipeline:</p>
+
+        <ol>
+          <li><strong>Analyze</strong> — The agent reads the issue description and uses <code>publicare_detect_service</code> to understand which parts of the codebase are involved</li>
+          <li><strong>Implement</strong> — The agent edits code and uses <code>publicare_find_similar_component</code> to follow existing patterns</li>
+          <li><strong>Lint</strong> — The agent runs <code>publicare_run_lint</code> on affected services</li>
+          <li><strong>Test</strong> — The agent runs <code>publicare_run_tests</code> to verify the fix</li>
+          <li><strong>Verify</strong> — The agent uses Playwright MCP tools to navigate the running app and visually confirm the fix</li>
+        </ol>
+
+        <p>Each step is scoped to only the tools it needs, and the pipeline tracks costs per step for monitoring.</p>
+
+        <h2>Conclusion</h2>
+
+        <p>Building an MCP server for a monorepo is straightforward with the <code>@modelcontextprotocol/sdk</code>. The key insight is that the tools don't need to be sophisticated — even simple operations like "detect which service this file belongs to" dramatically improve the agent's accuracy. The real power comes from composing these simple tools into multi-step workflows through the Claude Agent SDK.</p>
+
+        <h2>References</h2>
+
+        <ul>
+          <li><a href="https://modelcontextprotocol.io" target="_blank" rel="noopener noreferrer">Model Context Protocol Specification</a></li>
+          <li><a href="https://github.com/modelcontextprotocol/sdk" target="_blank" rel="noopener noreferrer">MCP SDK on GitHub</a></li>
+          <li><a href="https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/sdk" target="_blank" rel="noopener noreferrer">Claude Agent SDK Documentation</a></li>
+        </ul>
+
+      </div>
+    </article>
+
+    <footer class="case-study__nav">
+      <div class="container">
+        <a href="../index.html#articles" class="btn btn--outline">&larr; All Articles</a>
+        <a href="multilingual-solr-search-for-ecommerce.html" class="btn btn--primary">Next: Solr Search &rarr;</a>
+      </div>
+    </footer>
+  </main>
+
+  <script src="../js/app.js" defer></script>
+</body>
+</html>

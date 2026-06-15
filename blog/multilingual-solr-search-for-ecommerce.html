@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Multilingual Solr Search for E-Commerce with Node.js — Mikael Araya</title>
+  <meta name="description" content="How we built a trilingual product search system using Apache Solr's eDisMax parser, language-specific analyzers, barcode scanning, and auto-suggest for a Swiss medical e-commerce platform." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0a0a0b" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/modern.css" />
+  <link rel="stylesheet" href="../css/case-study.css" />
+  <link rel="stylesheet" href="../css/blog.css" />
+</head>
+<body>
+
+  <nav class="nav nav--scrolled" id="nav" aria-label="Main navigation">
+    <div class="nav__container">
+      <a href="../index.html#hero" class="nav__logo" aria-label="MA.">MA<span class="accent">.</span></a>
+      <ul class="nav__menu" role="list">
+        <li><a href="../index.html#articles" class="nav__link">&larr; Articles</a></li>
+        <li>
+          <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+            <svg aria-hidden="true" class="theme-toggle__sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+            <svg aria-hidden="true" class="theme-toggle__moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="blog-post">
+    <header class="blog-post__hero">
+      <div class="container">
+        <div class="blog-post__meta-top">
+          <span class="blog-post__date">June 2025</span>
+          <span class="blog-post__reading-time">10 min read</span>
+        </div>
+        <h1 class="blog-post__title">Multilingual Solr Search for E-Commerce with Node.js</h1>
+        <p class="blog-post__subtitle">Building a trilingual product search system with eDisMax, barcode scanning, and auto-suggest for a Swiss medical e-commerce platform</p>
+        <div class="blog-post__tags">
+          <span class="tag">Apache Solr</span>
+          <span class="tag">Node.js</span>
+          <span class="tag">E-Commerce</span>
+          <span class="tag">Search</span>
+        </div>
+      </div>
+    </header>
+
+    <article class="blog-post__body">
+      <div class="container blog-post__container">
+
+        <p>Search is one of those features that seems simple until you build it for real. When your catalog has 15,000 medical products across three languages (German, French, Italian), with SKUs, barcodes, pharma codes, and customer-specific assortments — a basic text search won't cut it.</p>
+
+        <p>In this article, we'll walk through how we built a production search system using Apache Solr for a Swiss B2B medical e-commerce platform. We'll cover the query architecture, multilingual field boosting, barcode scan handling, auto-suggest, and the indexing pipeline.</p>
+
+        <h2>Prerequisites</h2>
+
+        <ul>
+          <li>Node.js >= 18.x</li>
+          <li>Apache Solr 8.9+</li>
+          <li>Basic understanding of Lucene query syntax</li>
+          <li>Familiarity with the Solr eDisMax query parser</li>
+        </ul>
+
+        <h2>Architecture Overview</h2>
+
+        <p>Our search system has five Solr collections: <code>products</code>, <code>assortments</code>, <code>Posts</code> (news), <code>pages</code>, and <code>academy</code> (events). For CMS content, we create an alias called <code>cms_search_index</code> that spans the news, pages, and events collections — so a single query searches all editorial content.</p>
+
+        <p>We don't use an external Solr client library. The entire integration uses the native <code>fetch()</code> API against Solr's HTTP endpoints. This keeps our dependency tree lean and gives us full control over request construction.</p>
+
+        <h2>Product Search with eDisMax</h2>
+
+        <p>The core of our search is the <strong>eDisMax</strong> (Extended Dismax) query parser. It lets us define field-level boosting so that a match on SKU ranks much higher than a match in the description. Here's our query field configuration:</p>
+
+<pre><code>const getProductSearchParams = (lang: Lang, disableBoost = false) => ({
+  qf: `sku_exact^1000 sku^100 gtin_s^90 swissmedicNr_s^80 pharmaCode_s^80 \
+title_txt_prefix^20 keywords_txt_${lang}^20 title_txt_${lang}^10 \
+title_txt_suffix^10 manufacturer_s^6 directAssortments_txt_${lang}^5 \
+assortments_txt_${lang}^4 subtitle_txt_${lang}^3 description_txt_${lang}^2`,
+  bq: 'inStock_b:true^10',
+  sort: `${!disableBoost ? 'boost_i DESC, score DESC,' : 'score DESC, sku_exact DESC,'} sequence_i DESC`,
+});</code></pre>
+
+        <p>Let's break down the boosting strategy:</p>
+
+        <ul>
+          <li><strong>sku_exact^1000</strong> — An exact SKU match should always win. When a nurse types "12345", they want product 12345, not something that mentions "12345" in its description</li>
+          <li><strong>gtin_s^90, swissmedicNr_s^80, pharmaCode_s^80</strong> — Medical identifiers are precise lookups. High boost, but below SKU</li>
+          <li><strong>title_txt_${lang}^10</strong> — Language-specific title fields. The <code>${lang}</code> suffix selects the correct analyzer (German, French, or Italian)</li>
+          <li><strong>bq: 'inStock_b:true^10'</strong> — A boost query that pushes in-stock products higher without excluding out-of-stock ones</li>
+        </ul>
+
+        <h3>The Search Function</h3>
+
+        <p>With the parameters defined, the search function itself is straightforward. We escape the query string, build the Solr URL, and parse the response:</p>
+
+<pre><code>import escapeQueryString from './escape.ts';
+
+const doProductsSearch = async (
+  queryString: string,
+  lang: Lang,
+  { fl = 'id' }: { fl?: string } = {},
+  disableBoost?: boolean,
+) => {
+  const cleanedQuery = escapeQueryString(queryString).trim();
+  if (!SOLR_URL) return [];
+
+  const { qf, bq, sort } = getProductSearchParams(lang, disableBoost);
+  const params = {
+    defType: 'edismax',
+    q: cleanedQuery,
+    qf,
+    rows: '2000',
+    bq,
+    fl,
+    sort,
+  };
+
+  const uri = `${SOLR_URL}/solr/products/select?${new URLSearchParams(params)}`;
+
+  try {
+    const response = await fetch(uri);
+    if (!response.ok) {
+      throw new Error(`Solr returned ${response.status}`);
+    }
+    const data = await response.json();
+    return data?.response?.docs || [];
+  } catch (error) {
+    logger.error(error.message);
+    return [];
+  }
+};</code></pre>
+
+        <p>A few things to note: we return an empty array on failure rather than throwing, because search failures shouldn't crash the page — they should show "no results." The <code>fl</code> parameter controls which fields Solr returns; by default we only need the <code>id</code> and let our application layer hydrate the full product data from MongoDB.</p>
+
+        <h2>Query Escaping</h2>
+
+        <p>Solr uses Lucene query syntax, which means characters like <code>+</code>, <code>-</code>, <code>(</code>, <code>)</code>, <code>:</code>, and <code>*</code> have special meaning. A user searching for "Band-Aid 3M+" would break the parser without escaping:</p>
+
+<pre><code>const escapeQueryString = (query: string): string =>
+  query.replace(/[\s\+\-\&\|\!\(\)\{\}\[\]\^\"\~\*\?\:]/g, '\\$&');</code></pre>
+
+        <p>We escape all Lucene special characters with a backslash. This is critical for a medical catalog where product names regularly contain parentheses, slashes, and plus signs.</p>
+
+        <h2>Barcode Scanning</h2>
+
+        <p>Healthcare institutions scan product barcodes to reorder supplies. This creates a different search mode — the input is a precise identifier, not a fuzzy text query. We handle this with a two-stage lookup:</p>
+
+<pre><code>export const doScanProductSearch = async (
+  code: string,
+  { fl = 'id' }: { fl?: string } = {},
+) => {
+  if (!SOLR_URL) return [];
+
+  const normalized = normalizeScanCode(code);
+  if (!normalized) return [];
+
+  // Stage 1: Exact match against normalized scan codes
+  const exact = await solrSelect(
+    `scancode_ss:${escapeQueryString(normalized)}`,
+    fl,
+  );
+  if (exact.length > 0) return exact;
+
+  // Stage 2: Fallback to packaging-agnostic GTIN core
+  const core = gtinCore(code);
+  if (!core) return [];
+  return solrSelect(`scancode_core_ss:${escapeQueryString(core)}`, fl);
+};</code></pre>
+
+        <p>The first stage looks for an exact match against the <code>scancode_ss</code> multi-valued field, which stores normalized GTINs and pharmacodes. If that misses — for example, when scanning a base unit that's stored under a different packaging level — we fall back to <code>scancode_core_ss</code>, which strips the packaging indicator from the GTIN to find the same item regardless of packaging.</p>
+
+        <h3>Code Normalization</h3>
+
+        <p>Barcodes come in messy formats. A 14-digit GTIN needs to be normalized to 13-digit EAN by stripping the leading zero. Pharmacodes need leading zeros removed. We handle all of this in a normalization layer:</p>
+
+<pre><code>// GTIN: extract digits, strip leading zeros (14-digit → 13-digit EAN)
+// Pharmacode: 7-digit integer, strip leading zeros
+// GTIN Core: 12-digit item reference (packaging-agnostic fallback)</code></pre>
+
+        <p>This normalization runs both at index time (when we build the <code>scancode_ss</code> field) and at query time (when we process the scanned code). This ensures the same normalization produces matching values on both sides.</p>
+
+        <h2>Auto-Suggest</h2>
+
+        <p>For autocomplete, we use Solr's built-in Suggester component with language-specific infix suggesters:</p>
+
+<pre><code>const doAutoSuggestProducts = async (
+  query: string,
+  lang: Lang,
+  limit = 20,
+) => {
+  const dictionary = `${lang}-InfixSuggester`;
+  const uri = `${SOLR_URL}/solr/products/suggest?${new URLSearchParams({
+    'suggest.q': query,
+    'suggest.dictionary': dictionary,
+    'suggest.count': String(limit),
+  })}`;
+
+  const response = await fetch(uri);
+  const data = await response.json();
+
+  const suggestions = data?.suggest?.[dictionary]?.[query]?.suggestions || [];
+  return [...new Set(suggestions.map((s) => s.term))];
+};</code></pre>
+
+        <p>Each language gets its own dictionary (<code>de-InfixSuggester</code>, <code>fr-InfixSuggester</code>, <code>it-InfixSuggester</code>) configured in <code>solrconfig.xml</code>. The infix strategy means typing "band" matches "Bandage" and "Armband" — not just prefix matches. We deduplicate results with a Set since Solr may return the same term from different source documents.</p>
+
+        <h2>Indexing Pipeline</h2>
+
+        <p>Products are indexed in batches of 250 using Solr's Update API. We use a simple fetch wrapper for all write operations:</p>
+
+<pre><code>const doSolrRequest = async (collection: string, body: unknown) => {
+  const url = `${SOLR_URL}/solr/${collection}/update?commit=true`;
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  return response.json();
+};</code></pre>
+
+        <p>Each product document is structured with language-suffixed fields:</p>
+
+<pre><code>{
+  id: "product-12345",
+  collection_s: "products",
+  sku: "12345",
+  sku_exact: "12345",
+  gtin_s: "7680123456789",
+  pharmaCode_s: "1234567",
+  scancode_ss: ["7680123456789", "1234567"],
+  scancode_core_ss: ["768012345678"],
+  inStock_b: true,
+  boost_i: 0,
+  title_txt_de: "Wundverband steril 10x20cm",
+  title_txt_fr: "Pansement stérile 10x20cm",
+  title_txt_it: "Medicazione sterile 10x20cm",
+  title_txt_prefix: "Wundverband",
+  keywords_txt_de: ["wundversorgung", "steril", "verband"],
+  directAssortments_txt_de: "Wundversorgung > Verbände",
+  assortmentsIds_ss: ["cat-100", "cat-101", "cat-102"],
+  last_modified: "2025-06-01T00:00:00Z"
+}</code></pre>
+
+        <p>The <code>title_txt_prefix</code> field stores the first word of the title for prefix matching, and <code>_txt_suffix</code> stores the last meaningful word. This helps when users type partial product names. The <code>*_txt_${lang}</code> fields use Solr's language-specific text analyzers with stopwords, stemming, and synonym support for each language.</p>
+
+        <h3>Full Reindex vs. Incremental</h3>
+
+        <p>We support two indexing modes. A full reindex creates timestamped collections and swaps aliases atomically — no downtime. Incremental indexing runs after bulk imports and updates only changed documents. A cleanup step removes documents whose <code>last_modified</code> timestamp is older than the current run, catching deleted products.</p>
+
+        <h2>Configset Management</h2>
+
+        <p>Solr schema changes (field types, analyzers, synonym dictionaries) are managed through a configset that lives in version control. On reindex, we zip the configset, upload it via the Admin API, and create collections from it:</p>
+
+<pre><code>// Upload: POST /solr/admin/configs?action=UPLOAD&name=publicare_{timestamp}
+// Create collection: POST /solr/admin/collections?action=CREATE&name=products&collection.configName=publicare_{timestamp}
+// Create alias: POST /solr/admin/collections?action=CREATEALIAS&name=cms_search_index&collections=events,news,pages</code></pre>
+
+        <p>This means our Solr schema is reproducible from code. No manual Solr admin UI changes that drift from what's in git.</p>
+
+        <h2>Graceful Fallback</h2>
+
+        <p>Not every environment needs Solr. Development machines and staging environments without a Solr instance fall back to an in-memory local search plugin:</p>
+
+<pre><code>if (process.env.SOLR_URL) {
+  plugins.push(solrProductsSearch);
+  plugins.push(solrAssortmentsSearch);
+} else {
+  plugins.push(localSearch);
+}</code></pre>
+
+        <p>This conditional loading is handled at the plugin registration level, so the rest of the application doesn't need to know which search backend is active.</p>
+
+        <h2>Conclusion</h2>
+
+        <p>Building multilingual e-commerce search is a layered problem. The query layer (eDisMax with field boosting) handles relevance. The normalization layer handles messy real-world inputs like barcodes. The indexing pipeline handles scale. And the configset-as-code pattern handles maintainability.</p>
+
+        <p>The biggest lesson: <strong>don't treat search as a single feature</strong>. Text search, identifier lookup, barcode scanning, and auto-suggest are fundamentally different query modes that need different strategies, even when they hit the same Solr index.</p>
+
+        <h2>References</h2>
+
+        <ul>
+          <li><a href="https://solr.apache.org/guide/solr/latest/query-guide/dismax-query-parser.html" target="_blank" rel="noopener noreferrer">Solr eDisMax Query Parser</a></li>
+          <li><a href="https://solr.apache.org/guide/solr/latest/query-guide/suggester.html" target="_blank" rel="noopener noreferrer">Solr Suggester Component</a></li>
+          <li><a href="https://solr.apache.org/guide/solr/latest/indexing-guide/language-analysis.html" target="_blank" rel="noopener noreferrer">Solr Language Analysis</a></li>
+        </ul>
+
+      </div>
+    </article>
+
+    <footer class="case-study__nav">
+      <div class="container">
+        <a href="building-mcp-server-for-multi-service-monorepo.html" class="btn btn--outline">&larr; MCP Server</a>
+        <a href="../index.html#articles" class="btn btn--primary">All Articles &rarr;</a>
+      </div>
+    </footer>
+  </main>
+
+  <script src="../js/app.js" defer></script>
+</body>
+</html>
