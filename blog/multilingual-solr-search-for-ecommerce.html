@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <title>Multilingual Solr Search for E-Commerce with Node.js — Mikael Araya</title>
-  <meta name="description" content="How we built a trilingual product search system using Apache Solr's eDisMax parser, language-specific analyzers, barcode scanning, and auto-suggest for a Swiss medical e-commerce platform." />
+  <meta name="description" content="How we built a trilingual product search system using Apache Solr's eDisMax parser, language-specific analyzers, barcode scanning, and auto-suggest for a multilingual B2B e-commerce platform." />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#0a0a0b" media="(prefers-color-scheme: dark)" />
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
@@ -43,7 +43,7 @@
           <span class="blog-post__reading-time">10 min read</span>
         </div>
         <h1 class="blog-post__title">Multilingual Solr Search for E-Commerce with Node.js</h1>
-        <p class="blog-post__subtitle">Building a trilingual product search system with eDisMax, barcode scanning, and auto-suggest for a Swiss medical e-commerce platform</p>
+        <p class="blog-post__subtitle">Building a trilingual product search system with eDisMax, barcode scanning, and auto-suggest for a multilingual B2B e-commerce platform</p>
         <div class="blog-post__tags">
           <span class="tag">Apache Solr</span>
           <span class="tag">Node.js</span>
@@ -56,9 +56,9 @@
     <article class="blog-post__body">
       <div class="container blog-post__container">
 
-        <p>Search is one of those features that seems simple until you build it for real. When your catalog has 15,000 medical products across three languages (German, French, Italian), with SKUs, barcodes, pharma codes, and customer-specific assortments — a basic text search won't cut it.</p>
+        <p>Search is one of those features that seems simple until you build it for real. When your catalog has thousands of products across three languages (German, French, Italian), with SKUs, barcodes, regulatory codes, and customer-specific assortments — a basic text search won't cut it.</p>
 
-        <p>In this article, we'll walk through how we built a production search system using Apache Solr for a Swiss B2B medical e-commerce platform. We'll cover the query architecture, multilingual field boosting, barcode scan handling, auto-suggest, and the indexing pipeline.</p>
+        <p>In this article, we'll walk through how we built a production search system using Apache Solr for a multilingual B2B e-commerce platform. We'll cover the query architecture, multilingual field boosting, barcode scan handling, auto-suggest, and the indexing pipeline.</p>
 
         <h2>Prerequisites</h2>
 
@@ -80,7 +80,7 @@
         <p>The core of our search is the <strong>eDisMax</strong> (Extended Dismax) query parser. It lets us define field-level boosting so that a match on SKU ranks much higher than a match in the description. Here's our query field configuration:</p>
 
 <pre><code>const getProductSearchParams = (lang: Lang, disableBoost = false) => ({
-  qf: `sku_exact^1000 sku^100 gtin_s^90 swissmedicNr_s^80 pharmaCode_s^80 \
+  qf: `sku_exact^1000 sku^100 gtin_s^90 regulatoryNr_s^80 altCode_s^80 \
 title_txt_prefix^20 keywords_txt_${lang}^20 title_txt_${lang}^10 \
 title_txt_suffix^10 manufacturer_s^6 directAssortments_txt_${lang}^5 \
 assortments_txt_${lang}^4 subtitle_txt_${lang}^3 description_txt_${lang}^2`,
@@ -91,8 +91,8 @@ assortments_txt_${lang}^4 subtitle_txt_${lang}^3 description_txt_${lang}^2`,
         <p>Let's break down the boosting strategy:</p>
 
         <ul>
-          <li><strong>sku_exact^1000</strong> — An exact SKU match should always win. When a nurse types "12345", they want product 12345, not something that mentions "12345" in its description</li>
-          <li><strong>gtin_s^90, swissmedicNr_s^80, pharmaCode_s^80</strong> — Medical identifiers are precise lookups. High boost, but below SKU</li>
+          <li><strong>sku_exact^1000</strong> — An exact SKU match should always win. When a buyer types "12345", they want product 12345, not something that mentions "12345" in its description</li>
+          <li><strong>gtin_s^90, regulatoryNr_s^80, altCode_s^80</strong> — Product identifiers are precise lookups. High boost, but below SKU</li>
           <li><strong>title_txt_${lang}^10</strong> — Language-specific title fields. The <code>${lang}</code> suffix selects the correct analyzer (German, French, or Italian)</li>
           <li><strong>bq: 'inStock_b:true^10'</strong> — A boost query that pushes in-stock products higher without excluding out-of-stock ones</li>
         </ul>
@@ -147,11 +147,11 @@ const doProductsSearch = async (
 <pre><code>const escapeQueryString = (query: string): string =>
   query.replace(/[\s\+\-\&\|\!\(\)\{\}\[\]\^\"\~\*\?\:]/g, '\\$&');</code></pre>
 
-        <p>We escape all Lucene special characters with a backslash. This is critical for a medical catalog where product names regularly contain parentheses, slashes, and plus signs.</p>
+        <p>We escape all Lucene special characters with a backslash. This is critical for a B2B catalog where product names regularly contain parentheses, slashes, and plus signs.</p>
 
         <h2>Barcode Scanning</h2>
 
-        <p>Healthcare institutions scan product barcodes to reorder supplies. This creates a different search mode — the input is a precise identifier, not a fuzzy text query. We handle this with a two-stage lookup:</p>
+        <p>B2B buyers often scan product barcodes to reorder supplies. This creates a different search mode — the input is a precise identifier, not a fuzzy text query. We handle this with a two-stage lookup:</p>
 
 <pre><code>export const doScanProductSearch = async (
   code: string,
@@ -175,14 +175,14 @@ const doProductsSearch = async (
   return solrSelect(`scancode_core_ss:${escapeQueryString(core)}`, fl);
 };</code></pre>
 
-        <p>The first stage looks for an exact match against the <code>scancode_ss</code> multi-valued field, which stores normalized GTINs and pharmacodes. If that misses — for example, when scanning a base unit that's stored under a different packaging level — we fall back to <code>scancode_core_ss</code>, which strips the packaging indicator from the GTIN to find the same item regardless of packaging.</p>
+        <p>The first stage looks for an exact match against the <code>scancode_ss</code> multi-valued field, which stores normalized GTINs and alternate product codes. If that misses — for example, when scanning a base unit that's stored under a different packaging level — we fall back to <code>scancode_core_ss</code>, which strips the packaging indicator from the GTIN to find the same item regardless of packaging.</p>
 
         <h3>Code Normalization</h3>
 
-        <p>Barcodes come in messy formats. A 14-digit GTIN needs to be normalized to 13-digit EAN by stripping the leading zero. Pharmacodes need leading zeros removed. We handle all of this in a normalization layer:</p>
+        <p>Barcodes come in messy formats. A 14-digit GTIN needs to be normalized to 13-digit EAN by stripping the leading zero. Alternate product codes need leading zeros removed. We handle all of this in a normalization layer:</p>
 
 <pre><code>// GTIN: extract digits, strip leading zeros (14-digit → 13-digit EAN)
-// Pharmacode: 7-digit integer, strip leading zeros
+// Alt code: numeric identifier, strip leading zeros
 // GTIN Core: 12-digit item reference (packaging-agnostic fallback)</code></pre>
 
         <p>This normalization runs both at index time (when we build the <code>scancode_ss</code> field) and at query time (when we process the scanned code). This ensures the same normalization produces matching values on both sides.</p>
@@ -234,17 +234,17 @@ const doProductsSearch = async (
   sku: "12345",
   sku_exact: "12345",
   gtin_s: "7680123456789",
-  pharmaCode_s: "1234567",
+  altCode_s: "1234567",
   scancode_ss: ["7680123456789", "1234567"],
   scancode_core_ss: ["768012345678"],
   inStock_b: true,
   boost_i: 0,
-  title_txt_de: "Wundverband steril 10x20cm",
-  title_txt_fr: "Pansement stérile 10x20cm",
-  title_txt_it: "Medicazione sterile 10x20cm",
-  title_txt_prefix: "Wundverband",
-  keywords_txt_de: ["wundversorgung", "steril", "verband"],
-  directAssortments_txt_de: "Wundversorgung > Verbände",
+  title_txt_de: "Industrieventil DN50 Edelstahl",
+  title_txt_fr: "Vanne industrielle DN50 inox",
+  title_txt_it: "Valvola industriale DN50 inox",
+  title_txt_prefix: "Industrieventil",
+  keywords_txt_de: ["ventil", "edelstahl", "industrie"],
+  directAssortments_txt_de: "Industrie > Ventile",
   assortmentsIds_ss: ["cat-100", "cat-101", "cat-102"],
   last_modified: "2025-06-01T00:00:00Z"
 }</code></pre>
@@ -259,8 +259,8 @@ const doProductsSearch = async (
 
         <p>Solr schema changes (field types, analyzers, synonym dictionaries) are managed through a configset that lives in version control. On reindex, we zip the configset, upload it via the Admin API, and create collections from it:</p>
 
-<pre><code>// Upload: POST /solr/admin/configs?action=UPLOAD&name=publicare_{timestamp}
-// Create collection: POST /solr/admin/collections?action=CREATE&name=products&collection.configName=publicare_{timestamp}
+<pre><code>// Upload: POST /solr/admin/configs?action=UPLOAD&name=ecommerce_{timestamp}
+// Create collection: POST /solr/admin/collections?action=CREATE&name=products&collection.configName=ecommerce_{timestamp}
 // Create alias: POST /solr/admin/collections?action=CREATEALIAS&name=cms_search_index&collections=events,news,pages</code></pre>
 
         <p>This means our Solr schema is reproducible from code. No manual Solr admin UI changes that drift from what's in git.</p>

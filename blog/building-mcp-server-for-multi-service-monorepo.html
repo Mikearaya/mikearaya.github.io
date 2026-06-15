@@ -71,7 +71,7 @@
 
         <h2>The Problem</h2>
 
-        <p>Our e-commerce platform is a monorepo with four services: <code>engine</code> (GraphQL backend), <code>redesign</code> (Next.js frontend), <code>connector</code> (data connector layer), and <code>ai-filter-pipeline</code> (AI product classification). Each service has its own lint rules, test runner, and deployment pipeline.</p>
+        <p>Our e-commerce platform is a monorepo with four services: <code>api</code> (GraphQL backend), <code>storefront</code> (Next.js frontend), <code>connector</code> (data connector layer), and <code>ml-pipeline</code> (AI product classification). Each service has its own lint rules, test runner, and deployment pipeline.</p>
 
         <p>When an AI agent tries to fix a bug, it needs to know:</p>
 
@@ -95,10 +95,10 @@ import { execSync } from 'node:child_process';
 import { resolve } from 'node:path';
 
 const REPO_ROOT = process.env.REPO_DIR || resolve(__dirname, '..', '..', '..');
-const SERVICES = ['engine', 'redesign', 'connector', 'ai-filter-pipeline'];
+const SERVICES = ['api', 'storefront', 'connector', 'ml-pipeline'];
 
 const server = new McpServer({
-  name: 'publicare-tools',
+  name: 'monorepo-tools',
   version: '1.0.0',
 });</code></pre>
 
@@ -113,7 +113,7 @@ const server = new McpServer({
         <p>The simplest but most useful tool. Given a file path, it tells the agent which service it belongs to:</p>
 
 <pre><code>server.tool(
-  'publicare_detect_service',
+  'detect_service',
   'Given a file path, returns which service it belongs to',
   {
     filePath: z.string().describe('File path (relative or absolute)'),
@@ -140,10 +140,10 @@ const server = new McpServer({
         <p>Each service has different lint configs and test runners. We expose these as tools so the agent can validate its own changes:</p>
 
 <pre><code>server.tool(
-  'publicare_run_tests',
+  'run_tests',
   'Run tests for the specified service',
   {
-    service: z.enum(['engine', 'connector', 'ai-filter-pipeline'])
+    service: z.enum(['api', 'connector', 'ml-pipeline'])
       .describe('Service to test'),
     pattern: z.string().optional()
       .describe('Test name pattern to filter'),
@@ -181,7 +181,7 @@ const server = new McpServer({
         <p>Our frontend supports three languages (German, French, Italian). Managing translations is tedious, and it's exactly the kind of task that benefits from tool support:</p>
 
 <pre><code>server.tool(
-  'publicare_add_translation',
+  'add_translation',
   'Add a new translation key to all three language files',
   {
     key: z.string().describe('Translation key'),
@@ -190,7 +190,7 @@ const server = new McpServer({
     it: z.string().describe('Italian translation'),
   },
   async ({ key, de, fr, it }) => {
-    const i18nDir = resolve(REPO_ROOT, 'redesign', 'public', 'i18n');
+    const i18nDir = resolve(REPO_ROOT, 'storefront', 'public', 'i18n');
     const translations = { de, fr, it };
     const results: string[] = [];
 
@@ -222,7 +222,7 @@ const server = new McpServer({
         <p>The final tool inspects git diff to determine which services are affected by current changes. This is critical for the agent's verification step — it only needs to lint and test the services it actually touched:</p>
 
 <pre><code>server.tool(
-  'publicare_affected_services',
+  'affected_services',
   'Detect which services are affected by current git changes',
   {},
   async () => {
@@ -265,7 +265,7 @@ main().catch(console.error);</code></pre>
 
 <pre><code>{
   "mcpServers": {
-    "publicare-tools": {
+    "monorepo-tools": {
       "command": "npx",
       "args": ["tsx", "agent/src/tools/server.ts"]
     },
@@ -283,9 +283,9 @@ main().catch(console.error);</code></pre>
 <pre><code>const result = await runAgenticStep(prompt, {
   allowedTools: [
     'Read', 'Edit', 'Write', 'Bash',
-    'mcp__publicare-tools__publicare_run_lint',
-    'mcp__publicare-tools__publicare_run_tests',
-    'mcp__publicare-tools__publicare_detect_service',
+    'mcp__monorepo-tools__run_lint',
+    'mcp__monorepo-tools__run_tests',
+    'mcp__monorepo-tools__detect_service',
     'mcp__playwright__browser_navigate',
     'mcp__playwright__browser_snapshot',
   ],
@@ -300,10 +300,10 @@ main().catch(console.error);</code></pre>
         <p>With these tools in place, we built a fully autonomous bug-fix pipeline:</p>
 
         <ol>
-          <li><strong>Analyze</strong> — The agent reads the issue description and uses <code>publicare_detect_service</code> to understand which parts of the codebase are involved</li>
-          <li><strong>Implement</strong> — The agent edits code and uses <code>publicare_find_similar_component</code> to follow existing patterns</li>
-          <li><strong>Lint</strong> — The agent runs <code>publicare_run_lint</code> on affected services</li>
-          <li><strong>Test</strong> — The agent runs <code>publicare_run_tests</code> to verify the fix</li>
+          <li><strong>Analyze</strong> — The agent reads the issue description and uses <code>detect_service</code> to understand which parts of the codebase are involved</li>
+          <li><strong>Implement</strong> — The agent edits code and uses <code>find_similar_component</code> to follow existing patterns</li>
+          <li><strong>Lint</strong> — The agent runs <code>run_lint</code> on affected services</li>
+          <li><strong>Test</strong> — The agent runs <code>run_tests</code> to verify the fix</li>
           <li><strong>Verify</strong> — The agent uses Playwright MCP tools to navigate the running app and visually confirm the fix</li>
         </ol>
 
