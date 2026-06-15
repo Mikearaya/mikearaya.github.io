@@ -140,7 +140,7 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--text-dim, #71717a);
+  background: var(--text-dim, #8b8b95);
   animation: typingBounce 1.4s infinite ease-in-out;
 }
 .chat-msg__typing span:nth-child(2) { animation-delay: 0.2s; }
@@ -200,7 +200,7 @@
   transition: border-color 0.2s;
 }
 .chat-widget__input input::placeholder {
-  color: var(--text-dim, #71717a);
+  color: var(--text-dim, #8b8b95);
 }
 .chat-widget__input input:focus {
   border-color: var(--accent, #6366f1);

@@ -12,29 +12,33 @@
   var navToggle = document.getElementById('navToggle');
   var navMenu = document.getElementById('navMenu');
 
-  window.addEventListener('scroll', function () {
-    nav.classList.toggle('nav--scrolled', window.scrollY > 50);
-  });
-
-  function closeMenu() {
-    navToggle.classList.remove('active');
-    navMenu.classList.remove('active');
-    nav.classList.remove('menu-active');
-    navToggle.setAttribute('aria-expanded', 'false');
-    document.body.classList.remove('menu-open');
+  if (nav) {
+    window.addEventListener('scroll', function () {
+      nav.classList.toggle('nav--scrolled', window.scrollY > 50);
+    }, { passive: true });
   }
 
-  navToggle.addEventListener('click', function () {
-    var isOpen = navToggle.classList.toggle('active');
-    navMenu.classList.toggle('active');
-    nav.classList.toggle('menu-active', isOpen);
-    navToggle.setAttribute('aria-expanded', isOpen);
-    document.body.classList.toggle('menu-open', isOpen);
-  });
+  if (navToggle && navMenu) {
+    function closeMenu() {
+      navToggle.classList.remove('active');
+      navMenu.classList.remove('active');
+      nav.classList.remove('menu-active');
+      navToggle.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('menu-open');
+    }
 
-  navMenu.querySelectorAll('.nav__link').forEach(function (link) {
-    link.addEventListener('click', closeMenu);
-  });
+    navToggle.addEventListener('click', function () {
+      var isOpen = navToggle.classList.toggle('active');
+      navMenu.classList.toggle('active');
+      nav.classList.toggle('menu-active', isOpen);
+      navToggle.setAttribute('aria-expanded', isOpen);
+      document.body.classList.toggle('menu-open', isOpen);
+    });
+
+    navMenu.querySelectorAll('.nav__link').forEach(function (link) {
+      link.addEventListener('click', closeMenu);
+    });
+  }
 
   // ─── Smooth scroll ────────────────────────────
   document.querySelectorAll('a[href^="#"]').forEach(function (a) {
@@ -188,9 +192,11 @@
 
   // ─── Back to top ──────────────────────────────
   var backToTop = document.getElementById('backToTop');
-  window.addEventListener('scroll', function () {
-    backToTop.classList.toggle('visible', window.scrollY > 500);
-  });
+  if (backToTop) {
+    window.addEventListener('scroll', function () {
+      backToTop.classList.toggle('visible', window.scrollY > 500);
+    }, { passive: true });
+  }
 
   // ─── Active nav highlight ─────────────────────
   var sections = document.querySelectorAll('section[id]');
@@ -221,32 +227,36 @@
   var savedTheme = localStorage.getItem('theme') || 'dark';
   document.documentElement.setAttribute('data-theme', savedTheme);
 
-  themeToggle.addEventListener('click', function () {
-    var current = document.documentElement.getAttribute('data-theme');
-    var next = current === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', next);
-    localStorage.setItem('theme', next);
-  });
+  if (themeToggle) {
+    themeToggle.addEventListener('click', function () {
+      var current = document.documentElement.getAttribute('data-theme');
+      var next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    });
+  }
 
   // ─── Project filters ─────────────────────────
   var filterBtns = document.querySelectorAll('.projects__filter');
   var projectCards = document.querySelectorAll('.project-card');
 
-  filterBtns.forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      filterBtns.forEach(function (b) { b.classList.remove('active'); });
-      btn.classList.add('active');
+  if (filterBtns.length) {
+    filterBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        filterBtns.forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
 
-      var filter = btn.dataset.filter;
-      projectCards.forEach(function (card) {
-        if (filter === 'all' || card.dataset.category === filter) {
-          card.classList.remove('hidden');
-        } else {
-          card.classList.add('hidden');
-        }
+        var filter = btn.dataset.filter;
+        projectCards.forEach(function (card) {
+          if (filter === 'all' || card.dataset.category === filter) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        });
       });
     });
-  });
+  }
 
   // ─── Tilt effect on project cards ─────────────
   projectCards.forEach(function (card) {
@@ -268,6 +278,7 @@
   // ─── Contact form (Formspree) ─────────────────
   var form = document.getElementById('contactForm');
   var submitBtn = document.getElementById('submitBtn');
+  if (!form || !submitBtn) return;
   var btnText = submitBtn.querySelector('.btn__text');
   var btnLoader = submitBtn.querySelector('.btn__loader');
   var formStatus = document.getElementById('formStatus');

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Publicare Case Study — Mikael Araya</title>
+  <meta name="description" content="Case study: B2B medical commerce platform for Switzerland's largest medical aids supplier. Built with the Unchained Commerce team." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0a0a0b" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/modern.css" />
+  <link rel="stylesheet" href="../css/case-study.css" />
+</head>
+<body>
+
+  <nav class="nav nav--scrolled" id="nav" aria-label="Main navigation">
+    <div class="nav__container">
+      <a href="../index.html#hero" class="nav__logo" aria-label="MA.">MA<span class="accent">.</span></a>
+      <ul class="nav__menu" role="list">
+        <li><a href="../index.html#projects" class="nav__link">&larr; All Projects</a></li>
+        <li>
+          <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+            <svg aria-hidden="true" class="theme-toggle__sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+            <svg aria-hidden="true" class="theme-toggle__moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="case-study">
+    <header class="case-study__hero">
+      <div class="container">
+        <span class="case-study__type">B2B Medical Commerce</span>
+        <h1 class="case-study__title">Publicare</h1>
+        <p class="case-study__subtitle">Switzerland's largest medical aids supplier — serving 100+ institutions and 10,000+ patients with a trilingual B2B platform handling 1,000+ req/min.</p>
+        <div class="case-study__meta">
+          <div class="case-study__meta-item">
+            <span class="case-study__meta-label">Team</span>
+            <span>Unchained Commerce</span>
+          </div>
+          <div class="case-study__meta-item">
+            <span class="case-study__meta-label">Role</span>
+            <span>Core Contributor</span>
+          </div>
+          <div class="case-study__meta-item">
+            <span class="case-study__meta-label">Live Site</span>
+            <a href="https://publicare.ch" target="_blank" rel="noopener noreferrer">publicare.ch</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="case-study__image-banner">
+      <img src="../images/portfolio/publicare-home.webp" alt="Publicare e-commerce platform" width="1200" height="750" />
+    </div>
+
+    <section class="case-study__section">
+      <div class="container case-study__grid">
+        <div class="case-study__sidebar">
+          <h2>The Challenge</h2>
+        </div>
+        <div class="case-study__content">
+          <p>Publicare's legacy system couldn't sustain modern healthcare logistics demands. The platform needed to support multi-stage ordering where institutions purchase on behalf of patients, integrate with diverse health information systems, synchronize in real-time with Microsoft Dynamics Navision ERP, and maintain quality across three Swiss languages (German, French, Italian).</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-study__section case-study__section--alt">
+      <div class="container case-study__grid">
+        <div class="case-study__sidebar">
+          <h2>The Solution</h2>
+        </div>
+        <div class="case-study__content">
+          <p>We implemented a "Transparent Commerce" approach where the backend functions as an intelligent connector linking specialized tools:</p>
+          <ul>
+            <li><strong>ERP (Navision):</strong> Product catalog, pricing, customer data, orders, and assortments</li>
+            <li><strong>PIM (Crossbase):</strong> Product descriptions, imagery, and attributes in multiple languages</li>
+            <li><strong>CMS (Cockpit):</strong> Marketing content, banners, and editorial pages</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-study__section">
+      <div class="container case-study__grid">
+        <div class="case-study__sidebar">
+          <h2>Key Features</h2>
+        </div>
+        <div class="case-study__content">
+          <div class="case-study__features">
+            <div class="case-study__feature">
+              <h3>Healthcare Integration</h3>
+              <p>HL7-FHIR connections with Swiss health platforms (Swing, Nexus, Perigon), automated patient data sync, digital prescription management with secure uploads and signatures, and MIGEL compliance for insurance reimbursement.</p>
+            </div>
+            <div class="case-study__feature">
+              <h3>B2B Multi-Tenant Portal</h3>
+              <p>Institution account management with patient hierarchies, role-based employee access, ERP-synchronized assortments, individual client carts, order history, and recommendation engines.</p>
+            </div>
+            <div class="case-study__feature">
+              <h3>Search &amp; Performance</h3>
+              <p>Apache Solr with language-specific analyzers and medical synonym support, GraphQL persisted queries with SHA256 hashing, multi-layer Redis caching with intelligent invalidation, and offline-capable ordering.</p>
+            </div>
+            <div class="case-study__feature">
+              <h3>Medical Product Customization</h3>
+              <p>Custom product configuration for medical devices including circular, elliptical, and template-based cuts tailored to patient needs.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-study__section case-study__section--alt">
+      <div class="container case-study__grid">
+        <div class="case-study__sidebar">
+          <h2>Results</h2>
+        </div>
+        <div class="case-study__content">
+          <div class="case-study__stats">
+            <div class="case-study__stat">
+              <strong>1,000+</strong>
+              <span>Requests/min</span>
+            </div>
+            <div class="case-study__stat">
+              <strong>100+</strong>
+              <span>Institutions</span>
+            </div>
+            <div class="case-study__stat">
+              <strong>10,000+</strong>
+              <span>Patients served</span>
+            </div>
+            <div class="case-study__stat">
+              <strong>15,000</strong>
+              <span>Products</span>
+            </div>
+            <div class="case-study__stat">
+              <strong>10,000+</strong>
+              <span>Orders/month</span>
+            </div>
+            <div class="case-study__stat">
+              <strong>99.9%</strong>
+              <span>Uptime</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-study__section">
+      <div class="container case-study__grid">
+        <div class="case-study__sidebar">
+          <h2>Tech Stack</h2>
+        </div>
+        <div class="case-study__content">
+          <div class="case-study__tags">
+            <span class="tag">Next.js</span>
+            <span class="tag">React</span>
+            <span class="tag">Apollo Client</span>
+            <span class="tag">TypeScript</span>
+            <span class="tag">Node.js</span>
+            <span class="tag">Unchained Engine</span>
+            <span class="tag">GraphQL Yoga</span>
+            <span class="tag">Fastify</span>
+            <span class="tag">MongoDB</span>
+            <span class="tag">Redis</span>
+            <span class="tag">Apache Solr</span>
+            <span class="tag">Keycloak</span>
+            <span class="tag">Docker Swarm</span>
+            <span class="tag">Navision ERP</span>
+            <span class="tag">Crossbase PIM</span>
+            <span class="tag">Cockpit CMS</span>
+            <span class="tag">Playwright</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="case-study__nav">
+      <div class="container">
+        <a href="../index.html#projects" class="btn btn--outline">&larr; All Projects</a>
+        <a href="lorem-gmbh.html" class="btn btn--primary">Next: Lorem GmbH &rarr;</a>
+      </div>
+    </footer>
+  </main>
+
+  <script src="../js/app.js" defer></script>
+</body>
+</html>
