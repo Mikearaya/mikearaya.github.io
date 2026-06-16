@@ -1,0 +1,164 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" fill="none">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="800" y2="400" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e1b4b"/>
+    </linearGradient>
+    <linearGradient id="sunGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+    <linearGradient id="moonGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#818cf8"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+    <linearGradient id="cardLight" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f8fafc"/>
+    </linearGradient>
+    <linearGradient id="cardDark" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softShadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="400" fill="url(#bgGrad)"/>
+
+  <!-- Subtle grid pattern -->
+  <g opacity="0.04" stroke="#818cf8">
+    <line x1="0" y1="50" x2="800" y2="50"/><line x1="0" y1="100" x2="800" y2="100"/>
+    <line x1="0" y1="150" x2="800" y2="150"/><line x1="0" y1="200" x2="800" y2="200"/>
+    <line x1="0" y1="250" x2="800" y2="250"/><line x1="0" y1="300" x2="800" y2="300"/>
+    <line x1="0" y1="350" x2="800" y2="350"/>
+    <line x1="100" y1="0" x2="100" y2="400"/><line x1="200" y1="0" x2="200" y2="400"/>
+    <line x1="300" y1="0" x2="300" y2="400"/><line x1="400" y1="0" x2="400" y2="400"/>
+    <line x1="500" y1="0" x2="500" y2="400"/><line x1="600" y1="0" x2="600" y2="400"/>
+    <line x1="700" y1="0" x2="700" y2="400"/>
+  </g>
+
+  <!-- Light mode card (left) -->
+  <g filter="url(#softShadow)" transform="translate(60, 70)">
+    <rect width="280" height="260" rx="12" fill="url(#cardLight)" stroke="#e2e8f0" stroke-width="1"/>
+    <!-- Header bar -->
+    <rect width="280" height="40" rx="12" fill="#f1f5f9"/>
+    <rect y="28" width="280" height="12" fill="#f1f5f9"/>
+    <!-- Window dots -->
+    <circle cx="20" cy="20" r="5" fill="#f87171"/>
+    <circle cx="36" cy="20" r="5" fill="#fbbf24"/>
+    <circle cx="52" cy="20" r="5" fill="#4ade80"/>
+    <!-- Sun icon -->
+    <circle cx="250" cy="20" r="10" fill="url(#sunGrad)" filter="url(#glow)"/>
+    <g stroke="#fbbf24" stroke-width="1.5" opacity="0.6">
+      <line x1="250" y1="5" x2="250" y2="8"/>
+      <line x1="250" y1="32" x2="250" y2="35"/>
+      <line x1="235" y1="20" x2="238" y2="20"/>
+      <line x1="262" y1="20" x2="265" y2="20"/>
+    </g>
+    <!-- Light sidebar -->
+    <rect x="0" y="40" width="70" height="220" fill="#f8fafc" rx="0"/>
+    <rect x="12" y="56" width="46" height="6" rx="3" fill="#94a3b8"/>
+    <rect x="12" y="72" width="38" height="6" rx="3" fill="#cbd5e1"/>
+    <rect x="12" y="88" width="42" height="6" rx="3" fill="#cbd5e1"/>
+    <rect x="12" y="104" width="34" height="6" rx="3" fill="#cbd5e1"/>
+    <rect x="8" y="52" width="54" height="14" rx="4" fill="none" stroke="#6366f1" stroke-width="1.5" opacity="0.5"/>
+    <!-- Content area -->
+    <rect x="82" y="52" width="90" height="24" rx="6" fill="#1e293b"/>
+    <text x="127" y="68" fill="white" font-size="9" font-family="sans-serif" text-anchor="middle" font-weight="600">Primary</text>
+    <rect x="180" y="52" width="88" height="24" rx="6" fill="white" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="224" y="68" fill="#475569" font-size="9" font-family="sans-serif" text-anchor="middle" font-weight="500">Secondary</text>
+    <!-- Light table rows -->
+    <rect x="82" y="90" width="186" height="20" rx="4" fill="#f1f5f9"/>
+    <rect x="82" y="116" width="186" height="20" rx="4" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.5"/>
+    <rect x="82" y="142" width="186" height="20" rx="4" fill="#f1f5f9"/>
+    <rect x="82" y="168" width="186" height="20" rx="4" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.5"/>
+    <!-- Fake text lines in rows -->
+    <rect x="90" y="96" width="60" height="5" rx="2" fill="#64748b"/>
+    <rect x="160" y="96" width="40" height="5" rx="2" fill="#94a3b8"/>
+    <rect x="90" y="124" width="50" height="5" rx="2" fill="#64748b"/>
+    <rect x="160" y="124" width="55" height="5" rx="2" fill="#94a3b8"/>
+    <rect x="90" y="150" width="65" height="5" rx="2" fill="#64748b"/>
+    <rect x="160" y="150" width="35" height="5" rx="2" fill="#94a3b8"/>
+    <!-- Badge -->
+    <rect x="82" y="202" width="52" height="18" rx="9" fill="#dcfce7" stroke="#86efac" stroke-width="0.5"/>
+    <text x="108" y="214" fill="#166534" font-size="8" font-family="sans-serif" text-anchor="middle" font-weight="600">Active</text>
+    <rect x="142" y="202" width="52" height="18" rx="9" fill="#fef3c7" stroke="#fcd34d" stroke-width="0.5"/>
+    <text x="168" y="214" fill="#92400e" font-size="8" font-family="sans-serif" text-anchor="middle" font-weight="600">Draft</text>
+    <!-- "LIGHT" label -->
+    <text x="140" y="248" fill="#94a3b8" font-size="10" font-family="monospace" text-anchor="middle" letter-spacing="3">LIGHT</text>
+  </g>
+
+  <!-- Arrow / Toggle in center -->
+  <g transform="translate(378, 180)">
+    <rect x="-22" y="-22" width="44" height="44" rx="22" fill="#312e81" stroke="#6366f1" stroke-width="1.5"/>
+    <path d="M-8,-4 L0,6 L8,-4" stroke="#818cf8" stroke-width="2" fill="none" stroke-linecap="round" transform="rotate(90)"/>
+    <path d="M-8,-4 L0,6 L8,-4" stroke="#818cf8" stroke-width="2" fill="none" stroke-linecap="round" transform="rotate(-90)"/>
+  </g>
+
+  <!-- Dark mode card (right) -->
+  <g filter="url(#softShadow)" transform="translate(460, 70)">
+    <rect width="280" height="260" rx="12" fill="url(#cardDark)" stroke="#334155" stroke-width="1"/>
+    <!-- Header bar -->
+    <rect width="280" height="40" rx="12" fill="#0f172a"/>
+    <rect y="28" width="280" height="12" fill="#0f172a"/>
+    <!-- Window dots -->
+    <circle cx="20" cy="20" r="5" fill="#f87171"/>
+    <circle cx="36" cy="20" r="5" fill="#fbbf24"/>
+    <circle cx="52" cy="20" r="5" fill="#4ade80"/>
+    <!-- Moon icon -->
+    <circle cx="250" cy="20" r="10" fill="url(#moonGrad)" filter="url(#glow)"/>
+    <!-- Dark sidebar -->
+    <rect x="0" y="40" width="70" height="220" fill="#0f172a" rx="0"/>
+    <rect x="12" y="56" width="46" height="6" rx="3" fill="#e2e8f0"/>
+    <rect x="12" y="72" width="38" height="6" rx="3" fill="#475569"/>
+    <rect x="12" y="88" width="42" height="6" rx="3" fill="#475569"/>
+    <rect x="12" y="104" width="34" height="6" rx="3" fill="#475569"/>
+    <rect x="8" y="52" width="54" height="14" rx="4" fill="none" stroke="#818cf8" stroke-width="1.5" opacity="0.6"/>
+    <!-- Content area -->
+    <rect x="82" y="52" width="90" height="24" rx="6" fill="#475569"/>
+    <text x="127" y="68" fill="white" font-size="9" font-family="sans-serif" text-anchor="middle" font-weight="600">Primary</text>
+    <rect x="180" y="52" width="88" height="24" rx="6" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+    <text x="224" y="68" fill="#e2e8f0" font-size="9" font-family="sans-serif" text-anchor="middle" font-weight="500">Secondary</text>
+    <!-- Dark table rows -->
+    <rect x="82" y="90" width="186" height="20" rx="4" fill="#1e293b"/>
+    <rect x="82" y="116" width="186" height="20" rx="4" fill="#0f172a"/>
+    <rect x="82" y="142" width="186" height="20" rx="4" fill="#1e293b"/>
+    <rect x="82" y="168" width="186" height="20" rx="4" fill="#0f172a"/>
+    <!-- Fake text lines -->
+    <rect x="90" y="96" width="60" height="5" rx="2" fill="#e2e8f0"/>
+    <rect x="160" y="96" width="40" height="5" rx="2" fill="#64748b"/>
+    <rect x="90" y="124" width="50" height="5" rx="2" fill="#e2e8f0"/>
+    <rect x="160" y="124" width="55" height="5" rx="2" fill="#64748b"/>
+    <rect x="90" y="150" width="65" height="5" rx="2" fill="#e2e8f0"/>
+    <rect x="160" y="150" width="35" height="5" rx="2" fill="#64748b"/>
+    <!-- Badges -->
+    <rect x="82" y="202" width="52" height="18" rx="9" fill="rgba(34,197,94,0.15)" stroke="#4ade80" stroke-width="0.5"/>
+    <text x="108" y="214" fill="#4ade80" font-size="8" font-family="sans-serif" text-anchor="middle" font-weight="600">Active</text>
+    <rect x="142" y="202" width="52" height="18" rx="9" fill="rgba(251,191,36,0.15)" stroke="#fbbf24" stroke-width="0.5"/>
+    <text x="168" y="214" fill="#fbbf24" font-size="8" font-family="sans-serif" text-anchor="middle" font-weight="600">Draft</text>
+    <!-- "DARK" label -->
+    <text x="140" y="248" fill="#64748b" font-size="10" font-family="monospace" text-anchor="middle" letter-spacing="3">DARK</text>
+  </g>
+
+  <!-- Token flow at bottom -->
+  <g transform="translate(140, 360)">
+    <rect x="0" y="-12" width="84" height="22" rx="4" fill="#312e81" stroke="#4f46e5" stroke-width="0.5"/>
+    <text x="42" y="3" fill="#a5b4fc" font-size="9" font-family="monospace" text-anchor="middle">@theme { }</text>
+    <line x1="84" y1="0" x2="130" y2="0" stroke="#4f46e5" stroke-width="1" stroke-dasharray="3,3"/>
+    <rect x="130" y="-12" width="120" height="22" rx="4" fill="#312e81" stroke="#4f46e5" stroke-width="0.5"/>
+    <text x="190" y="3" fill="#a5b4fc" font-size="9" font-family="monospace" text-anchor="middle">@custom-variant dark</text>
+    <line x1="250" y1="0" x2="296" y2="0" stroke="#4f46e5" stroke-width="1" stroke-dasharray="3,3"/>
+    <rect x="296" y="-12" width="88" height="22" rx="4" fill="#312e81" stroke="#4f46e5" stroke-width="0.5"/>
+    <text x="340" y="3" fill="#a5b4fc" font-size="9" font-family="monospace" text-anchor="middle">dark:bg-*</text>
+    <line x1="384" y1="0" x2="430" y2="0" stroke="#4f46e5" stroke-width="1" stroke-dasharray="3,3"/>
+    <rect x="430" y="-12" width="90" height="22" rx="4" fill="#312e81" stroke="#4f46e5" stroke-width="0.5"/>
+    <text x="475" y="3" fill="#a5b4fc" font-size="9" font-family="monospace" text-anchor="middle">localStorage</text>
+  </g>
+</svg>

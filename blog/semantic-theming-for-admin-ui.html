@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Semantic Dark Mode with Tailwind CSS v4 and React Context — Mikael Araya</title>
+  <meta name="description" content="How we built a semantic dark/light theme system for an open-source admin UI using Tailwind CSS v4's @theme directive, class-based dark mode, React Context, and localStorage persistence." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0a0a0b" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/modern.css" />
+  <link rel="stylesheet" href="../css/case-study.css" />
+  <link rel="stylesheet" href="../css/blog.css" />
+</head>
+<body>
+
+  <nav class="nav nav--scrolled" id="nav" aria-label="Main navigation">
+    <div class="nav__container">
+      <a href="../index.html#hero" class="nav__logo" aria-label="MA.">MA<span class="accent">.</span></a>
+      <ul class="nav__menu" role="list">
+        <li><a href="../index.html#articles" class="nav__link">&larr; Articles</a></li>
+        <li>
+          <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+            <svg aria-hidden="true" class="theme-toggle__sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+            <svg aria-hidden="true" class="theme-toggle__moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="blog-post">
+    <header class="blog-post__hero">
+      <div class="container">
+        <div class="blog-post__meta-top">
+          <span class="blog-post__date">June 2025</span>
+          <span class="blog-post__reading-time">8 min read</span>
+        </div>
+        <h1 class="blog-post__title">Semantic Dark Mode with Tailwind CSS v4 and React Context</h1>
+        <p class="blog-post__subtitle">How we built a theme system that treats dark mode as a first-class design language — not an afterthought filter inversion</p>
+        <div class="blog-post__tags">
+          <span class="tag">Tailwind CSS v4</span>
+          <span class="tag">React</span>
+          <span class="tag">Dark Mode</span>
+          <span class="tag">Admin UI</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="blog-post__banner">
+      <div class="container">
+        <img src="../images/articles/admin-ui-theming.svg" alt="Side-by-side comparison of light and dark admin UI panels with a token pipeline from @theme to @custom-variant to dark: utilities to localStorage" />
+      </div>
+    </div>
+
+    <article class="blog-post__body">
+      <div class="container blog-post__container">
+
+        <p>Most admin panels treat dark mode as something you bolt on at the end. You wrap the whole app in a CSS filter, invert some colors, maybe override a few background tokens, and call it done. The result usually looks like someone dragged the brightness slider down — washed out text, muddy borders, charts that turn into unreadable blobs.</p>
+
+        <p>When we built the admin UI for an open-source e-commerce engine, we took a different approach. Every component was designed for both themes from day one. Not "light with dark overrides," but two parallel visual languages that share the same layout and the same semantic intentions — just expressed through different palettes. Here's how that works in practice.</p>
+
+        <h2>The Stack</h2>
+
+        <p>The theme system rests on three things:</p>
+
+        <ul>
+          <li><strong>Tailwind CSS v4</strong> with its <code>@theme</code> directive and <code>@custom-variant</code> for class-based dark mode</li>
+          <li><strong>React Context</strong> wrapping the entire component tree, providing <code>[theme, setTheme]</code> to any component that needs it</li>
+          <li><strong>localStorage</strong> for persistence, with a fallback to <code>prefers-color-scheme</code> for first-time visitors</li>
+        </ul>
+
+        <p>No CSS-in-JS. No runtime style injection. No theme provider that re-renders 200 components on toggle. The browser does the heavy lifting through plain class selectors.</p>
+
+        <h2>Setting Up Tailwind v4's Theme Layer</h2>
+
+        <p>Tailwind v4 replaced the old <code>tailwind.config.js</code> approach with CSS-native configuration. Our global stylesheet starts like this:</p>
+
+<pre><code>@import "tailwindcss";
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-blue-ribbon-50: #f7f7fe;
+  --color-blue-ribbon-100: #e8e8fd;
+  --color-blue-ribbon-200: #cdccfb;
+  --color-blue-ribbon-300: #a6a3f7;
+  --color-blue-ribbon-400: #8078f2;
+  --color-blue-ribbon-500: #6358e8;
+  --color-blue-ribbon-600: #5441d5;
+  --color-blue-ribbon-700: #4735b5;
+  --color-blue-ribbon-800: #3e2e95;
+  --color-blue-ribbon-900: #313276;
+}</code></pre>
+
+        <p>The <code>@custom-variant dark</code> line is where the magic happens. Instead of using Tailwind's default <code>prefers-color-scheme</code> media query for dark mode, we tell it: <strong>activate the <code>dark:</code> variant whenever an element is a descendant of an element with the <code>.dark</code> class.</strong> That single line makes dark mode controllable by JavaScript — a class toggle on the <code>&lt;html&gt;</code> element, and the entire UI flips.</p>
+
+        <p>The <code>@theme</code> block registers our custom color palette as CSS custom properties. These aren't just for Tailwind to consume at build time — they're live variables in the browser, which means we can reference them in arbitrary CSS too.</p>
+
+        <h2>The Theme Provider</h2>
+
+        <p>On the React side, theme state lives in a Context provider that wraps the entire app:</p>
+
+<pre><code>export type Theme = 'light' | 'dark';
+
+export const ThemeContext = createContext&lt;
+  ThemeContextType | undefined
+&gt;(undefined);
+
+const ThemeWrapper = ({ children }) => {
+  const [theme, setTheme] = useLocalStorage('theme', 'light');
+
+  useEffect(() => {
+    if (
+      localStorage.theme === 'dark' ||
+      (!('theme' in localStorage) &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches)
+    ) {
+      document.getElementsByTagName('html')[0]
+        .classList.add('dark');
+    } else {
+      document.getElementsByTagName('html')[0]
+        .classList.remove('dark');
+    }
+  }, []);
+
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.getElementsByTagName('html')[0]
+        .classList.add('dark');
+      localStorage.theme = 'dark';
+    } else {
+      document.getElementsByTagName('html')[0]
+        .classList.remove('dark');
+      localStorage.theme = 'light';
+    }
+  }, [theme]);
+
+  return (
+    &lt;ThemeContext.Provider value={[theme, setTheme]}&gt;
+      {children}
+    &lt;/ThemeContext.Provider&gt;
+  );
+};</code></pre>
+
+        <p>Two things to notice here. First, there's a <strong>double initialization pattern</strong>. The initial <code>useEffect</code> (with no dependency on <code>theme</code>) runs once on mount and checks localStorage directly — this handles the case where the user previously chose dark mode but the React state hasn't hydrated yet. Without this, you'd get a flash of light mode on every page load.</p>
+
+        <p>Second, the provider stores the <strong>actual state in localStorage</strong> via a custom <code>useLocalStorage</code> hook, and the theme effect synchronizes that state to the DOM by adding or removing the <code>.dark</code> class on the <code>&lt;html&gt;</code> element. The CSS does the rest — Tailwind's <code>dark:</code> utilities kick in the moment that class is present.</p>
+
+        <h2>OS Preference as a Fallback</h2>
+
+        <p>If a user visits for the first time and has never toggled anything, we respect their OS preference. The check is simple:</p>
+
+<pre><code>if (
+  !('theme' in localStorage) &&
+  window.matchMedia('(prefers-color-scheme: dark)').matches
+) {
+  document.getElementsByTagName('html')[0]
+    .classList.add('dark');
+}</code></pre>
+
+        <p>Once they explicitly toggle, their choice persists in localStorage and overrides the OS setting. This feels right — the OS preference is a sensible default, but the user's explicit choice in this specific app should win.</p>
+
+        <h2>The Toggle Component</h2>
+
+        <p>The theme toggle itself is almost comically simple — a button that swaps a sun icon for a moon icon:</p>
+
+<pre><code>const ThemeToggle = () => {
+  const { theme, setTheme } = useTheme();
+
+  const handleToggleTheme = () => {
+    if (theme === 'dark') setTheme('light');
+    else setTheme('dark');
+  };
+
+  return (
+    &lt;button onClick={handleToggleTheme}&gt;
+      &lt;SunIcon className={classNames(
+        'w-6 h-6 text-slate-600',
+        { hidden: theme === 'dark' }
+      )} /&gt;
+      &lt;MoonIcon className={classNames(
+        'w-6 h-6 text-yellow-200',
+        { hidden: theme === 'light' }
+      )} /&gt;
+    &lt;/button&gt;
+  );
+};</code></pre>
+
+        <p>The <code>useTheme</code> hook is a one-liner that pulls from Context:</p>
+
+<pre><code>const useTheme = () => {
+  const context = useContext(ThemeContext);
+  const [theme, setTheme] = context;
+  return { theme, setTheme };
+};</code></pre>
+
+        <p>Any component in the tree can read or change the theme. In practice, only the toggle and a few layout components ever do — the rest just respond to the CSS class.</p>
+
+        <h2>Semantic Component Variants</h2>
+
+        <p>This is where the approach pays off. Every interactive component defines its theme behavior as <strong>paired utility classes</strong> — light and dark side by side — organized into semantic variants. Here's the Button component:</p>
+
+<pre><code>const variantClasses = {
+  primary:
+    'border border-slate-800 dark:border-slate-600 '
+    + 'bg-slate-800 dark:bg-slate-600 '
+    + 'text-white '
+    + 'hover:bg-slate-900 dark:hover:bg-slate-500 '
+    + 'focus:ring-slate-800 dark:focus:ring-slate-400',
+
+  secondary:
+    'border border-slate-300 dark:border-slate-600 '
+    + 'bg-white dark:bg-slate-800 '
+    + 'text-slate-700 dark:text-slate-200 '
+    + 'hover:bg-slate-50 dark:hover:bg-slate-700 '
+    + 'focus:ring-slate-500',
+
+  danger:
+    'border border-rose-500 dark:border-rose-400 '
+    + 'bg-white dark:bg-slate-800 '
+    + 'text-rose-600 dark:text-rose-400 '
+    + 'hover:bg-rose-50 dark:hover:bg-rose-900/10 '
+    + 'focus:ring-rose-500',
+
+  ghost:
+    'bg-transparent border border-transparent '
+    + 'text-slate-600 dark:text-slate-400 '
+    + 'hover:text-slate-900 dark:hover:text-slate-200 '
+    + 'hover:bg-slate-100 dark:hover:bg-slate-800 '
+    + 'focus:ring-slate-400',
+
+  success:
+    'border border-emerald-500 dark:border-emerald-400 '
+    + 'bg-white dark:bg-slate-800 '
+    + 'text-emerald-600 dark:text-emerald-400 '
+    + 'hover:bg-emerald-50 dark:hover:bg-emerald-900/10 '
+    + 'focus:ring-emerald-500',
+  // ... neutral, input, tertiary, quaternary
+};</code></pre>
+
+        <p>Nine variants. Each one defines border, background, text, hover, and focus ring for <strong>both</strong> themes in the same string. When a developer writes <code>&lt;Button variant="danger"&gt;</code>, they don't think about dark mode at all — it's already handled.</p>
+
+        <p>This is what I mean by "semantic." The variant name describes the <strong>intent</strong> (primary action, destructive action, passive ghost), not the visual implementation. The same "danger" button looks different in light mode (white background, rose text, rose border) and dark mode (dark slate background, lighter rose text), but they communicate the same thing: <strong>be careful.</strong></p>
+
+        <h2>The Pattern Scales to Everything</h2>
+
+        <p>This paired-utility approach isn't limited to buttons. It runs through the entire component library. Navigation items use it for active and inactive states:</p>
+
+<pre><code>// Active nav link
+'text-slate-900 dark:text-slate-100 '
++ 'bg-slate-100 dark:bg-slate-800'
+
+// Inactive nav link
+'text-slate-600 dark:text-slate-400 '
++ 'hover:text-slate-900 dark:hover:text-slate-200 '
++ 'hover:bg-slate-100 dark:hover:bg-slate-800'</code></pre>
+
+        <p>Form inputs carry the pattern into focus states and error indicators:</p>
+
+<pre><code>// Text input
+'dark:bg-slate-900 dark:text-slate-200 '
++ 'dark:border-slate-700 '
++ 'dark:placeholder:text-slate-600 '
++ 'dark:focus:autofill dark:hover:autofill dark:autofill '
++ 'text-slate-900 border-slate-300 '
++ 'focus:ring-2 focus:ring-slate-800'</code></pre>
+
+        <p>Tables alternate row colors in both themes. Badges keep their semantic meaning — a green "Active" badge in light mode becomes a softer green-on-dark in dark mode. Metric cards, modals, toast notifications — everything follows the same convention.</p>
+
+        <h2>Dark Mode in Global CSS</h2>
+
+        <p>Some things don't fit neatly into utility classes. Chart colors, checkbox styling, and glassmorphism effects on toast notifications live in the global CSS with explicit <code>.dark</code> selectors:</p>
+
+<pre><code>.dark {
+  --chart-1: 220 70% 50%;
+  --chart-2: 160 60% 45%;
+  --chart-3: 30 80% 55%;
+  --chart-4: 280 65% 60%;
+  --chart-5: 340 75% 55%;
+}
+
+.dark [type='checkbox'] {
+  background-color: oklch(0.279 0.041 260.031);
+  border-color: oklch(0.372 0.044 257.281);
+}
+
+.dark [type='checkbox']:checked {
+  background-color: oklch(0.551 0.027 264.364);
+}</code></pre>
+
+        <p>Notice the <code>oklch</code> color values. For some UI surfaces — particularly overlays and glassmorphism effects — we use perceptually uniform color spaces to ensure smooth blending. A modal backdrop in dark mode shouldn't look muddy just because you blurred it over dark content.</p>
+
+        <h2>Why Not CSS Custom Properties for Everything?</h2>
+
+        <p>You might wonder why we didn't go full design-token — define <code>--bg-primary</code>, <code>--text-primary</code>, <code>--border-default</code> and swap values based on the theme. We considered it. The problem is specificity.</p>
+
+        <p>With Tailwind's utility-first approach, you want utilities to compose predictably. If <code>bg-white</code> resolves to a CSS variable that changes meaning based on theme, you lose the ability to reason about what your styles are doing just by reading the class names. <code>bg-white dark:bg-slate-800</code> is explicit: you see both states, right there in the markup. There's no indirection to trace.</p>
+
+        <p>This matters a lot in a codebase with many contributors. A new developer can look at any component and understand exactly what it looks like in both themes without jumping to a token definition file.</p>
+
+        <h2>The Flash Problem</h2>
+
+        <p>Server-rendered apps with theme toggles have a well-known problem: the page renders with the default theme, React hydrates, reads localStorage, and <em>then</em> applies the correct theme. For a split second, dark-mode users see a flash of white.</p>
+
+        <p>Our solution is the double-initialization in <code>ThemeWrapper</code> — the first <code>useEffect</code> fires on mount (before paint in most cases with Next.js) and applies the class immediately. For a more bulletproof solution, you can add a small inline script in <code>&lt;head&gt;</code> that reads localStorage before the stylesheet even loads. We opted for the React-only approach because the admin UI doesn't serve anonymous traffic — every page load is behind authentication, so the slight flash (if it even occurs) is negligible.</p>
+
+        <h2>What We'd Do Differently</h2>
+
+        <p>If we started today, there are two things we'd adjust. First, we'd extract the variant class maps into a shared configuration rather than defining them inline in each component. The Button has nine variants, the Badge has its own color system, the SideNav has active/inactive states — these share the same underlying palette decisions but duplicate the actual class strings.</p>
+
+        <p>Second, we'd consider a small abstraction for the paired-class pattern. Something like <code>themed('bg-white', 'bg-slate-800')</code> that generates the right Tailwind string. Not because the current approach is wrong — it's extremely readable — but because updating the slate palette across 50 components means 50 find-and-replace operations.</p>
+
+        <p>That said, the current approach has a real advantage: it's <strong>boring</strong>. There's no framework to learn, no special syntax, no build plugin. Any React developer who knows Tailwind can understand and modify the theme system in five minutes. For an open-source project, that's worth more than elegance.</p>
+
+        <h2>Wrapping Up</h2>
+
+        <p>The key insight is that dark mode isn't a filter — it's a parallel design system. Every color decision in light mode needs a corresponding decision in dark mode, and those decisions should communicate the same semantic intent. Tailwind v4's <code>@custom-variant</code> with class-based toggling gives you the CSS mechanics. React Context with localStorage gives you the state management. And the paired-utility pattern in components gives you the scalability.</p>
+
+        <p>The entire theme system is about 30 lines of React (ThemeWrapper + ThemeToggle + useTheme) and one line of Tailwind config. The real work is in the component variants — and that work pays for itself every time someone adds a new feature without having to think about dark mode separately.</p>
+
+        <h2>References</h2>
+
+        <ul>
+          <li><a href="https://tailwindcss.com/docs/dark-mode" target="_blank" rel="noopener noreferrer">Tailwind CSS Dark Mode Documentation</a></li>
+          <li><a href="https://tailwindcss.com/blog/tailwindcss-v4" target="_blank" rel="noopener noreferrer">Tailwind CSS v4 Release Blog</a></li>
+          <li><a href="https://react.dev/reference/react/useContext" target="_blank" rel="noopener noreferrer">React useContext Documentation</a></li>
+          <li><a href="https://github.com/unchainedshop/unchained" target="_blank" rel="noopener noreferrer">Unchained Commerce on GitHub</a></li>
+        </ul>
+
+      </div>
+    </article>
+
+    <footer class="case-study__nav">
+      <div class="container">
+        <a href="../index.html#articles" class="btn btn--outline">&larr; All Articles</a>
+        <a href="building-mcp-server-for-multi-service-monorepo.html" class="btn btn--primary">Next: MCP Server &rarr;</a>
+      </div>
+    </footer>
+  </main>
+
+  <script src="../js/app.js" defer></script>
+</body>
+</html>

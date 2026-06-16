@@ -1124,7 +1124,7 @@ svg.skill-card__icon {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 28px;
+  overflow: hidden;
   transition: all var(--transition);
   text-decoration: none;
   color: inherit;
@@ -1134,6 +1134,16 @@ svg.skill-card__icon {
   transform: translateY(-4px);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
   color: inherit;
+}
+.article-card__thumb {
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  object-fit: cover;
+  display: block;
+  border-bottom: 1px solid var(--border);
+}
+.article-card__body {
+  padding: 20px;
 }
 .article-card__date {
   font-family: var(--font-mono);
@@ -1164,8 +1174,8 @@ svg.skill-card__icon {
   text-decoration: underline;
 }
 
-.articles__grid--compact .article-card {
-  padding: 20px;
+.articles__grid--compact .article-card__body {
+  padding: 16px;
 }
 .articles__grid--compact .article-card__title {
   font-size: 0.95rem;

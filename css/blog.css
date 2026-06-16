@@ -47,6 +47,18 @@
   flex-wrap: wrap;
 }
 
+.blog-post__banner {
+  max-width: 840px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.blog-post__banner img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
 .blog-post__container {
   max-width: 720px;
 }

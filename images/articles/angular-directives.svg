@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f0f1a"/>
+      <stop offset="100%" stop-color="#1a1a2e"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="400" fill="url(#bg)"/>
+
+  <!-- Grid -->
+  <g opacity="0.03" stroke="#dd0031" stroke-width="1">
+    <line x1="0" y1="50" x2="800" y2="50"/><line x1="0" y1="100" x2="800" y2="100"/>
+    <line x1="0" y1="150" x2="800" y2="150"/><line x1="0" y1="200" x2="800" y2="200"/>
+    <line x1="0" y1="250" x2="800" y2="250"/><line x1="0" y1="300" x2="800" y2="300"/>
+    <line x1="0" y1="350" x2="800" y2="350"/>
+  </g>
+
+  <!-- Template code block (top) -->
+  <g transform="translate(140, 40)">
+    <rect width="520" height="80" rx="8" fill="#1e1e3a" stroke="#dd0031" stroke-width="1" opacity="0.6"/>
+    <text x="16" y="25" fill="#9ca3af" font-family="monospace" font-size="10">&lt;!-- Template --&gt;</text>
+    <text x="16" y="45" fill="#dd0031" font-family="monospace" font-size="11">&lt;div <tspan fill="#fbbf24">*appHasRole</tspan>="'admin'"&gt;</text>
+    <text x="16" y="63" fill="#9ca3af" font-family="monospace" font-size="11">  &lt;admin-panel&gt;&lt;/admin-panel&gt;</text>
+    <text x="16" y="75" fill="#dd0031" font-family="monospace" font-size="11">&lt;/div&gt;</text>
+  </g>
+
+  <!-- Arrow down -->
+  <line x1="400" y1="125" x2="400" y2="150" stroke="#fbbf24" stroke-width="1.5" opacity="0.5"/>
+  <polygon points="395,148 400,158 405,148" fill="#fbbf24" opacity="0.5"/>
+
+  <!-- Structural Directive engine (center) -->
+  <g transform="translate(240, 160)">
+    <rect width="320" height="70" rx="10" fill="#1e1e3a" stroke="#fbbf24" stroke-width="2" opacity="0.8"/>
+    <text x="160" y="25" text-anchor="middle" fill="#fbbf24" font-family="monospace" font-size="12" font-weight="bold">Structural Directive</text>
+    <text x="160" y="45" text-anchor="middle" fill="#9ca3af" font-family="monospace" font-size="10">ViewContainerRef.createEmbeddedView()</text>
+    <text x="160" y="60" text-anchor="middle" fill="#9ca3af" font-family="monospace" font-size="10">ViewContainerRef.clear()</text>
+  </g>
+
+  <!-- Branch arrows -->
+  <!-- Left: user with role -->
+  <line x1="320" y1="230" x2="200" y2="275" stroke="#4ade80" stroke-width="1.5" opacity="0.5"/>
+  <polygon points="203,270 195,278 209,278" fill="#4ade80" opacity="0.5"/>
+  <!-- Right: user without role -->
+  <line x1="480" y1="230" x2="600" y2="275" stroke="#ef4444" stroke-width="1.5" opacity="0.5"/>
+  <polygon points="597,270 605,278 591,278" fill="#ef4444" opacity="0.5"/>
+
+  <!-- User with role (left) -->
+  <g transform="translate(100, 280)">
+    <rect width="200" height="90" rx="8" fill="#1e1e3a" stroke="#4ade80" stroke-width="1.5"/>
+    <!-- User icon -->
+    <circle cx="30" cy="30" r="12" fill="none" stroke="#4ade80" stroke-width="1.5"/>
+    <circle cx="30" cy="26" r="5" fill="none" stroke="#4ade80" stroke-width="1"/>
+    <path d="M18,38 Q30,28 42,38" fill="none" stroke="#4ade80" stroke-width="1"/>
+    <!-- Role badge -->
+    <rect x="50" y="18" width="50" height="18" rx="9" fill="#4ade80" opacity="0.15"/>
+    <text x="75" y="31" text-anchor="middle" fill="#4ade80" font-family="monospace" font-size="9">admin</text>
+    <!-- Check -->
+    <text x="115" y="32" fill="#4ade80" font-size="18">&#10003;</text>
+    <!-- Visible component -->
+    <rect x="16" y="54" width="168" height="24" rx="4" fill="#4ade80" opacity="0.1" stroke="#4ade80" stroke-width="0.5"/>
+    <text x="100" y="70" text-anchor="middle" fill="#4ade80" font-family="monospace" font-size="9">&lt;admin-panel /&gt; VISIBLE</text>
+  </g>
+
+  <!-- User without role (right) -->
+  <g transform="translate(500, 280)">
+    <rect width="200" height="90" rx="8" fill="#1e1e3a" stroke="#ef4444" stroke-width="1.5"/>
+    <!-- User icon -->
+    <circle cx="30" cy="30" r="12" fill="none" stroke="#ef4444" stroke-width="1.5"/>
+    <circle cx="30" cy="26" r="5" fill="none" stroke="#ef4444" stroke-width="1"/>
+    <path d="M18,38 Q30,28 42,38" fill="none" stroke="#ef4444" stroke-width="1"/>
+    <!-- Role badge -->
+    <rect x="50" y="18" width="50" height="18" rx="9" fill="#ef4444" opacity="0.15"/>
+    <text x="75" y="31" text-anchor="middle" fill="#ef4444" font-family="monospace" font-size="9">viewer</text>
+    <!-- X -->
+    <text x="115" y="32" fill="#ef4444" font-size="18">&#10007;</text>
+    <!-- Removed component -->
+    <rect x="16" y="54" width="168" height="24" rx="4" fill="#ef4444" opacity="0.05" stroke="#ef4444" stroke-width="0.5" stroke-dasharray="4 3"/>
+    <text x="100" y="70" text-anchor="middle" fill="#ef4444" font-family="monospace" font-size="9" opacity="0.5">NOT IN DOM</text>
+  </g>
+
+  <!-- Labels -->
+  <text x="200" y="272" text-anchor="middle" fill="#4ade80" font-family="monospace" font-size="9" opacity="0.6">role matches</text>
+  <text x="600" y="272" text-anchor="middle" fill="#ef4444" font-family="monospace" font-size="9" opacity="0.6">role denied</text>
+
+  <!-- Ambient glow -->
+  <circle cx="400" cy="200" r="180" fill="#fbbf24" opacity="0.015"/>
+</svg>
