@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Building an MCP Server for a Multi-Service Monorepo — Mikael Araya</title>
-  <meta name="description" content="How we built a Model Context Protocol server that gives AI agents deep awareness of a multi-service e-commerce monorepo — service detection, automated linting, testing, and i18n management." />
+  <title>Building an MCP Server into an Open-Source E-Commerce Engine — Mikael Araya</title>
+  <meta name="description" content="How we built a Model Context Protocol server into Unchained Commerce — exposing product catalogs, order analytics, and shop configuration as MCP tools and resources with OAuth authentication." />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#0a0a0b" media="(prefers-color-scheme: dark)" />
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
@@ -40,15 +40,15 @@
       <div class="container">
         <div class="blog-post__meta-top">
           <span class="blog-post__date">June 2025</span>
-          <span class="blog-post__reading-time">8 min read</span>
+          <span class="blog-post__reading-time">9 min read</span>
         </div>
-        <h1 class="blog-post__title">Building an MCP Server for a Multi-Service Monorepo</h1>
-        <p class="blog-post__subtitle">How we gave AI agents deep awareness of a multi-service e-commerce codebase using the Model Context Protocol</p>
+        <h1 class="blog-post__title">Building an MCP Server into an Open-Source E-Commerce Engine</h1>
+        <p class="blog-post__subtitle">How we gave AI agents full commerce domain awareness — product catalogs, order analytics, assortment trees, and shop configuration — through the Model Context Protocol</p>
         <div class="blog-post__tags">
           <span class="tag">MCP</span>
-          <span class="tag">Claude Agent SDK</span>
+          <span class="tag">Unchained Commerce</span>
           <span class="tag">TypeScript</span>
-          <span class="tag">AI Agents</span>
+          <span class="tag">E-Commerce</span>
         </div>
       </div>
     </header>
@@ -56,9 +56,9 @@
     <article class="blog-post__body">
       <div class="container blog-post__container">
 
-        <p>When working with AI coding assistants on a large monorepo, one of the biggest challenges is context. The AI doesn't know which service a file belongs to, which test runner to use, or where the translation files live. It has to rediscover all of this on every interaction.</p>
+        <p>Most AI integrations with e-commerce platforms stop at "generate a product description." We wanted to go further — give AI agents the ability to manage an entire commerce backend: create products with multilingual texts, analyze sales trends, build assortment hierarchies, configure payment providers, and manage customer accounts.</p>
 
-        <p>We solved this by building a custom <strong>Model Context Protocol (MCP) server</strong> that gives Claude deep, structured awareness of our multi-service e-commerce monorepo. In this article, we'll walk through the architecture, the tools we defined, and how we integrated it with the Claude Agent SDK to create autonomous bug-fixing workflows.</p>
+        <p>We built this as a native <strong>Model Context Protocol (MCP) server</strong> inside <a href="https://github.com/unchainedshop/unchained" target="_blank" rel="noopener noreferrer">Unchained Commerce</a>, our open-source e-commerce engine. In this article, we'll walk through the architecture: how we expose commerce domain operations as MCP tools, use MCP Resources for shop configuration, handle authentication via OAuth, and why we chose the Streamable HTTP transport over stdio.</p>
 
         <h2>Prerequisites</h2>
 
@@ -66,259 +66,316 @@
           <li>Node.js >= 18.x</li>
           <li>TypeScript with ESM support</li>
           <li>Familiarity with the <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener noreferrer">Model Context Protocol</a></li>
-          <li><code>@modelcontextprotocol/sdk</code> v1.27+</li>
+          <li><code>@modelcontextprotocol/sdk</code> (server + types)</li>
+          <li>Fastify (or any HTTP framework)</li>
         </ul>
 
-        <h2>The Problem</h2>
+        <h2>Why MCP for E-Commerce?</h2>
 
-        <p>Our e-commerce platform is a monorepo with four services: <code>api</code> (GraphQL backend), <code>storefront</code> (Next.js frontend), <code>connector</code> (data connector layer), and <code>ml-pipeline</code> (AI product classification). Each service has its own lint rules, test runner, and deployment pipeline.</p>
+        <p>Unchained Commerce already has a GraphQL API. Why add MCP on top? Because GraphQL is designed for frontend developers who know the schema. An AI agent doesn't have that context. It doesn't know that creating a product requires checking available currencies first, or that prices are stored as integers with currency-specific decimal points, or that assortment links need explicit sort orders.</p>
 
-        <p>When an AI agent tries to fix a bug, it needs to know:</p>
+        <p>MCP tools carry all of this context in their descriptions and Zod schemas. The agent reads the tool definitions and understands the domain constraints before making a single call. This is fundamentally different from pointing an LLM at a GraphQL schema and hoping for the best.</p>
+
+        <h2>Architecture: HTTP Transport with Sessions</h2>
+
+        <p>Unlike most MCP examples that use stdio transport (great for local dev tools), we use <strong>Streamable HTTP transport</strong>. Our MCP server runs as part of the Unchained API server — it's a route handler, not a subprocess. This means it shares the same authentication, database connections, and module context as the GraphQL API.</p>
+
+<pre><code>import { StreamableHTTPServerTransport }
+  from '@modelcontextprotocol/sdk/server/streamableHttp.js';
+import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import { isInitializeRequest } from '@modelcontextprotocol/sdk/types.js';
+
+const transports: Record&lt;string, StreamableHTTPServerTransport&gt; = {};
+
+const mcpHandler = async (req, res) => {
+  if (!req.unchainedContext.user) {
+    res.status(401);
+    return res.send({
+      error: 'invalid_token',
+      resource_metadata: `${ROOT_URL}/.well-known/oauth-protected-resource`,
+    });
+  }
+
+  const sessionId = req.headers['mcp-session-id'];
+
+  if (sessionId && transports[sessionId]) {
+    // Reuse existing transport for this session
+    await transports[sessionId].handleRequest(req.raw, res.raw, req.body);
+    return;
+  }
+
+  if (!sessionId && isInitializeRequest(req.body)) {
+    // New session: create transport, register tools, connect
+    const transport = new StreamableHTTPServerTransport({
+      sessionIdGenerator: () => crypto.randomUUID(),
+      onsessioninitialized: (id) => { transports[id] = transport; },
+    });
+
+    transport.onclose = () => {
+      if (transport.sessionId) delete transports[transport.sessionId];
+    };
+
+    const server = createMcpServer(
+      new McpServer({ name: 'Unchained MCP Server', version: '1.0.0' }),
+      req.unchainedContext,
+      req.unchainedContext.user.roles,
+    );
+
+    await server.connect(transport);
+    await transport.handleRequest(req.raw, res.raw, req.body);
+  }
+};</code></pre>
+
+        <p>Each authenticated user gets their own MCP session with a UUID. The session persists across requests via the <code>mcp-session-id</code> header. When the session closes, we clean up the transport. This means multiple AI clients can connect simultaneously, each with their own tool state and permissions.</p>
+
+        <h2>Role-Based Tool Registration</h2>
+
+        <p>Not every user should be able to manage products or view order analytics. We gate tool registration on user roles:</p>
+
+<pre><code>export default function createMcpServer(server, context, roles) {
+  if (!roles?.includes('admin')) {
+    return server;
+  }
+
+  registerLocalizationResources(server, context);
+  registerProductTools(server, context);
+  registerAssortmentTools(server, context);
+  registerOrderTools(server, context);
+  registerFilterTools(server, context);
+  registerProviderTools(server, context);
+  registerQuotationTools(server, context);
+  registerUsersTools(server, context);
+  registerSystemTools(server, context);
+  registerLocalizationTools(server, context);
+
+  return server;
+}</code></pre>
+
+        <p>Currently we gate on the <code>admin</code> role, but the pattern supports fine-grained control — you could register only order-viewing tools for support staff, or only product tools for catalog managers.</p>
+
+        <h2>The Unified Action Pattern</h2>
+
+        <p>Instead of registering dozens of individual tools (which would overwhelm the agent's tool list), we group related operations into <strong>unified management tools</strong>. Each domain gets a single tool with an <code>action</code> parameter that selects the operation:</p>
+
+<pre><code>server.tool(
+  'product_management',
+  'Unified product management: CREATE, UPDATE, REMOVE, GET, LIST, COUNT, '
+  + 'UPDATE_STATUS (publish/unpublish), ADD_MEDIA, REMOVE_MEDIA, '
+  + 'CREATE_VARIATION, ADD_ASSIGNMENT, SIMULATE_PRICE, and more.',
+  ProductManagementSchema,
+  async (params) => productManagement(context, params),
+);</code></pre>
+
+        <p>The schema uses Zod's <code>z.enum()</code> for the action and makes other fields optional. Each action has its own validator that runs inside the handler:</p>
+
+<pre><code>export async function productManagement(context, params) {
+  const { action, ...actionParams } = params;
+
+  if (!(action in actionHandlers)) {
+    throw new Error(`Unknown action: ${action}`);
+  }
+
+  // Validate params specific to this action
+  const parsedParams = actionValidators[action].parse(actionParams);
+  const data = await actionHandlers[action](context, parsedParams);
+
+  return createMcpResponse({ action, data });
+}</code></pre>
+
+        <p>This pattern gives us 9 tools instead of 100+, while keeping full type safety. Each action handler is a separate file — <code>handlers/createProduct.ts</code>, <code>handlers/listProducts.ts</code>, etc. — so the codebase stays maintainable.</p>
+
+        <h2>MCP Resources for Shop Configuration</h2>
+
+        <p>One of the most useful MCP features is <strong>Resources</strong> — read-only data the agent can reference without calling a tool. We expose shop configuration as resources so the agent always knows what languages, currencies, and countries are available:</p>
+
+<pre><code>server.resource(
+  'shop-languages',
+  'unchained://shop/languages',
+  {
+    description: 'Available languages configured in the shop. '
+      + 'Use these ISO codes when creating or updating products.',
+    mimeType: 'application/json',
+  },
+  async () => {
+    const [languages, countries] = await Promise.all([
+      context.modules.languages.findLanguages({ includeInactive: false }),
+      context.modules.countries.findCountries({ includeInactive: false }),
+    ]);
+
+    return {
+      contents: [{
+        uri: 'unchained://shop/languages',
+        mimeType: 'application/json',
+        text: JSON.stringify({
+          baseLanguages: languages.map((l) => ({
+            isoCode: l.isoCode,
+            isActive: l.isActive,
+          })),
+          validationRule: `Any combination of base languages `
+            + `[${languages.map(l => l.isoCode).join(', ')}] `
+            + `with available countries is acceptable for locale codes`,
+          note: 'If a required language is missing, ask the user '
+            + 'if they want to add it using localization_management',
+        }, null, 2),
+      }],
+    };
+  },
+);</code></pre>
+
+        <p>We register three resources: <code>shop-languages</code>, <code>shop-currencies</code>, and <code>shop-countries</code>. The currency resource includes decimal point information so the agent knows that CHF prices use 2 decimals (100 = CHF 1.00) while JPY uses 0 (100 = ¥100). This prevents an entire class of pricing bugs.</p>
+
+        <p>The descriptions also include instructions like "if a required currency is missing, ask the user if they want to add it — NEVER add it automatically." This guides the agent toward safe behavior without hardcoding business rules into the tool handlers.</p>
+
+        <h2>Domain Tools in Detail</h2>
+
+        <p>Here's what each management tool covers:</p>
 
         <ul>
-          <li>Which service does this file belong to?</li>
-          <li>How do I run tests for just this service?</li>
-          <li>Where are the translation files, and what format do they use?</li>
-          <li>Which services are affected by my current changes?</li>
+          <li><strong>product_management</strong> — Full product lifecycle: CRUD, publish/unpublish, media management, variations (color/size), bundle composition, price simulation, and product reviews. Supports all product types: SIMPLE, CONFIGURABLE, BUNDLE, PLAN, and TOKENIZED</li>
+          <li><strong>assortment_management</strong> — Category trees with parent-child linking, product assignments, filter assignments, media, and reordering. Supports searching products within an assortment context</li>
+          <li><strong>order_management</strong> — Order listing with filters, plus analytics: sales summaries, monthly breakdowns, top customers, and top products. Supports date range filtering and provider-based segmentation</li>
+          <li><strong>filter_management</strong> — Faceted navigation filters with multilingual option texts</li>
+          <li><strong>localization_management</strong> — Languages, countries, and currencies CRUD</li>
+          <li><strong>provider_management</strong> — Payment and delivery provider configuration</li>
+          <li><strong>quotation_management</strong> — B2B quotation workflow: verify, propose, reject</li>
+          <li><strong>users_management</strong> — User accounts, enrollments, bookmarks, and payment credentials</li>
+          <li><strong>system_management</strong> — Shop info, worker queue management, and event analytics</li>
         </ul>
 
-        <p>Without this knowledge, the agent wastes turns asking questions or running the wrong commands. MCP solves this by exposing repository-specific tools that the agent can call directly.</p>
+        <h2>Smart Schema Descriptions</h2>
 
-        <h2>Setting Up the MCP Server</h2>
+        <p>The real work in building an MCP server for a complex domain isn't the handler code — it's the schema descriptions. They're the only documentation the AI agent sees. Here's an example from the product pricing schema:</p>
 
-        <p>We start with a basic MCP server using stdio transport. This is the standard pattern for tools that communicate with Claude through the Agent SDK:</p>
+<pre><code>commerce: z.object({
+  pricing: z.array(z.object({
+    amount: z.number().int()
+      .describe('Price amount in smallest currency unit.'),
+    currencyCode: z.string().min(3).max(3)
+      .describe(
+        'ISO currency code (e.g., USD, EUR). Must match an available '
+        + 'currency from the shop currencies resource. If it does not '
+        + 'exist, prompt the user to add the currency. NEVER add it '
+        + 'automatically unless explicitly specified by the user.'
+      ),
+    countryCode: z.string().min(2).max(2)
+      .describe(
+        'ISO country code (e.g., US, DE). Must match an available '
+        + 'country from the shop countries resource.'
+      ),
+    isTaxable: z.boolean().optional()
+      .describe('Whether tax applies to this price'),
+    isNetPrice: z.boolean().optional()
+      .describe('Whether this is a net price (without tax)'),
+  })).describe(
+    'Use only countryCode and currencyCode values from shop resources.'
+  ),
+})</code></pre>
 
-<pre><code>import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
-import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
-import { z } from 'zod';
-import { execSync } from 'node:child_process';
-import { resolve } from 'node:path';
+        <p>Every field description is written for an AI that has never seen the codebase. The descriptions encode business rules ("prices are integers in the smallest currency unit"), safety constraints ("NEVER add currencies automatically"), and cross-references ("check the shop currencies resource first"). This is what makes the agent useful rather than dangerous.</p>
 
-const REPO_ROOT = process.env.REPO_DIR || resolve(__dirname, '..', '..', '..');
-const SERVICES = ['api', 'storefront', 'connector', 'ml-pipeline'];
+        <h2>Order Analytics Example</h2>
 
-const server = new McpServer({
-  name: 'monorepo-tools',
-  version: '1.0.0',
-});</code></pre>
+        <p>The <code>order_management</code> tool includes analytics actions that go beyond simple CRUD. Here's how the sales summary handler aggregates daily revenue:</p>
 
-        <p>The <code>McpServer</code> class handles all the protocol plumbing. We define our tools on it, and then connect via stdio so the Claude Agent SDK can discover and call them.</p>
+<pre><code>export default async function getSalesSummary(context, params) {
+  const { modules } = context;
+  const { from, to, days = 30 } = params;
+  const { startDate, endDate } = resolveDateRange(from, to, days);
 
-        <h2>Defining Tools</h2>
+  const orders = await modules.orders.findOrders({
+    dateRange: {
+      start: startDate.toISOString(),
+      end: endDate.toISOString(),
+    },
+  });
 
-        <p>Each tool follows a consistent pattern: a name, description, a Zod schema for input validation, and an async handler that returns structured content. Let's look at the most important ones.</p>
+  let totalSalesAmount = 0;
+  let orderCount = 0;
+  const dateMap = new Map();
 
-        <h3>Service Detection</h3>
+  for (const order of orders) {
+    orderCount++;
+    const amount = order.calculation
+      ?.find((c) => c.category === 'ITEMS')?.amount || 0;
+    totalSalesAmount += amount;
 
-        <p>The simplest but most useful tool. Given a file path, it tells the agent which service it belongs to:</p>
+    const label = new Date(order.created)
+      .toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    const entry = dateMap.get(label) || { sales: 0, orders: 0 };
+    entry.sales += amount;
+    entry.orders += 1;
+    dateMap.set(label, entry);
+  }
 
-<pre><code>server.tool(
-  'detect_service',
-  'Given a file path, returns which service it belongs to',
-  {
-    filePath: z.string().describe('File path (relative or absolute)'),
-  },
-  async ({ filePath }) => {
-    const relative = filePath.replace(REPO_ROOT + '/', '');
-    const service = SERVICES.find((s) => relative.startsWith(s + '/'));
+  return {
+    totalSalesAmount,
+    orderCount,
+    averageOrderValue: orderCount > 0
+      ? totalSalesAmount / orderCount : 0,
+    summary: formatSummaryMap(dateMap),
+    dateRange: {
+      start: startDate.toISOString(),
+      end: endDate.toISOString(),
+    },
+  };
+}</code></pre>
 
-    return {
-      content: [{
-        type: 'text',
-        text: service
-          ? `Service: ${service}`
-          : `File does not belong to a known service`,
-      }],
-    };
-  },
-);</code></pre>
+        <p>An AI agent can call this to answer questions like "What were our sales last week?" or "Compare this month to last month" — without the user needing to build a dashboard first.</p>
 
-        <p>This eliminates an entire class of mistakes where the agent tries to run frontend tests on a backend file, or vice versa.</p>
+        <h2>Connecting with Claude Desktop</h2>
 
-        <h3>Running Lint and Tests</h3>
-
-        <p>Each service has different lint configs and test runners. We expose these as tools so the agent can validate its own changes:</p>
-
-<pre><code>server.tool(
-  'run_tests',
-  'Run tests for the specified service',
-  {
-    service: z.enum(['api', 'connector', 'ml-pipeline'])
-      .describe('Service to test'),
-    pattern: z.string().optional()
-      .describe('Test name pattern to filter'),
-  },
-  async ({ service, pattern }) => {
-    try {
-      const cmd = pattern
-        ? `npm run test -- --test-name-pattern='${pattern}'`
-        : 'npm run test';
-
-      const output = execSync(cmd, {
-        encoding: 'utf-8',
-        cwd: resolve(REPO_ROOT, service),
-        timeout: 300_000,
-      });
-      return {
-        content: [{ type: 'text', text: `Tests passed for ${service}\n${output}` }],
-      };
-    } catch (e: any) {
-      return {
-        content: [{
-          type: 'text',
-          text: `Tests failed for ${service}\n${e.stdout || e.stderr || e.message}`,
-        }],
-        isError: true,
-      };
-    }
-  },
-);</code></pre>
-
-        <p>Notice the <code>isError: true</code> flag. When a tool returns an error, the agent knows the operation failed and can try a different approach rather than assuming success.</p>
-
-        <h3>Translation Management</h3>
-
-        <p>Our frontend supports three languages (German, French, Italian). Managing translations is tedious, and it's exactly the kind of task that benefits from tool support:</p>
-
-<pre><code>server.tool(
-  'add_translation',
-  'Add a new translation key to all three language files',
-  {
-    key: z.string().describe('Translation key'),
-    de: z.string().describe('German translation'),
-    fr: z.string().describe('French translation'),
-    it: z.string().describe('Italian translation'),
-  },
-  async ({ key, de, fr, it }) => {
-    const i18nDir = resolve(REPO_ROOT, 'storefront', 'public', 'i18n');
-    const translations = { de, fr, it };
-    const results: string[] = [];
-
-    for (const [lang, value] of Object.entries(translations)) {
-      const filePath = resolve(i18nDir, `${lang}.json`);
-      const data = JSON.parse(readFileSync(filePath, 'utf-8'));
-
-      if (data[key]) {
-        results.push(`${lang}: key already exists (skipped)`);
-        continue;
-      }
-
-      data[key] = value;
-      const sorted = Object.fromEntries(
-        Object.entries(data).sort(([a], [b]) => a.localeCompare(b)),
-      );
-      writeFileSync(filePath, JSON.stringify(sorted, null, 2) + '\n');
-      results.push(`${lang}: added "${key}" = "${value}"`);
-    }
-
-    return { content: [{ type: 'text', text: results.join('\n') }] };
-  },
-);</code></pre>
-
-        <p>The tool sorts keys alphabetically (our project convention) and skips existing keys. This means the agent can safely call it without risking duplicates or breaking the key ordering that our team expects.</p>
-
-        <h3>Affected Services Detection</h3>
-
-        <p>The final tool inspects git diff to determine which services are affected by current changes. This is critical for the agent's verification step — it only needs to lint and test the services it actually touched:</p>
-
-<pre><code>server.tool(
-  'affected_services',
-  'Detect which services are affected by current git changes',
-  {},
-  async () => {
-    const diff = execSync('git diff --name-only HEAD', {
-      encoding: 'utf-8', cwd: REPO_ROOT,
-    }).trim();
-
-    const staged = execSync('git diff --name-only --cached', {
-      encoding: 'utf-8', cwd: REPO_ROOT,
-    }).trim();
-
-    const allFiles = [diff, staged].filter(Boolean).join('\n').split('\n');
-    const services = detectServicesFromFiles(allFiles);
-
-    return {
-      content: [{
-        type: 'text',
-        text: services.length > 0
-          ? `Affected services: ${services.join(', ')}`
-          : 'No service-specific files changed',
-      }],
-    };
-  },
-);</code></pre>
-
-        <h2>Starting the Server</h2>
-
-        <p>The server connects via stdio, which is the standard transport for MCP servers that run as child processes of the Claude Agent SDK:</p>
-
-<pre><code>async function main() {
-  const transport = new StdioServerTransport();
-  await server.connect(transport);
-}
-
-main().catch(console.error);</code></pre>
-
-        <h2>Configuration</h2>
-
-        <p>The MCP server is registered in a <code>.mcp.json</code> file at the repository root. We also include a Playwright MCP server for frontend verification:</p>
+        <p>Since the server uses HTTP transport with OAuth, connecting from Claude Desktop or any MCP client is straightforward:</p>
 
 <pre><code>{
   "mcpServers": {
-    "monorepo-tools": {
-      "command": "npx",
-      "args": ["tsx", "agent/src/tools/server.ts"]
-    },
-    "playwright": {
-      "command": "npx",
-      "args": ["@playwright/mcp@latest", "--headless", "--no-sandbox"]
+    "local-unchained": {
+      "type": "http",
+      "url": "http://localhost:4010/mcp"
     }
   }
 }</code></pre>
 
-        <h2>Integration with Claude Agent SDK</h2>
+        <p>The authentication flow follows the MCP OAuth spec — the client discovers the <code>.well-known/oauth-protected-resource</code> metadata, initiates an OAuth flow, and passes the bearer token with each request. This means you can connect Claude Desktop to a running Unchained instance and start managing your shop through natural language.</p>
 
-        <p>On the agent side, we pass the MCP tools via the <code>allowedTools</code> parameter. This scopes each step of the workflow to only the tools it needs:</p>
+        <h2>Error Handling</h2>
 
-<pre><code>const result = await runAgenticStep(prompt, {
-  allowedTools: [
-    'Read', 'Edit', 'Write', 'Bash',
-    'mcp__monorepo-tools__run_lint',
-    'mcp__monorepo-tools__run_tests',
-    'mcp__monorepo-tools__detect_service',
-    'mcp__playwright__browser_navigate',
-    'mcp__playwright__browser_snapshot',
-  ],
-  maxTurns: 25,
-  cwd: repoRoot,
-});</code></pre>
+        <p>Every management handler wraps its operations in a try-catch and returns structured error responses:</p>
 
-        <p>The naming convention is <code>mcp__{server-name}__{tool-name}</code>. By controlling which tools are available at each step, we prevent the agent from running tests during the analysis phase or navigating the browser during the code implementation phase.</p>
+<pre><code>export function createMcpErrorResponse(action, error) {
+  return {
+    content: [{
+      type: 'text',
+      text: `Error in ${action.toLowerCase()}: ${error.message}`,
+    }],
+  };
+}
 
-        <h2>The Bug-Fix Pipeline</h2>
+export function createMcpResponse(response) {
+  return {
+    content: [{
+      type: 'text',
+      text: JSON.stringify({ ...response }),
+    }],
+  };
+}</code></pre>
 
-        <p>With these tools in place, we built a fully autonomous bug-fix pipeline:</p>
-
-        <ol>
-          <li><strong>Analyze</strong> — The agent reads the issue description and uses <code>detect_service</code> to understand which parts of the codebase are involved</li>
-          <li><strong>Implement</strong> — The agent edits code and uses <code>find_similar_component</code> to follow existing patterns</li>
-          <li><strong>Lint</strong> — The agent runs <code>run_lint</code> on affected services</li>
-          <li><strong>Test</strong> — The agent runs <code>run_tests</code> to verify the fix</li>
-          <li><strong>Verify</strong> — The agent uses Playwright MCP tools to navigate the running app and visually confirm the fix</li>
-        </ol>
-
-        <p>Each step is scoped to only the tools it needs, and the pipeline tracks costs per step for monitoring.</p>
+        <p>When something fails — invalid product ID, missing required field, trying to delete an active product — the agent gets a clear error message and can adjust its approach. The Zod validation layer catches most issues before they hit the database.</p>
 
         <h2>Conclusion</h2>
 
-        <p>Building an MCP server for a monorepo is straightforward with the <code>@modelcontextprotocol/sdk</code>. The key insight is that the tools don't need to be sophisticated — even simple operations like "detect which service this file belongs to" dramatically improve the agent's accuracy. The real power comes from composing these simple tools into multi-step workflows through the Claude Agent SDK.</p>
+        <p>Building an MCP server into a commerce engine is a different challenge from building a code-assistance MCP server. The domain is complex (products, variations, pricing, assortments, orders, multi-currency, multi-language), the operations have real consequences (creating products, processing orders), and the users are non-technical (shop managers, not developers).</p>
+
+        <p>The key decisions that made this work: <strong>unified action tools</strong> instead of 100+ individual tools, <strong>MCP Resources</strong> for configuration the agent needs to reference constantly, <strong>schema descriptions that encode business rules</strong>, and <strong>HTTP transport with OAuth</strong> so it integrates into the existing authentication infrastructure.</p>
+
+        <p>The MCP server ships as part of Unchained Commerce — any deployment gets it for free. If you're building a commerce platform and want to see how it works, check out the source on GitHub.</p>
 
         <h2>References</h2>
 
         <ul>
+          <li><a href="https://github.com/unchainedshop/unchained" target="_blank" rel="noopener noreferrer">Unchained Commerce on GitHub</a></li>
           <li><a href="https://modelcontextprotocol.io" target="_blank" rel="noopener noreferrer">Model Context Protocol Specification</a></li>
           <li><a href="https://github.com/modelcontextprotocol/sdk" target="_blank" rel="noopener noreferrer">MCP SDK on GitHub</a></li>
-          <li><a href="https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/sdk" target="_blank" rel="noopener noreferrer">Claude Agent SDK Documentation</a></li>
+          <li><a href="https://docs.unchained.shop" target="_blank" rel="noopener noreferrer">Unchained Commerce Documentation</a></li>
         </ul>
 
       </div>
